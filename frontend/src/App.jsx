@@ -11,7 +11,8 @@ const Profile = lazy(()=>import("./pages/Profile"));
 
 const App = () => {
   return (
-     
+     <>
+   
     <Routes> 
        <Route path='/'  element={<Home/>} /> 
        <Route path='/Login' element={<Login/>} /> 
@@ -19,7 +20,7 @@ const App = () => {
        <Route path='/Product/:id' element = {<Product/> } />  
        <Route path='/Profile' element={<Suspense fallback={<div>loading..</div>}><PrivateRoute> <Profile/></PrivateRoute></Suspense> } /> 
     </Routes> 
-  
+  </>
   
   )
 }
