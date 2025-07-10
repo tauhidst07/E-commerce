@@ -31,4 +31,24 @@
 }
 .hide-scrollbar::-webkit-scrollbar{
   display: none;
+} 
+
+.my-range-slider{
+  height: 5px !important; 
+  
+}
+.my-range-slider .range-slider__range{ 
+  background-color: black !important; 
+
+}
+.my-range-slider .range-slider__thumb[data-lower] {
+  height: 10px; 
+  width: 10px;
+  background: #000;
+} 
+
+.my-range-slider .range-slider__thumb[data-upper] {
+  height: 10px; 
+  width: 10px;
+  background: #000;
 }

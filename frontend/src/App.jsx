@@ -7,6 +7,7 @@ import Products from './pages/Product'
 import PrivateRoute from './components/PrivateRoute'  
 import ProductProvider from './context/ProductProvider'
 import Product from './pages/Product'
+import Shop from './pages/Shop'
 const Profile = lazy(()=>import("./pages/Profile"));
 
 const App = () => {
@@ -17,7 +18,8 @@ const App = () => {
        <Route path='/'  element={<Home/>} /> 
        <Route path='/Login' element={<Login/>} /> 
        <Route path='/Register' element={<Register/>}/> 
-       <Route path='/Product/:id' element = {<Product/> } />  
+       <Route path='/Product/:id' element = {<Product/> } />   
+       <Route path='/shop' element={<Shop/>}  />
        <Route path='/Profile' element={<Suspense fallback={<div>loading..</div>}><PrivateRoute> <Profile/></PrivateRoute></Suspense> } /> 
     </Routes> 
   </>

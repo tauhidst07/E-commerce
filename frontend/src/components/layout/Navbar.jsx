@@ -10,8 +10,8 @@ import hamburger from '../../assets/hamburger.png'
 const Navbar = () => {
     const [isMobileNavOpen, setisMobileNavOpen] = useState(false);
     return ( 
-        <div className='flex flex-col max-w-[80rem] mx-auto px-4'>
-        <nav className='w-full mx-auto flex justify-between items-center gap-x-4 sm:gap-x-16 py-4'>
+        <div className='flex flex-col max-w-[80rem] mx-auto px-4 '>
+        <nav className='w-full mx-auto flex justify-between items-center gap-x-4 sm:gap-x-16 py-4 '>
             <div className='flex gap-x-2 items-center'>
                 {/* small screen nav only */}
                 <button className='block md:hidden' onClick={() => setisMobileNavOpen(true)}>
