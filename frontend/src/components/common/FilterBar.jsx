@@ -5,7 +5,7 @@ import PriceRangeSlider from './PriceRangeSlider'
 const FilterBar = () => { 
     
   return (
-    <div className='w-[250px] shadow-sm rounded-2xl  hidden md:block'>
+    <div className='md:w-[200px]  ld:w-[250px] shadow-sm rounded-2xl'>
        <p className='font-bold p-4 py-2'>Filters</p> 
        <div className='flex flex-col gap-2 p-4'>
           <span className='text-black/80 mt-1 mb-2'>Categories</span> 

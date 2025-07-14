@@ -6,7 +6,7 @@ export default function PriceRangeSlider() {
   const [value, setValue] = useState([200, 800]);
 
   return (
-    <div className=" w-[200px] my-4">
+    <div className=" w-[90%] my-4">
       <RangeSlider
         min={0}
         max={1000} 
