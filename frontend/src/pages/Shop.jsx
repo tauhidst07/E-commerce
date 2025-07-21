@@ -49,8 +49,8 @@ const Shop = () => {
 
       </div>
           <div className='fixed w-full bottom-0 left-0 flex justify-between md:hidden z-50'>
-            <button className='w-[50%] text-center py-2 cursor-pointer bg-[#f0f0f0] border-r border-black/20' onClick={()=>setShowSort(true)}>SORT</button>
-            <button className='w-[50%] text-center py-2 cursor-pointer bg-[#f0f0f0]' onClick={()=>setShowFilter(true)}>FILTER</button>
+            <button className='w-[50%] text-center py-2 cursor-pointer bg-white border-r border-black/20' onClick={()=>setShowSort(true)}>SORT</button>
+            <button className='w-[50%] text-center py-2 cursor-pointer bg-white' onClick={()=>setShowFilter(true)}>FILTER</button>
           </div> 
           {/* filter for mobile devide */}
 

@@ -5,6 +5,7 @@ import cart from '../../assets/cart.png'
 import searchIcon from '../../assets/search_icon.png'
 import darkSearchIcon from '../../assets/dark_search_icon.png'
 import hamburger from '../../assets/hamburger.png'
+import { Link } from 'react-router-dom'
 
 
 const Navbar = () => {
@@ -18,15 +19,16 @@ const Navbar = () => {
                     <img src={hamburger} />
                 </button>
 
-                <div>
-                    <img src={logo} alt='shop.co' width={120} className={` md:block min-w-[100px]`} />
+                <div> 
+                    <Link to={'/'}>
+                    <img src={logo} alt='shop.co' width={120} className={` md:block min-w-[100px]`} /></Link>
                 </div>
 
                 {/* nav links  */}
 
             </div>
             <div className={`hidden md:flex items-center space-x-6`}>
-                <div>Shop</div>
+                <Link to={'/shop'}>Shop</Link>
                 <div>On Sale</div>
                 <div>New Arrivals</div>
                 <div>Brands</div>

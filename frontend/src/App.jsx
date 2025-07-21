@@ -8,6 +8,7 @@ import PrivateRoute from './components/PrivateRoute'
 import ProductProvider from './context/ProductProvider'
 import Product from './pages/Product'
 import Shop from './pages/Shop'
+import ProductDetails from './pages/ProductDetails'
 const Profile = lazy(()=>import("./pages/Profile"));
 
 const App = () => {
@@ -19,7 +20,8 @@ const App = () => {
        <Route path='/Login' element={<Login/>} /> 
        <Route path='/Register' element={<Register/>}/> 
        <Route path='/Product/:id' element = {<Product/> } />   
-       <Route path='/shop' element={<Shop/>}  />
+       <Route path='/shop' element={<Shop/>}  /> 
+       <Route path='/productDetails' element={<ProductDetails/>}/>
        <Route path='/Profile' element={<Suspense fallback={<div>loading..</div>}><PrivateRoute> <Profile/></PrivateRoute></Suspense> } /> 
     </Routes> 
   </>
