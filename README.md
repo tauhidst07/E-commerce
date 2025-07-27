@@ -17,7 +17,7 @@ This is a full-stack e-commerce web application built with **React (Vite)** on t
 ### 🛠️ Admin Features
 - Admin-only access to manage products and orders
 - Create, update, delete products
-- View all orders and update their statuses (e.g., Shipped)
+- View all orders and update their statuses 
 
 ---
 
@@ -28,7 +28,7 @@ This is a full-stack e-commerce web application built with **React (Vite)** on t
 - React Router
 - Axios
 - Context API
-- Tailwind CSS (or your chosen styling)
+- Tailwind CSS 
 - LocalStorage for persistent auth/cart
 
 ### Backend
