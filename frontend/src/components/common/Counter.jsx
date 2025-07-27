@@ -3,7 +3,7 @@ import { FaMinus, FaPlus } from "react-icons/fa6";
 const Counter = () => { 
     const [value,setVlaue] = useState(1);
   return (
-    <div className='bg-[#f0f0f0] rounded-[62px] flex items-center w-[150px] px-4 justify-between gap-x-4 py-2'>
+    <div className='bg-[#f0f0f0] rounded-[40px] sm:rounded-[62px] flex items-center w-[100px] sm:w-[150px] px-2 sm:px-4 justify-between gap-x-4 py-1 sm:py-2'>
         <span className='text-black cursor-pointer' onClick={()=>setVlaue((prev)=>(prev>1? prev-1 :prev))}><FaMinus/></span> 
          <span>{value}</span> 
          <span className='text-black cursor-pointer' onClick={()=>setVlaue((prev)=>prev+1)}><FaPlus/></span>
