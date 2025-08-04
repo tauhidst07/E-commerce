@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PriceRangeSlider from './PriceRangeSlider'
 
 
-const FilterBar = () => { 
+const FilterBar = ({minPrice,maxPrice,setMinPrice,setMaxPrice}) => { 
     
   return (
     <div className='md:w-[200px]  ld:w-[250px] shadow-sm rounded-2xl'>
@@ -29,7 +29,7 @@ const FilterBar = () => {
       
       <div className='p-4'>
            <span>Price</span> 
-           <PriceRangeSlider/>
+           <PriceRangeSlider minPrice={minPrice} maxPrice={maxPrice} setMinPrice={setMinPrice} setMaxPrice={setMaxPrice} />
       </div>
 
        <div className='h-[0.5px] bg-black/10 max-w-[90%] mx-auto'></div>  

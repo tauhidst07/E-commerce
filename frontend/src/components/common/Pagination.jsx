@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-const Pagination = ({currentPage,totalPage,onChange}) => {
+const Pagination = ({currentPage,totalPage,onChange}) => { 
+  useEffect(()=>{
+    onChange(Math.min(currentPage,totalPage));
+  },[totalPage])
   return (
     <div className='flex items-center justify-between'>
         <button className='text-black px-6 py-2 border border-black/20 rounded-[8px] cursor-pointer disabled:opacity-50' disabled={currentPage==1} onClick={()=>onChange(currentPage-1)}> Previous</button> 

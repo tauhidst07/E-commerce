@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
 
-export default function PriceRangeSlider() {
-  const [value, setValue] = useState([200, 800]);
-
+export default function PriceRangeSlider({minPrice,maxPrice,setMinPrice,setMaxPrice}) {
+  const [value, setValue] = useState([minPrice, maxPrice]);
+  useEffect(()=>{
+     setMinPrice(value[0]); 
+     setMaxPrice(value[1]); 
+     console.log(`min ${value[0]} max ${value[1]}`)
+  },[value])
   return (
     <div className=" w-[90%] my-4 ">
       <RangeSlider

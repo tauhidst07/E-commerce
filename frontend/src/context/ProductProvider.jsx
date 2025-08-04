@@ -5,7 +5,8 @@ import productContext from './ProductContext'
 import { useState } from 'react'
 import axios from 'axios';
 import { useEffect } from 'react';
-const baseUrl=import.meta.env.VITE_BASE_URL;
+// const baseUrl=import.meta.env.VITE_BASE_URL; 
+const baseUrl="https://fakestoreapi.com"
 const ProductProvider = ({children}) => { 
     const [products,setProducts] = useState([]);   
     const [singleProduct,setSingleProduct]=useState({}); 
@@ -13,8 +14,9 @@ const ProductProvider = ({children}) => {
     async function fetchAllProducts() {  
         setLoading(true)
        try{
-          const result = await axios.get(`${baseUrl}/product/`); 
-          setProducts(result.data.products);
+          const result = await axios.get(`${baseUrl}/products/`);  
+          console.log("result: ",result)
+          setProducts(result.data);
        } 
        catch(err){
            console.log("error while fetching products: ",err);
@@ -24,7 +26,7 @@ const ProductProvider = ({children}) => {
 
     async function fetchProductById(id) {
        try{
-         const result = await axios.get(`${baseUrl}/product/${id}`);  
+         const result = await axios.get(`${baseUrl}/products/${id}`);  
          setSingleProduct(result.data.product);
 
        } 

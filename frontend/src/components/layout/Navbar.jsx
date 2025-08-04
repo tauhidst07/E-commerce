@@ -67,8 +67,7 @@ const Navbar = () => {
             </div>
             {/* profile logos */}
             <div className='flex items-center space-x-2 ' >
-                <img src={darkSearchIcon} alt="" className='hidden cursor-pointer' onClick={() => setShowSearch((prev) => !prev)} />
-                <img src={cart} alt="" />
+                <Link to={"/cart"}><img src={cart} alt="" /></Link>
                 <img src={profile} alt="" />
             </div> 
            

@@ -9,7 +9,7 @@ const CartItem = () => {
         <div className=' flex gap-x-4  w-full '>
           <img src={productImg} alt="" className='w-[80px]  sm:w-[110px]' /> 
           <div className='flex flex-col gap-1 sm:gap-2'>
-            <p className='text-sm lg:text-[20px] max-w-[90%]'>Gradient Graphic T-shirt</p> 
+            <p className='text-sm lg:text-[20px] max-w-[90%] lg:max-w-full'>Gradient Graphic T-shirt</p> 
             <div className='text-[12px] sm:text-base flex flex-col gap-y-1'>
                 <p><span>Size: </span><span className='text-black/60 py-2'>Large</span></p> 
                 <p><span>Color: </span><span className='text-black/60'>White</span></p>
