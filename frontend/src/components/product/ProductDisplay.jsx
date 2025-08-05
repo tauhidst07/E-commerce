@@ -2,48 +2,39 @@ import React, { useState } from 'react'
 import SelectSize from './SelectSize';
 
 import mainImg from "../../assets/mainImage.png"
-import Counter from '../common/Counter';
+import Counter from '../common/Counter'; 
+import thumb1 from '../../assets/Thumbnail1.avif' 
+import thumb2 from '../../assets/thumbnail2.avif'
+import thumb3 from '../../assets/thumbnail3.avif'
 const ProductDisplay = () => {
-  const [activeTab, setActiveTab] = useState("reviews");
+  const [activeTab, setActiveTab] = useState("reviews");  
+  const [mainImage,setMainImage] = useState(thumb1);
 
   return (
-    <div className="flex flex-col md:flex-row w-full px-4 md:px-8 gap-8">
+    <div className="flex flex-col md:flex-row w-full px-4 gap-4 ">
       {/* product images  */}
-      <div className=" w-full md:w-1/2 flex flex-col-reverse lg:flex-row gap-4 items-center  self-start">
+      <div className="w-full md:w-1/2 flex flex-col-reverse lg:flex-row gap-8 items-center  lg:h-[560px] self-start">
         {/* left images */}
-        <div className="flex justify-between gap-4 flex-row lg:flex-col lg:h-[90%] p-2 lg:w-[220px]">
-          <div className=''>
-            <img
-              className="w-[200px]  rounded-lg  h-full"
-              alt="Product Thumbnail 1"
-              src="https://c.animaapp.com/mdbo22k4QJ81zV/img/image-2.svg"
-            />
-          </div>
-          <div className=''>
-            <img
-              className="w-[220px]  rounded-lg  h-full"
-              alt="Product Thumbnail 2"
-              src="https://c.animaapp.com/mdbo22k4QJ81zV/img/image-5.svg"
-            />
-          </div>
-          <div className=''>
-            <img
-              className="w-[200px]  rounded-lg  h-full"
-              alt="Product Thumbnail 3"
-              src="https://c.animaapp.com/mdbo22k4QJ81zV/img/image-6.svg"
-            />
-          </div>
-        </div>
-        <div className='md:w-full lg:w-[90%] lg:h-[90%] '>
+        <div className="flex flex-row justify-between lg:flex-col h-full lg:w-32  w-full ">
+            {
+              [thumb1,thumb2,thumb3].map((src,i)=>(
+              <div key={i} className='lg:h-1/3 w-full'>
+                    <img src={src} onClick={()=>setMainImage(src)} className={`h-full object-cover w-full rounded-lg cursor-pointer ${src == mainImage ? "border border-black":""}`}/>
+              </div>
+              ))
+            }
+        </div> 
+        {/* main image */}
+        <div className='md:w-full lg:flex-1  h-full'>
           <img
-            className="h-full rounded-[16px] p-2 "
+            className=" rounded-[16px]  h-full object-cover "
             alt="Product Main Image"
-            src={mainImg}
+            src={mainImage}
           />
         </div>
       </div>
       {/* product details */}
-      <div className="w-full md:w-1/2">
+      <div className="w-full md:w-1/2  h-max">
         <div className=" font-bold text-black text-2xl md:text-3xl tracking-[0] leading-tight mb-4">
           One Life Graphic T-shirt
         </div>

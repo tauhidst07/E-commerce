@@ -5,7 +5,7 @@ const Product = ({product}) => {
   return (
     <div className="flex flex-col gap-y-2 min-w-[170px] sm:min-w-[200px]  bg-white rounded-2xl  p-4 my-4 justify-between">
       {/* Image container */}
-      <div className="bg-[#f2f0f1] flex justify-center items-center rounded-2xl overflow-hidden h-[180px]">
+      <div className="flex justify-center items-center rounded-2xl overflow-hidden h-[180px]">
         <img
           src={product.image}
           alt="Product"

@@ -20,13 +20,13 @@ const ProductDetails = () => {
 
      <div className='max-w-[80rem] mx-auto'>
          <h1 className='text-3xl text-center font-bold'>YOU MIGHT ALSO LIKE</h1> 
-         <div className="flex gap-x-6 overflow-x-auto my-8 px-2 hide-scrollbar ">
+         {/* <div className="flex gap-x-6 overflow-x-auto my-8 px-2 hide-scrollbar ">
                 <Product />
                 <Product />
                 <Product />
                 <Product />
              
-            </div>
+            </div> */}
      </div> 
          <Footer/>
     </div>
