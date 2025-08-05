@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Navbar from '../components/layout/Navbar'
 import HorizontalLine from '../components/common/HorizontalLine'
 import Footer from '../components/layout/Footer'
 import CartItem from '../components/cart/CartItem'
 import OrderSummary from '../components/cart/OrderSummary'
+import cartContext from '../context/CartContext'
 
-const Cart = () => {
+const Cart = () => { 
+    const {cartItems} = useContext(cartContext);
     return (
         <div className='bg-white w-full'>
             <Navbar />
@@ -15,9 +17,9 @@ const Cart = () => {
                 <div className='flex gap-4 flex-col lg:flex-row'>
                     {/* cart itesm */}
                     <div className='border border-black/10 rounded-2xl px-2 flex flex-col gap-4 w-full lg:w-[60%]'>
-                        <CartItem />
-                        <CartItem />
-                        <CartItem />
+                        {  cartItems.length>0 &&
+                            cartItems.map((product)=><CartItem key={product.id} product={product}/>)
+                        }
                     </div>
                     <div className='p-4 border border-black/10 rounded-2xl w-full lg:w-[35%] max-h-max '>
                        <OrderSummary/>

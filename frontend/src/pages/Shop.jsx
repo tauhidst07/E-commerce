@@ -83,7 +83,7 @@ const Shop = () => {
           {
             loading ? <Loader /> : <div className='grid grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-5 '>
               {
-                filteredProduct.slice(startIndex, endIndex).map((product) => <Product id={product.id} product={product} />)
+                filteredProduct.slice(startIndex, endIndex).map((product) => <Product key={product.id} product={product} />)
               }
             </div>
           }
