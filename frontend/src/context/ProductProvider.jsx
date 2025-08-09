@@ -10,7 +10,8 @@ const baseUrl="https://fakestoreapi.com"
 const ProductProvider = ({children}) => { 
     const [products,setProducts] = useState([]);   
     const [singleProduct,setSingleProduct]=useState({}); 
-    const [loading,setLoading]= useState(false);
+    const [loading,setLoading]= useState(false); 
+    const [search,setSearch] = useState("");
     async function fetchAllProducts() {  
         setLoading(true)
        try{
@@ -38,7 +39,7 @@ const ProductProvider = ({children}) => {
      fetchAllProducts();
     },[]);
   return (
-    <productContext.Provider value={{products,fetchAllProducts,loading,setLoading,singleProduct,fetchProductById}}> 
+    <productContext.Provider value={{products,fetchAllProducts,loading,setLoading,singleProduct,fetchProductById,search,setSearch}}> 
        {children}
     </productContext.Provider>
   )

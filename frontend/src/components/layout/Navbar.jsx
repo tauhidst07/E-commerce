@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import logo from '../../assets/logo.png'
 import profile from '../../assets/profile.png'
 import cart from '../../assets/cart.png'
@@ -6,10 +6,13 @@ import searchIcon from '../../assets/search_icon.png'
 import darkSearchIcon from '../../assets/dark_search_icon.png'
 import hamburger from '../../assets/hamburger.png'
 import { Link } from 'react-router-dom'
+import SearchInput from './SearchInput'
+
 
 
 const Navbar = () => {
-    const [isMobileNavOpen, setisMobileNavOpen] = useState(false);
+    const [isMobileNavOpen, setisMobileNavOpen] = useState(false); 
+    
     return ( 
         <div className='flex flex-col max-w-[80rem] mx-auto px-4 '>
         <nav className='w-full mx-auto flex justify-between items-center gap-x-4 sm:gap-x-16 py-4 '>
@@ -62,8 +65,7 @@ const Navbar = () => {
 
             {/* search input */}
             <div className={`relative flex-1  transition-all duration-300  hidden lg:block  `} >
-                <img src={searchIcon} alt="" className='absolute left-2 top-2' />
-                <input type="text" placeholder='Search for products...' className='w-full  max-w-[540px] pl-12 py-2 rounded-[3rem] bg-[#f0f0f0] placeholder:text-[#00000066] ' /> 
+                <SearchInput/>
             </div>
             {/* profile logos */}
             <div className='flex items-center space-x-2 ' >
@@ -72,9 +74,9 @@ const Navbar = () => {
             </div> 
            
         </nav>  
+         {/*search input for mobile and tablets  */}
            <div className={`relative w-full  mx-auto transition-all duration-300  lg:hidden`} >
-                <img src={searchIcon} alt="" className=' absolute left-6 top-2' />
-                <input type="text" placeholder='Search for products...' className='w-full  pl-12 py-2 rounded-[3rem] bg-[#f0f0f0] placeholder:text-[#00000066] ' /> 
+                <SearchInput/> 
             </div>
         </div>
     )

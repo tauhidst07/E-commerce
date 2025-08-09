@@ -17,7 +17,7 @@ const Product = ({product}) => {
      addItem(cartItem);
   }
   return (
-    <div className="flex flex-col gap-y-2 min-w-[170px] sm:min-w-[200px]  bg-white rounded-2xl  p-4 my-4 justify-between">
+    <div className="flex flex-col gap-y-2 min-w-[170px] sm:min-w-[200px]  bg-white rounded-2xl  p-4 my-4 justify-between max-h-max">
       {/* Image container */}
       <div className="flex justify-center items-center rounded-2xl overflow-hidden h-[180px]">
         <img
