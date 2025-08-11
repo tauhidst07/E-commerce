@@ -1,7 +1,21 @@
 const cloudinary = require('cloudinary').v2; 
 const fs = require("fs");  
 require("dotenv").config(); 
-const multer = require("multer");
+const multer = require("multer");  
+const path = require("path");
+const supporetdFormat=["jpg","jpeg","png","avif"];
+
+// function to check if extension is valid 
+
+function isValidExtension (files){
+   const extensions = files.map((file)=>path.extname(file).toLowerCase().slice(1)); 
+   for (const ext of extensions){
+    if(!supporetdFormat.includes(ext)){
+        return false;
+    }
+   } 
+   return true;
+}
 
 // multer config
 const storage = multer.diskStorage({
@@ -28,11 +42,12 @@ cloudinary.config({
 
 async function imageUpload(filepath){
     const result = await cloudinary.uploader.upload(filepath,{
-        folder:"productImage"
+         transformation:[ {quality:"auto:good",dpr:"auto"}], 
+         allowed_formats:[...supporetdFormat]
     })  
     fs.unlinkSync(filepath);
    return result;
 }
   
  
-module.exports={imageUpload,upload};
+module.exports={imageUpload,upload,isValidExtension};

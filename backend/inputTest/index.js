@@ -1,5 +1,5 @@
 const zod= require('zod');
-
+const { kidSizes, adultSizes } = require('../utils/sizeConstants');
 const registerSchema = zod.object({
     firstname:zod.string(), 
     lastname:zod.string().optional(), 
@@ -22,9 +22,19 @@ const productSchema = zod.object({
             "Jacket", "Hoodie", "Sweater", "Kurta", "Dress",
             "Skirt", "Saree", "Blazer", "Sportswear", "Nightwear"
         ]),  
-    colors:zod.array(zod.string), 
-    sizes : zod.array(zod.string())
-   
-})
+    audience: zod.enum(["Men","Women","Boys","Girls"]),
+    sizes :zod.array(zod.string())
+}).refine((data)=>{ 
+       if(data.audience === "Men" || data.audience === "Women") { 
+        return data.sizes.every((size)=>adultSizes.includes(size));
+       } 
+       if(data.audience === "Boys" || data.audience === "Girls") {
+        return data.sizes.every((size)=>kidSizes.includes(size));
+       } 
+       return false;
+    },{
+        message:"invalid sizes for given audience", 
+        path:["sizes"]
+    }) 
 
 module.exports={registerSchema,loginSchema,productSchema}

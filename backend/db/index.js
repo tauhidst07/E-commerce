@@ -1,5 +1,6 @@
 
 const mongoose = require("mongoose"); 
+const { kidSizes, adultSizes } = require("../utils/sizeConstants");
 
 const UserSchema = new mongoose.Schema({
     firstname:String, 
@@ -27,10 +28,20 @@ const ProductSchema = new mongoose.Schema({
             "Skirt", "Saree", "Blazer", "Sportswear", "Nightwear"
         ]
     }, 
-    colors:[String], 
-    sizes:[String]
+    audience:{
+        type:String, 
+        enum:["Men","Women","Boys","Girls"]
+    },
+    sizes:[{
+        type:String, 
+        enum:[...kidSizes,...adultSizes]
+    } 
+   ]
+  
 
-})
+}, {
+    timestamps:true
+   })
  
 
 const User = mongoose.model("User",UserSchema);  

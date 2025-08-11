@@ -1,42 +1,52 @@
 const userMiddleware = require("../middleware/usermiddleware"); 
 const adminMiddleware = require("../middleware/adminMiddleware");
 const { productSchema } = require("../inputTest");
-const { upload, imageUpload } = require("../utils/imageupload"); 
+const { upload, imageUpload, isValidExtension } = require("../utils/imageupload"); 
 const fs = require("fs"); 
 const path = require("path");
 const { Product } = require("../db");
 
 const router = require("express").Router();  
-const supporetdFormat=["jpg","jpeg","png"];
+
 
 // only admin access --> add product
-router.post("/add",userMiddleware,adminMiddleware,upload.single("image"),async (req,res)=>{ 
-    let {name,price,description,category} = req.body;   
+router.post("/add",userMiddleware,adminMiddleware,upload.array("images",3),async (req,res)=>{  
+    let {title,price,description,category,audience,sizes} = req.body;    
+    console.log(`type of sizes ${typeof sizes} and isArray: ${Array.isArray(sizes)}`) 
     price=Number(price); 
-    const {...inputdata}={name,price,description,category};  
-    const localPath=req.file.path;
+    const {...inputdata}={title,price,description,category,audience,sizes};   
+    const files=req.files.map((file)=>file.path);
     console.log("input: ",inputdata); 
-    const response = productSchema.safeParse(inputdata); 
+    const response = productSchema.safeParse(inputdata);  
+    console.log("response",response);
     if(!response.success){ 
-        fs.unlinkSync(localPath);
+        files.forEach((file)=>{
+            fs.unlinkSync(file);
+        })
        return res.status(400).json({
             message:"invalid input", 
             err:response.error
         })
     }     
-    const ext = path.extname(localPath).toLowerCase().slice(1);
-    if(!supporetdFormat.includes(ext)){ 
-        fs.unlinkSync(localPath);
+    
+    if(!isValidExtension(files)){  
+        for (const file of files){
+          fs.unlinkSync(file);
+        }
         return res.status(400).json({
-            message:"invalid format we support only : jpeg,jpg,png"
+            message:"invalid format we support only : jpeg,jpg,png,avif"
         })
-    } 
-    const result = await imageUpload(localPath);  
+    }  
+    console.log("before upload"); 
+    const promises = files.map((file)=>imageUpload(file)); 
+    const results = await Promise.all(promises);  
+    const urls = results.map((res)=>res.secure_url);
 
-    const product = await Product.create({...inputdata,image:result.secure_url}); 
+    const product = await Product.create({...inputdata,images:urls}); 
     res.status(200).json({
         message:"product added ", 
-        product
+        product, 
+        time:product.createdAt
     })
 }) 
  
@@ -52,9 +62,10 @@ router.get("/",async(req,res)=>{
 
 router.get("/:id",async(req,res)=>{
     const id = req.params.id; 
-    const product = await Product.findById(id); 
+    const product = await Product.findById(id);  
     res.status(200).json({
-      product
+      product, 
+    
     })
 })
 
