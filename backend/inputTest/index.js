@@ -14,10 +14,17 @@ const loginSchema = zod.object({
 })  
 
 const productSchema = zod.object({
-    name:zod.string(), 
+    title:zod.string(), 
     price:zod.number(), 
-    description:zod.string(), 
-    category:zod.string()
+    description:zod.string(),  
+    category:zod.enum([
+            "Shirt", "T-Shirt", "Jeans", "Trousers", "Shorts",
+            "Jacket", "Hoodie", "Sweater", "Kurta", "Dress",
+            "Skirt", "Saree", "Blazer", "Sportswear", "Nightwear"
+        ]),  
+    colors:zod.array(zod.string), 
+    sizes : zod.array(zod.string())
+   
 })
 
 module.exports={registerSchema,loginSchema,productSchema}

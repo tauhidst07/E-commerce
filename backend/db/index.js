@@ -15,11 +15,20 @@ const UserSchema = new mongoose.Schema({
 })  
 
 const ProductSchema = new mongoose.Schema({
-    name:String, 
+    title:String, 
     price:Number,  
     description:String, 
-    image:String, 
-    category:String
+    images:[String], 
+    category:{
+        type:String, 
+         enum: [
+            "Shirt", "T-Shirt", "Jeans", "Trousers", "Shorts",
+            "Jacket", "Hoodie", "Sweater", "Kurta", "Dress",
+            "Skirt", "Saree", "Blazer", "Sportswear", "Nightwear"
+        ]
+    }, 
+    colors:[String], 
+    sizes:[String]
 
 })
  
