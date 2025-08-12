@@ -11,6 +11,7 @@ import Shop from './pages/Shop'
 import ProductDetails from './pages/ProductDetails'
 import Cart from './pages/Cart'
 import Search from './pages/Search'
+import { AddProducts } from './pages/Admin/AddProducts'
 const Profile = lazy(()=>import("./pages/Profile"));
 
 const App = () => {
@@ -27,6 +28,7 @@ const App = () => {
        <Route path='/cart' element={<Cart/>} /> 
        <Route path='/search' element={<Search/>} />
        <Route path='/Profile' element={<Suspense fallback={<div>loading..</div>}><PrivateRoute> <Profile/></PrivateRoute></Suspense> } /> 
+       <Route path='/admin/AddProduct' element={<AddProducts/>} />
     </Routes> 
   </>
   

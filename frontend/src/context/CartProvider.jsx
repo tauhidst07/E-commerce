@@ -42,9 +42,7 @@ const CartProvider = ({children}) => {
        
         return cartItems.some((item)=>item._id === id);
     } 
-    useEffect(()=>{
-        console.log("cart items: ",cartItems);
-    },[cartItems]); 
+    
 
     function cartItemPrice(){
        return cartItems.length > 0 ? cartItems.reduce((acc,item)=> acc + item.price,0) : 0
