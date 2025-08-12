@@ -16,8 +16,7 @@ export default function PriceRangeSlider({minPrice,maxPrice,setMinPrice,setMaxPr
         max={1000} 
         value={value}
         onInput={setValue} 
-        className="my-range-slider " 
-
+        className="my-range-slider" 
       />
       <div className="mt-4 text-lg font-medium">
         ${value[0]} – ${value[1]}
