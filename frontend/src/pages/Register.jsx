@@ -13,48 +13,73 @@ const Register = () => {
 
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input type="text"
-        {...register("firstname", {
-          required: "first name is required"
-        }
-        )}
-        placeholder='enter your firstname'
-      />
-      {errors.firstname && <p> {errors.firstname.message}</p>} <br /><br />
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
+  <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md bg-white rounded-lg shadow-md p-8 space-y-6">
+    {/* Sign Up Heading */}
+    <div className="text-center">
+      <h1 className="text-2xl font-bold text-gray-900 mb-2">Create Your Account</h1>
+      <p className="text-gray-600">Join us to get started</p>
+    </div>
 
-      <input type="text"
-        {...register("lastname", {
-        })} 
+    <div className="space-y-4">
+      <div className="space-y-2">
+        <input 
+          type="text"
+          className="w-full px-4 py-3 border border-black/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50"
+          {...register("firstname", { required: "First name is required" })}
+          placeholder="Enter your first name"
+        />
+        {errors.firstname && <p className="text-red-500 text-sm mt-1">{errors.firstname.message}</p>}
+      </div>
 
-        placeholder='enter your lastname'
-      />  <br /><br />
-      <input type='email'
-        {...register("email", {
-          required: "email is required"
-        })} 
+      <div className="space-y-2">
+        <input 
+          type="text"
+          className="w-full px-4 py-3 border border-black/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50"
+          {...register("lastname")}
+          placeholder="Enter your last name"
+        />
+      </div>
 
-      placeholder='enter your email'
-      />
-      {errors.email && <p> {errors.email.message}</p>}  <br /><br />
+      <div className="space-y-2">
+        <input 
+          type="email"
+          className="w-full px-4 py-3 border border-black/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50"
+          {...register("email", { required: "Email is required" })}
+          placeholder="Enter your email"
+        />
+        {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+      </div>
 
-      <input type='password'
-        {...register("password",
-          {
-            required: "password is required",
+      <div className="space-y-2">
+        <input 
+          type="password"
+          className="w-full px-4 py-3 border border-black/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-black/50"
+          {...register("password", {
+            required: "Password is required",
             minLength: {
               value: 6,
-              message: "password must be at least 6 character"
+              message: "Password must be at least 6 characters"
             }
-          }
-        )} 
-        placeholder='enter your password'
-      /> 
-      { errors.password && <p>{errors.password.message} </p>} <br /><br />
+          })}
+          placeholder="Enter your password"
+        />
+        {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+      </div>
+    </div>
 
-      <button type='submit'>register</button>
+    <button 
+      type="submit"
+      className="w-full px-4 py-3 bg-black text-white rounded-lg hover:bg-black/90 transition-colors font-medium"
+    >
+      Sign Up
+    </button>
 
-    </form>
+    <div className="text-center text-sm text-gray-600">
+      Already have an account? <a href="#" className="text-black font-medium hover:underline">Log in</a>
+    </div>
+  </form>
+</div>
   )
 }
 
