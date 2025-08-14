@@ -47,18 +47,7 @@ const Login = () => {
         {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
       </div>
 
-      <div className="flex items-center justify-between">
-        <div className="flex items-center">
-          <input
-            id="remember-me"
-            name="remember-me"
-            type="checkbox"
-            className="h-4 w-4 rounded border-black/20 focus:ring-black/50"
-          />
-          <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
-            Remember me
-          </label>
-        </div>
+      <div className="flex items-center justify-center">
 
         <div className="text-sm">
           <a href="#" className="font-medium text-black hover:underline">
@@ -70,7 +59,7 @@ const Login = () => {
 
     <button 
       type="submit"
-      className="w-full px-4 py-3 bg-black text-white rounded-lg hover:bg-black/90 transition-colors font-medium"
+      className="w-full px-4 py-3 bg-black text-white rounded-lg hover:bg-black/90 transition-colors font-medium cursor-pointer"
     >
       Sign In
     </button>

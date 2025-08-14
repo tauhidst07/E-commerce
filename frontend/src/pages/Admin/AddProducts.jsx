@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { CLOTHS_CATEGORIES } from '../../constants/categories';
 import { audience } from '../../constants/audience';
 import { sizes } from '../../constants/sizes';
 import { LiaFileUploadSolid } from "react-icons/lia";
+import axiosInstance from '../../api/apiConnector';
+import productContext from '../../context/ProductContext';
 export const AddProducts = () => {
   const { register, handleSubmit, reset, formState: { errors }, watch, resetField, setValue } = useForm({
     defaultValues: { sizes: [], images: [] }
   });
   const selectedAudience = watch("audience");
   const [audienceType, setAudienceType] = useState("");
-
   const selectedSize = watch("sizes") || [];
-  const selectedImage = watch("images") || [];
+  const selectedImage = watch("images") || []; 
+  const {loading,setLoading} = useContext(productContext);
 
   function toggleSize(size) {
     if (selectedSize.includes(size)) {
@@ -56,20 +58,39 @@ export const AddProducts = () => {
 
 
   const submitHandler = (data) => {
-    const { images, ...finalData } = data;
+    const { images,sizes, ...finalData } = data;
     const formData = new FormData();
     for (const key in finalData) {
       formData.append(key, finalData[key]);
-    }
+    }  
+    sizes.forEach((size)=>{
+      formData.append("sizes",size);
+    })
     images.forEach(file => {
       formData.append("images", file);
-    });
+    }); 
+    setLoading(true);
+    axiosInstance.post("/products/add",formData).then((res)=>{
+      alert(res.data.message);
+    })
+    .catch((err)=>{
+      console.log("add product err: ",err);
+    }).finally(()=>{
+      setLoading(false)
+    })
 
     reset();
   }
   return (
-    <div className="max-w-md  mx-auto p-6 bg-white rounded-lg shadow-md">
-      <form onSubmit={handleSubmit(submitHandler)} className='flex flex-col gap-6'>
+    <div className="max-w-[80rem] mx-auto relative">   
+    <h1>Add Product</h1>
+    {
+      loading && <div className='absolute inset-0 h-screen z-50 bg-white/60 flex items-center justify-center '>  
+           <div className='loader'></div>
+          </div>
+    }
+    
+      <form onSubmit={handleSubmit(submitHandler)} className='max-w-md  mx-auto p-6 bg-white rounded-lg shadow-md flex flex-col gap-6'>
         <div className='space-y-2'>
           <input
             type="text"
@@ -178,10 +199,11 @@ export const AddProducts = () => {
         </div>
         <button
           type='submit'
-          className='px-4 py-2 bg-black text-white rounded-md hover:bg-black/90 transition-colors max-w-max'
+          className='px-4 py-2 bg-black text-white rounded-md hover:bg-black/90 transition-colors max-w-max mx-auto cursor-pointer' 
         >
           Add Product
-        </button>
+        </button> 
+       
       </form>
     </div>
   )

@@ -50,7 +50,7 @@ const ProductsFilter = ({products,heading}) => {
 
   return (
     <> 
-        <div className='max-w-[80rem] mx-auto px-4 flex gap-x-20'> 
+        <div className='max-w-[80rem] mx-auto px-4 flex gap-x-0'> 
         {/* filters */}
         <div className='w-[20%] hidden md:block'>
           <FilterBar minPrice={minPrice} maxPrice={maxPrice} setMinPrice={setMinPrice} setMaxPrice={setMaxPrice} />
@@ -72,7 +72,7 @@ const ProductsFilter = ({products,heading}) => {
           </div>
           {/* products */}
           {
-            loading ? <Loader /> : <div className='grid grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-5 min-h-[90vh]'>
+            loading ? <Loader /> : <div className='grid grid-cols-2 lg:grid-cols-4 gap-0 sm:gap-2 min-h-[90vh]'>
               {
                 filteredProduct.slice(startIndex, endIndex).map((product) => <Product key={product.id} product={product} />)
               }
