@@ -70,7 +70,7 @@ const Navbar = () => {
             {/* profile logos */}
             <div className='flex items-center space-x-2 ' >
                 <Link to={"/cart"}><img src={cart} alt="" /></Link>
-                <img src={profile} alt="" />
+                <Link to="/profile"><img src={profile} alt="" /> </Link>
             </div> 
            
         </nav>  

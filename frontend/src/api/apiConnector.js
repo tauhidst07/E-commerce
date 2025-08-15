@@ -27,7 +27,6 @@ const axiosInstance = axios.create({
 //add token in every axios instance request
 axiosInstance.interceptors.request.use((config)=>{
     const token = localStorage.getItem("token");  
-    console.log("env test: ",baseUrl);
     if(!token || isTokenExpired(token)){ 
         logoutUser(); 
         alert("session expired login again");

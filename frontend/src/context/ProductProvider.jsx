@@ -3,6 +3,7 @@ import productContext from './ProductContext'
 import { useState } from 'react'
 import axios from 'axios';
 import { useEffect } from 'react';
+import { checkTokenExpiry } from '../utility/checkTokenExpiray';
 const baseUrl=import.meta.env.VITE_BASE_URL; 
 const ProductProvider = ({children}) => { 
     const [products,setProducts] = useState([]);   
@@ -32,8 +33,10 @@ const ProductProvider = ({children}) => {
          console.log("error while fetching product by id: ",err);
        }
     }
-    useEffect(()=>{
-     fetchAllProducts();
+    useEffect(()=>{ 
+      console.log(checkTokenExpiry());
+     fetchAllProducts(); 
+     
     },[]);
   return (
     <productContext.Provider value={{products,fetchAllProducts,loading,setLoading,singleProduct,fetchProductById,search,setSearch}}> 
