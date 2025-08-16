@@ -41,7 +41,6 @@ router.post("/add",userMiddleware,adminMiddleware,upload.array("images",3),async
     const promises = files.map((file)=>imageUpload(file)); 
     const results = await Promise.all(promises);  
     const urls = results.map((res)=>res.secure_url);
-
     const product = await Product.create({...inputdata,images:urls}); 
     res.status(200).json({
         message:"product added ", 
@@ -67,6 +66,28 @@ router.get("/:id",async(req,res)=>{
       product, 
     
     })
+}) 
+
+
+// delte product -->only admin 
+
+router.delete("/:id",async(req,res)=>{
+    const id = req.params.id;  
+    try{
+    await Product.findByIdAndDelete(id); 
+    } 
+    catch(err){
+     res.status(404).json({
+        message:"error in deleting product", 
+        err:err.message
+     })
+    } 
+
+    res.status(200).json({
+        message:"product deleted successfully"
+    })
+    
+
 })
 
 module.exports=router;
