@@ -12,7 +12,6 @@ const router = require("express").Router();
 // only admin access --> add product
 router.post("/add",userMiddleware,adminMiddleware,upload.array("images",3),async (req,res)=>{  
     let {title,price,description,category,audience,sizes} = req.body;    
-    console.log(`type of sizes ${typeof sizes} and isArray: ${Array.isArray(sizes)}`) 
     price=Number(price); 
     const {...inputdata}={title,price,description,category,audience,sizes};   
     const files=req.files.map((file)=>file.path);
@@ -37,7 +36,6 @@ router.post("/add",userMiddleware,adminMiddleware,upload.array("images",3),async
             message:"invalid format we support only : jpeg,jpg,png,avif"
         })
     }  
-    console.log("before upload"); 
     const promises = files.map((file)=>imageUpload(file)); 
     const results = await Promise.all(promises);  
     const urls = results.map((res)=>res.secure_url);
@@ -65,19 +63,63 @@ router.get("/:id",async(req,res)=>{
     res.status(200).json({
       product, 
     
-    })
+    }) 
 }) 
+ 
+// edit product -> only admin
 
+router.put("/:id",userMiddleware,adminMiddleware,upload.array("images",3),async(req,res)=>{ 
+    const id = req.params.id;
+    let {title,price,description,category,audience,sizes,existingImages} = req.body;    
+    price=Number(price); 
+    const {...inputdata}={title,price,description,category,audience,sizes};   
+    const files=req.files.map((file)=>file.path);
+    console.log("input: ",inputdata); 
+    const response = productSchema.safeParse(inputdata);  
+    console.log("response",response);
+    if(!response.success){ 
+        files.forEach((file)=>{
+            fs.unlinkSync(file);
+        })
+       return res.status(400).json({
+            message:"invalid input", 
+            err:response.error
+        })
+    }   
+     if(!isValidExtension(files)){  
+        for (const file of files){
+          fs.unlinkSync(file);
+        }
+        return res.status(400).json({
+            message:"invalid format we support only : jpeg,jpg,png,avif"
+        })
+    }  
+    const promises = files.map((file)=>imageUpload(file)); 
+    const results = await Promise.all(promises);     
+     if(!Array.isArray(existingImages)){
+       existingImages=[existingImages]
+    }  
+    const urls = [...existingImages,...results.map((res)=>res.secure_url)]; 
+    console.log("urls: ",urls); 
+    const product = await Product.findByIdAndUpdate(id,{...inputdata,images:urls},{new:true});  
+    console.log("product: ",product);
+    res.status(200).json({
+        message:"product edited ", 
+        product, 
+        updatedAt:product.updatedAt
+    })
 
-// delte product -->only admin 
+})
 
-router.delete("/:id",async(req,res)=>{
+// // delte product -->only admin 
+
+router.delete("/:id",userMiddleware,adminMiddleware,async(req,res)=>{
     const id = req.params.id;  
     try{
     await Product.findByIdAndDelete(id); 
     } 
     catch(err){
-     res.status(404).json({
+     res.status(403).json({
         message:"error in deleting product", 
         err:err.message
      })
