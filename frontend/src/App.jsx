@@ -14,6 +14,8 @@ import Search from './pages/Search'
 import { AddProducts } from './pages/Admin/AddProducts'
 import Unauthorized from './components/Unauthorized'
 import AdminRoute from './components/AdminRoute' 
+import StockProducts from './pages/Admin/StockProducts'
+import EditProduct from './pages/Admin/EditProduct'
 
 const Profile = lazy(()=>import("./pages/Profile"));
 
@@ -34,7 +36,9 @@ const App = () => {
        <Route path='/unauthorized' element={<Unauthorized/>} />
        {/* admin routes */} 
        <Route path='/admin' element={<AdminRoute/>}>  
-         <Route path='addProduct' element={<AddProducts/>} /> 
+         <Route path='addProduct' element={<AddProducts/>} />  
+         <Route path='products' element={<StockProducts/>} /> 
+         <Route path='editProduct/:id' element={<EditProduct />} />
        </Route>
     </Routes> 
   </>

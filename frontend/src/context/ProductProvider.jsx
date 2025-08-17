@@ -4,6 +4,7 @@ import { useState } from 'react'
 import axios from 'axios';
 import { useEffect } from 'react';
 import { checkTokenExpiry } from '../utility/checkTokenExpiray';
+import axiosInstance from '../api/apiConnector';
 const baseUrl=import.meta.env.VITE_BASE_URL; 
 const ProductProvider = ({children}) => { 
     const [products,setProducts] = useState([]);   
@@ -31,15 +32,27 @@ const ProductProvider = ({children}) => {
        } 
        catch(err){
          console.log("error while fetching product by id: ",err);
-       }
+       } 
+    } 
+    
+    async function deleteProduct(id) {
+        try{
+          const respose = await axiosInstance.delete(`${baseUrl}/products/${id}`);  
+          setProducts((prev)=>prev.filter((prod)=>prod._id!==id))
+          alert(respose.data.message);
+        } 
+        catch(err){
+            console.log("error while deleting product: ",err)
+        } 
+        fetchAllProducts();
     }
+
     useEffect(()=>{ 
-      console.log(checkTokenExpiry());
      fetchAllProducts(); 
      
     },[]);
   return (
-    <productContext.Provider value={{products,fetchAllProducts,loading,setLoading,singleProduct,fetchProductById,search,setSearch}}> 
+    <productContext.Provider value={{products,fetchAllProducts,loading,setLoading,singleProduct,fetchProductById,search,setSearch,deleteProduct}}> 
        {children}
     </productContext.Provider>
   )
