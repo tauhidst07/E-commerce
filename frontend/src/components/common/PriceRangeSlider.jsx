@@ -13,7 +13,7 @@ export default function PriceRangeSlider({minPrice,maxPrice,setMinPrice,setMaxPr
     <div className=" w-[90%] my-4 ">
       <RangeSlider
         min={0}
-        max={1000} 
+        max={10000} 
         value={value}
         onInput={setValue} 
         className="my-range-slider" 

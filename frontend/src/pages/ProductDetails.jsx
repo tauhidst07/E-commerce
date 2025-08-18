@@ -4,16 +4,31 @@ import Footer from '../components/layout/Footer'
 import Product from '../components/common/Product'
 import ProductDisplay from '../components/product/ProductDisplay'
 import HorizontalLine from '../components/common/HorizontalLine'
+import { useContext } from 'react'
+import productContext from '../context/ProductContext'
+import { useParams } from 'react-router-dom'
+import { useEffect } from 'react'
+import Loader from '../components/common/Loader'
 
 
-const ProductDetails = () => {
+const ProductDetails = () => { 
+  const {id} = useParams(); 
+  const {fetchProductById,singleProduct,loading} = useContext(productContext);  
+  console.log("single product: ",singleProduct); 
+  console.log("id: ",id); 
+  console.log("hellooooo")
+   useEffect(()=>{
+       fetchProductById(id);
+   },[id])
   return (
     <div className='bg-white w-full min-h-screen'> 
     <Navbar/>   
     <HorizontalLine/>
     <div></div>
      <div className='max-w-[80rem] mx-auto my-8'>
-      <ProductDisplay/>
+       {
+        loading?<Loader/>:<ProductDisplay singleProduct={singleProduct} loading={loading}/>
+       } 
      </div>
 
 

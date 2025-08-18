@@ -16,6 +16,7 @@ import Unauthorized from './components/Unauthorized'
 import AdminRoute from './components/AdminRoute' 
 import StockProducts from './pages/Admin/StockProducts'
 import EditProduct from './pages/Admin/EditProduct'
+import ProductDisplay from './components/product/ProductDisplay'
 
 const Profile = lazy(()=>import("./pages/Profile"));
 
@@ -29,11 +30,11 @@ const App = () => {
        <Route path='/Register' element={<Register/>}/> 
        <Route path='/Product/:id' element = {<Product/> } />   
        <Route path='/shop' element={<Shop/>}  /> 
-       <Route path='/productDetails' element={<ProductDetails/>}/> 
        <Route path='/cart' element={<Cart/>} />  
        <Route path='/search' element={<Search/>} />
        <Route path='/Profile' element={<Suspense fallback={<div>loading..</div>}><PrivateRoute> <Profile/></PrivateRoute></Suspense> } />  
-       <Route path='/unauthorized' element={<Unauthorized/>} />
+       <Route path='/unauthorized' element={<Unauthorized/>} /> 
+       <Route path='/shop/:id' element={<ProductDetails/>} />
        {/* admin routes */} 
        <Route path='/admin' element={<AdminRoute/>}>  
          <Route path='addProduct' element={<AddProducts/>} />  

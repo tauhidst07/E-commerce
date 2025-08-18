@@ -13,11 +13,14 @@ const ProductsFilter = ({products,heading}) => {
   const [showSort, setShowSort] = useState(false);
   const { loading} = useContext(productContext);
   const startIndex = (currentPage - 1) * 10;
-  const endIndex = startIndex + 10;
+  let endIndex = startIndex + 10;
   const [sortBy, setSortBy] = useState("newest");
   const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(1000);
-
+  const [maxPrice, setMaxPrice] = useState(10000);
+ 
+  useEffect(()=>{
+    console.log("products in filter: ",products)
+  },[])
 
   const handleChange = (e) => {
     setSortBy(e.target.value)
@@ -41,7 +44,9 @@ const ProductsFilter = ({products,heading}) => {
   const { filteredProduct, totalPage } = useMemo(() => {
     const sortedProducts = [...products].sort(sortProduct);
     const filteredProduct = sortedProducts.filter(priceRangeFilter);
-    const totalPage = Math.max(1, Math.ceil(filteredProduct.length / 10));
+    const totalPage = Math.max(1, Math.ceil(filteredProduct.length / 10));  
+    console.log("filtered:",filteredProduct); 
+    console.log(`start: ${startIndex} end: ${endIndex}`)
     return {
       filteredProduct, totalPage
     }
@@ -52,7 +57,7 @@ const ProductsFilter = ({products,heading}) => {
     <> 
         <div className='max-w-[80rem] mx-auto px-4 flex gap-x-0'> 
         {/* filters */}
-        <div className='w-[20%] hidden md:block'>
+        <div className='w-[250px] hidden md:block'>
           <FilterBar minPrice={minPrice} maxPrice={maxPrice} setMinPrice={setMinPrice} setMaxPrice={setMaxPrice} />
         </div>
         {/* product dislay */}
@@ -72,9 +77,9 @@ const ProductsFilter = ({products,heading}) => {
           </div>
           {/* products */}
           {
-            loading ? <Loader /> : <div className='grid grid-cols-2 lg:grid-cols-4 gap-0 sm:gap-2 min-h-[90vh]'>
+            loading ? <Loader /> : <div className='grid grid-cols-2  lg:grid-cols-4 gap-0 sm:gap-2 min-h-[90vh]'>
               {
-                filteredProduct.slice(startIndex, endIndex).map((product) => <Product key={product.id} product={product} />)
+                filteredProduct.slice(startIndex, endIndex).map((product) => <Product key={product._id} product={product} />)
               }
             </div>
           }

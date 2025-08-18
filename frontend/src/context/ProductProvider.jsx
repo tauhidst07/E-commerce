@@ -24,15 +24,18 @@ const ProductProvider = ({children}) => {
        setLoading(false);
     }  
 
-    async function fetchProductById(id) {
+    async function fetchProductById(id) { 
+       setLoading(true)
        try{
-         const result = await axios.get(`${baseUrl}/products/${id}`);  
-         setSingleProduct(result.data.product);
-
+         const result = await axios.get(`${baseUrl}/products/${id}`);   
+         console.log("product fetched",result.data.product);
+         setSingleProduct(result.data.product); 
        } 
        catch(err){
          console.log("error while fetching product by id: ",err);
-       } 
+       }   
+       setLoading(false)
+
     } 
     
     async function deleteProduct(id) {
