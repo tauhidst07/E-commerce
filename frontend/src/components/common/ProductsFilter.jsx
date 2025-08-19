@@ -7,11 +7,11 @@ import Loader from './Loader'
 import Product from './Product'
 import productContext from '../../context/ProductContext';
 
-const ProductsFilter = ({products,heading}) => { 
+const ProductsFilter = ({products,heading,query}) => { 
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilter, setShowFilter] = useState(false);
   const [showSort, setShowSort] = useState(false);
-  const { loading} = useContext(productContext);
+  const { loading } = useContext(productContext);
   const startIndex = (currentPage - 1) * 10;
   let endIndex = startIndex + 10;
   const [sortBy, setSortBy] = useState("newest");
@@ -21,9 +21,8 @@ const ProductsFilter = ({products,heading}) => {
   const [categories,setCategories]=useState([]);
  
   useEffect(()=>{
-    console.log("products in filter: ",products)
-  },[])
-
+    console.log("query:  ",query);
+  },[query])
   const handleChange = (e) => {
     setSortBy(e.target.value)
   }
@@ -45,7 +44,16 @@ const ProductsFilter = ({products,heading}) => {
 
   const { filteredProduct, totalPage } = useMemo(() => {
     const sortedProducts = [...products].sort(sortProduct);
-    let filteredProduct = sortedProducts.filter(priceRangeFilter); 
+    let filteredProduct = sortedProducts.filter(priceRangeFilter);  
+    filteredProduct = filteredProduct.filter((prod)=>{
+      if(query.length>0){
+        return prod.title.toLowerCase().replace("-","").includes(query)||prod.description.toLowerCase().replace("-","").includes(query);
+      }  
+      else{
+          return true
+      }
+    
+    })
     console.log("befor filtered:",filteredProduct);
     filteredProduct = filteredProduct.filter((prod)=>{
       if(audience){
@@ -69,7 +77,7 @@ const ProductsFilter = ({products,heading}) => {
       filteredProduct, totalPage
     }
     
-  }, [products, sortBy, minPrice, maxPrice,audience,categories])
+  }, [products, sortBy, minPrice, maxPrice,audience,categories,query])
   return (
     <> 
         <div className='max-w-[80rem] mx-auto px-4 flex gap-x-0'> 

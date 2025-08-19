@@ -1,14 +1,17 @@
 import React, { useContext, useState } from 'react' 
 import searchIcon from '../../assets/search_icon.png'
 import productContext from '../../context/ProductContext';
+import { useNavigate } from 'react-router-dom';
 
 const SearchInput = () => { 
     const [input,setInput] = useState("");  
-    const {search,setSearch} = useContext(productContext);
+    const {search,setSearch} = useContext(productContext); 
+    const navigate=useNavigate();
     const submitHandler = (e)=>{
        e.preventDefault(); 
        setSearch(input.trim().toLowerCase()); 
-       setInput("");
+       setInput(""); 
+       navigate(`/shop?search=${input}`)
     } 
   return ( 
     <form onSubmit={submitHandler} className='relative'> 
