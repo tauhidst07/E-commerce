@@ -41,7 +41,7 @@ const Product = ({product}) => {
   
 
       {/* Price */}
-      <p className="font-bold  text-black flex items-center text-[12px] sm:text-base gap-x-1">Rs.{product.price} <span className='text-black/40 text-[10px] sm:text-sm line-through'>Rs.{Math.floor(product.price*30/100)+product.price}</span> <span className='text-[10px] bg-red-100 px-2 py-[1px] rounded-2xl text-red-400'>-{30}%</span> </p>  
+      <p className="font-bold  text-black flex items-center text-[12px] sm:text-base gap-x-1">₨.{product.price} <span className='text-black/40 text-[10px] sm:text-sm line-through'>₨.{Math.floor(product.price*30/100)+product.price}</span> <span className='text-[10px] bg-red-100 px-2 py-[1px] rounded-2xl text-red-400'>-{30}%</span> </p>  
 
       {/* <button className='py-2 px-3 bg-black rounded-2xl cursor-pointer text-white' onClick={addToCart}>Add to cart</button> */}
     </div>

@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { CLOTHS_CATEGORIES } from '../../constants/categories';
-import { audience } from '../../constants/audience';
-import { sizes } from '../../constants/sizes';
+import CLOTHS_CATEGORIES  from '../../constants/categories';
+import  audience from '../../constants/audience';
+import  sizes  from '../../constants/sizes';
 import { LiaFileUploadSolid } from "react-icons/lia";
 import axiosInstance from '../../api/apiConnector';
 import productContext from '../../context/ProductContext';
 import Loader from '../common/Loader';
 
 const ProductForm = ({mode,product}) => { 
-    const { register, handleSubmit, reset, formState: { errors }, watch, resetField, setValue } = useForm(); 
+  const { register, handleSubmit, reset, formState: { errors }, watch, resetField, setValue } = useForm(); 
 
   const selectedAudience = watch("audience");
   const [audienceType, setAudienceType] = useState("");

@@ -1,2 +1,4 @@
 
-export const audience = ["Men","Women","Boys","Girls"]
+ const audience = ["Men","Women","Boys","Girls"] 
+
+ export default audience;

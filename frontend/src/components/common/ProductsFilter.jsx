@@ -16,7 +16,9 @@ const ProductsFilter = ({products,heading}) => {
   let endIndex = startIndex + 10;
   const [sortBy, setSortBy] = useState("newest");
   const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(10000);
+  const [maxPrice, setMaxPrice] = useState(10000); 
+  const [audience,setAudience]  = useState(null); 
+  const [categories,setCategories]=useState([]);
  
   useEffect(()=>{
     console.log("products in filter: ",products)
@@ -43,7 +45,23 @@ const ProductsFilter = ({products,heading}) => {
 
   const { filteredProduct, totalPage } = useMemo(() => {
     const sortedProducts = [...products].sort(sortProduct);
-    const filteredProduct = sortedProducts.filter(priceRangeFilter);
+    let filteredProduct = sortedProducts.filter(priceRangeFilter); 
+    console.log("befor filtered:",filteredProduct);
+    filteredProduct = filteredProduct.filter((prod)=>{
+      if(audience){
+        return prod.audience === audience
+      } 
+      return true
+    })   
+    filteredProduct = filteredProduct.filter((prod)=>{
+      if(categories.length>0){
+       return categories.includes(prod.category);
+      } 
+      else{
+        return true
+      }
+    });
+    console.log("after: ",filteredProduct);
     const totalPage = Math.max(1, Math.ceil(filteredProduct.length / 10));  
     console.log("filtered:",filteredProduct); 
     console.log(`start: ${startIndex} end: ${endIndex}`)
@@ -51,14 +69,13 @@ const ProductsFilter = ({products,heading}) => {
       filteredProduct, totalPage
     }
     
-  }, [products, sortBy, minPrice, maxPrice])
-
+  }, [products, sortBy, minPrice, maxPrice,audience,categories])
   return (
     <> 
         <div className='max-w-[80rem] mx-auto px-4 flex gap-x-0'> 
         {/* filters */}
-        <div className='w-[250px] hidden md:block'>
-          <FilterBar minPrice={minPrice} maxPrice={maxPrice} setMinPrice={setMinPrice} setMaxPrice={setMaxPrice} />
+        <div className='w-[250px] hidden md:block my-2'>
+          <FilterBar minPrice={minPrice} maxPrice={maxPrice} setMinPrice={setMinPrice} setMaxPrice={setMaxPrice} categories={categories} setCategories={setCategories} audience={audience} setAudience={setAudience} />
         </div>
         {/* product dislay */}
         <div className='flex-1'>
