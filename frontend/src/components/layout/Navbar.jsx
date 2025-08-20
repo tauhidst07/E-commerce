@@ -5,13 +5,23 @@ import cart from '../../assets/cart.png'
 import searchIcon from '../../assets/search_icon.png'
 import darkSearchIcon from '../../assets/dark_search_icon.png'
 import hamburger from '../../assets/hamburger.png'
-import { Link } from 'react-router-dom'
-import SearchInput from './SearchInput'
+import { Link, useNavigate } from 'react-router-dom'
+import SearchInput from './SearchInput' 
+import audience from '../../constants/audience'
+import productContext from '../../context/ProductContext'
 
 
 
 const Navbar = () => {
-    const [isMobileNavOpen, setisMobileNavOpen] = useState(false); 
+    const [isMobileNavOpen, setisMobileNavOpen] = useState(false);   
+    const {setAudience,setCategories} = useContext(productContext); 
+    const navigate = useNavigate();
+    function handleNavClick(audience){
+          setAudience(audience);   
+          setCategories([]);
+          navigate("/shop");
+
+    }
     
     return ( 
         <div className='flex flex-col max-w-[80rem] mx-auto px-4 '>
@@ -31,10 +41,9 @@ const Navbar = () => {
 
             </div>
             <div className={`hidden md:flex items-center space-x-6`}>
-                <Link to={'/shop'}>Shop</Link>
-                <div>On Sale</div>
-                <div>New Arrivals</div>
-                <div>Brands</div>
+                 {
+                    audience.map((aud,i)=><div key={i} className='cursor-pointer' onClick={()=>handleNavClick(aud)}>{aud}</div>)
+                 }
             </div>
 
             {/* mobile nav links */}

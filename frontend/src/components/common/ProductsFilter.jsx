@@ -16,13 +16,14 @@ const ProductsFilter = ({products,heading,query}) => {
   let endIndex = startIndex + 10;
   const [sortBy, setSortBy] = useState("newest");
   const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(10000); 
-  const [audience,setAudience]  = useState(null); 
-  const [categories,setCategories]=useState([]);
+  const [maxPrice, setMaxPrice] = useState(10000);    
+  const{audience,categories} = useContext(productContext);
+ 
  
   useEffect(()=>{
     console.log("query:  ",query);
-  },[query])
+  },[query]) 
+
   const handleChange = (e) => {
     setSortBy(e.target.value)
   }
@@ -47,7 +48,7 @@ const ProductsFilter = ({products,heading,query}) => {
     let filteredProduct = sortedProducts.filter(priceRangeFilter);  
     filteredProduct = filteredProduct.filter((prod)=>{
       if(query.length>0){
-        return prod.title.toLowerCase().replace("-","").includes(query)||prod.description.toLowerCase().replace("-","").includes(query);
+        return prod.title.toLowerCase().replace("-","").split(" ").includes(query)||prod.description.toLowerCase().replace("-","").split(" ").includes(query);
       }  
       else{
           return true
@@ -83,7 +84,7 @@ const ProductsFilter = ({products,heading,query}) => {
         <div className='max-w-[80rem] mx-auto px-4 flex gap-x-0'> 
         {/* filters */}
         <div className='w-[250px] hidden md:block my-2'>
-          <FilterBar minPrice={minPrice} maxPrice={maxPrice} setMinPrice={setMinPrice} setMaxPrice={setMaxPrice} categories={categories} setCategories={setCategories} audience={audience} setAudience={setAudience} />
+          <FilterBar minPrice={minPrice} maxPrice={maxPrice} setMinPrice={setMinPrice} setMaxPrice={setMaxPrice} />
         </div>
         {/* product dislay */}
         <div className='flex-1'>

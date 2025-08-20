@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import PriceRangeSlider from './PriceRangeSlider' 
 import audienceTypes from "../../constants/audience" 
 import categoriesValue from "../../constants/categories"
+import productContext from '../../context/ProductContext'
 
 
-const FilterBar = ({minPrice,maxPrice,setMinPrice,setMaxPrice,audience,setAudience,categories,setCategories}) => {  
-
- 
+const FilterBar = ({minPrice,maxPrice,setMinPrice,setMaxPrice,}) => {  
+ const {audience,setAudience,categories,setCategories} = useContext(productContext);
    function handleAudienceChange (e){
      setAudience(e.target.value);
    } 

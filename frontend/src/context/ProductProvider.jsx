@@ -10,7 +10,9 @@ const ProductProvider = ({children}) => {
     const [products,setProducts] = useState([]);   
     const [singleProduct,setSingleProduct]=useState({}); 
     const [loading,setLoading]= useState(false); 
-    const [search,setSearch] = useState("");
+    const [search,setSearch] = useState(""); 
+     const [audience,setAudience]  = useState(null); 
+      const [categories,setCategories]=useState([]);
     async function fetchAllProducts() {  
         setLoading(true)
        try{
@@ -37,7 +39,7 @@ const ProductProvider = ({children}) => {
        setLoading(false)
 
     } 
-    
+
     async function deleteProduct(id) {
         try{
           const respose = await axiosInstance.delete(`${baseUrl}/products/${id}`);  
@@ -49,13 +51,14 @@ const ProductProvider = ({children}) => {
         } 
         fetchAllProducts();
     }
-
+    useEffect(()=>{
+      console.log("cat: ",categories);
+    },[categories]);
     useEffect(()=>{ 
      fetchAllProducts(); 
-     
     },[]);
   return (
-    <productContext.Provider value={{products,fetchAllProducts,loading,setLoading,singleProduct,fetchProductById,search,setSearch,deleteProduct}}> 
+    <productContext.Provider value={{products,fetchAllProducts,loading,setLoading,singleProduct,fetchProductById,search,setSearch,deleteProduct,audience,setAudience,categories,setCategories}}> 
        {children}
     </productContext.Provider>
   )
