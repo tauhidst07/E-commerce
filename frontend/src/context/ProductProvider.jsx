@@ -53,7 +53,8 @@ const ProductProvider = ({children}) => {
     }
     useEffect(()=>{
       console.log("cat: ",categories);
-    },[categories]);
+    },[categories]); 
+    
     useEffect(()=>{ 
      fetchAllProducts(); 
     },[]);

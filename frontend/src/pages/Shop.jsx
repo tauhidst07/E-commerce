@@ -17,8 +17,19 @@ const Shop = () => {
   const {products } = useContext(productContext); 
   const heading = "All Products" 
   const [searchParams] = useSearchParams(); 
-  let query = searchParams.get("search")||""; 
-  query=query.toLowerCase().replace("-","")
+  const search = searchParams.get("search") || ""; 
+  const audience = searchParams.get("audience")||""; 
+  const category= searchParams.getAll("category")
+  const query = search.trim().toLocaleLowerCase().replace("-","");
+  const {setAudience,setCategories} = useContext(productContext);  
+ 
+  useEffect(()=>{
+     setAudience(audience); 
+     setCategories([...category]); 
+  },[audience,JSON.stringify(category)])
+   
+
+
 
 
   return (

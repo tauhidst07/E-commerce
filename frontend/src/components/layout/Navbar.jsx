@@ -14,13 +14,12 @@ import productContext from '../../context/ProductContext'
 
 const Navbar = () => {
     const [isMobileNavOpen, setisMobileNavOpen] = useState(false);   
-    const {setAudience,setCategories} = useContext(productContext); 
+    const {setAudience,setCategories} = useContext(productContext);  
+    const params = new URLSearchParams(location.search);
     const navigate = useNavigate();
-    function handleNavClick(audience){
-          setAudience(audience);   
-          setCategories([]);
-          navigate("/shop");
-
+    function handleNavClick(audience){  
+          params.set("audience",audience)
+          navigate(`/shop?${params.toString()}`);
     }
     
     return ( 
@@ -64,10 +63,9 @@ const Navbar = () => {
                         className="flex flex-col gap-6 text-lg font-medium"
                         onClick={() => setisMobileNavOpen(false)} // close on click
                     >
-                        <a href="#">Shop</a>
-                        <a href="#">On Sale</a>
-                        <a href="#">New Arrivals</a>
-                        <a href="#">Brands</a>
+                        {
+                            audience.map((aud,i)=><div key={i} className='cursor-pointer' onClick={()=>handleNavClick(aud)}>{aud}</div>)
+                        }
                     </div>
                 </div>
             )}

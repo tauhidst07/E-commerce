@@ -21,7 +21,8 @@ const ProductsFilter = ({products,heading,query}) => {
  
  
   useEffect(()=>{
-    console.log("query:  ",query);
+    console.log("query:  ",query); 
+   
   },[query]) 
 
   const handleChange = (e) => {
@@ -55,7 +56,7 @@ const ProductsFilter = ({products,heading,query}) => {
       }
     
     })
-    console.log("befor filtered:",filteredProduct);
+    
     filteredProduct = filteredProduct.filter((prod)=>{
       if(audience){
         return prod.audience === audience
@@ -70,15 +71,12 @@ const ProductsFilter = ({products,heading,query}) => {
         return true
       }
     });
-    console.log("after: ",filteredProduct);
     const totalPage = Math.max(1, Math.ceil(filteredProduct.length / 10));  
-    console.log("filtered:",filteredProduct); 
-    console.log(`start: ${startIndex} end: ${endIndex}`)
     return {
       filteredProduct, totalPage
     }
     
-  }, [products, sortBy, minPrice, maxPrice,audience,categories,query])
+  }, [products, sortBy, minPrice, maxPrice,categories,audience,query])
   return (
     <> 
         <div className='max-w-[80rem] mx-auto px-4 flex gap-x-0'> 

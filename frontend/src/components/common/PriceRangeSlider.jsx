@@ -7,7 +7,6 @@ export default function PriceRangeSlider({minPrice,maxPrice,setMinPrice,setMaxPr
   useEffect(()=>{
      setMinPrice(value[0]); 
      setMaxPrice(value[1]); 
-     console.log(`min ${value[0]} max ${value[1]}`)
   },[value])
   return (
     <div className=" w-[90%] my-4 ">

@@ -32,10 +32,12 @@ const Styles = () => {
     }
     ] 
     const {setCategories} = useContext(productContext); 
-    const navigate = useNavigate(); 
-    function handleClick (category){ 
-        navigate("/shop")
-        setCategories((prev)=>[category.name]);
+    const navigate = useNavigate();  
+    const params = new URLSearchParams(location.search);
+    function handleClick (category){   
+        console.log("after styles:",category);
+        params.append("category",category); 
+        navigate(`/shop?${params.toString()}`);
     }
 
     return (
@@ -45,7 +47,7 @@ const Styles = () => {
             <div className='max-w-[80rem] mx-auto p-6'>
                 <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
                     {categories.map((category, i) => (
-                        <div key={i} onClick={()=>handleClick(category)} className='group cursor-pointer overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-all duration-300'>
+                        <div key={i} onClick={()=>handleClick(category.name)} className='group cursor-pointer overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-all duration-300'>
                             {/* Image Container */}
                             <div className='overflow-hidden'>
                                 <img

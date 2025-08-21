@@ -5,13 +5,15 @@ import { useNavigate } from 'react-router-dom';
 
 const SearchInput = () => { 
     const [input,setInput] = useState("");  
-    const {search,setSearch} = useContext(productContext); 
+    const {search,setSearch} = useContext(productContext);  
+    const params = new URLSearchParams(location.search);
     const navigate=useNavigate();
     const submitHandler = (e)=>{
        e.preventDefault(); 
        setSearch(input.trim().toLowerCase()); 
-       setInput(""); 
-       navigate(`/shop?search=${input}`)
+       params.set("search",input)
+       navigate(`/shop?${params.toString()}`)
+       setInput("");  
     } 
   return ( 
     <form onSubmit={submitHandler} className='relative'> 

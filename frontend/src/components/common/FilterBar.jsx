@@ -3,20 +3,27 @@ import PriceRangeSlider from './PriceRangeSlider'
 import audienceTypes from "../../constants/audience" 
 import categoriesValue from "../../constants/categories"
 import productContext from '../../context/ProductContext'
+import { useNavigate } from 'react-router-dom'
 
 
 const FilterBar = ({minPrice,maxPrice,setMinPrice,setMaxPrice,}) => {  
- const {audience,setAudience,categories,setCategories} = useContext(productContext);
+ const {audience,categories,setCategories} = useContext(productContext);  
+ const navigate = useNavigate();
+ const params = new URLSearchParams(location.search);
    function handleAudienceChange (e){
-     setAudience(e.target.value);
+     params.set("audience",e.target.value); 
+     navigate(`/shop?${params.toString()}`);
    } 
-   function handleCategory (e){ 
-    if(categories.includes(e.target.value)){
-      setCategories((prev)=>prev.filter((cat)=>cat!==e.target.value))
+   function handleCategory (category){ 
+    if(categories.includes(category)){
+      params.delete("category"); 
+      categories.filter((prev)=>prev!==category)
+      .forEach((val)=>params.append("category",val));
     } 
     else{
-      setCategories((prev)=>[...prev,e.target.value])
-    }
+       params.append("category",category); 
+    } 
+    navigate(`/shop?${params.toString()}`);
     
    }
   return (
@@ -41,7 +48,7 @@ const FilterBar = ({minPrice,maxPrice,setMinPrice,setMaxPrice,}) => {
           <span className='text-black/80 mt-1 mb-2'>Categories</span> 
            <div className='flex flex-col gap-2'>
               {
-                categoriesValue.map((cat,i)=><label key={i} className='flex gap-x-2 items-center'> <input type="checkbox" className='cursor-pointer w-4 h-4 accent-black' checked={categories.includes(cat)} value={cat} onChange={handleCategory}/> <span className='text-black/60 cursor-pointer'>{cat}</span> </label>)
+                categoriesValue.map((cat,i)=><label key={i} className='flex gap-x-2 items-center'> <input type="checkbox" className='cursor-pointer w-4 h-4 accent-black' checked={categories.includes(cat)} value={cat} onChange={()=>handleCategory(cat)}/> <span className='text-black/60 cursor-pointer'>{cat}</span> </label>)
               }
            </div>
        </div>   
