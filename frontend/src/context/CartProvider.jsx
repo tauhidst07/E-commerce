@@ -4,11 +4,11 @@ import { useState } from 'react'
 
 const CartProvider = ({children}) => { 
     const [cartItems,setCartItems] = useState([]); 
-    function addItem (itemToAdd){
+    function addToCart (itemToAdd){
         setCartItems((prev)=>{
-            if(prev.find((item)=>item._id === itemToAdd._id)){
+            if(prev.find((item)=>item._id === itemToAdd._id && item.size === itemToAdd.size)){
                const newCart = prev.map((item)=>(
-                item._id === itemToAdd._id ? {...item,quantity:itemToAdd.quantity+item.quantity}:{...item}
+                item._id === itemToAdd._id && item.size === itemToAdd.size ? {...item,quantity:itemToAdd.quantity+item.quantity}:{...item}
                )) 
                return newCart;
             }  
@@ -20,21 +20,24 @@ const CartProvider = ({children}) => {
     function incrementQuantity(itemToAdd){ 
           setCartItems((prev)=>{
               return prev.map((item)=>(
-                item._id === itemToAdd._id ? {...item,quantity:item.quantity+1}:{...item}
+                item._id === itemToAdd._id && item.size == itemToAdd.size ? {...item,quantity:item.quantity+1}:{...item}
               ))
           })
     } 
     function decrementQuantity(itemToAdd){
           setCartItems((prev)=>{
               return prev.map((item)=>(
-                item._id === itemToAdd._id ?{...item,quantity:item.quantity>1 ? item.quantity-1: 1}:{...item}
+                item._id === itemToAdd._id && item.size == itemToAdd.size  ?{...item,quantity:item.quantity>1 ? item.quantity-1: 1}:{...item}
               ))
           })
     }
 
-    function removeItem (id) {
+    function removeItem (product) {
         setCartItems((prev)=>{
-            return prev.filter((item)=>item._id!==id)
+            return prev.filter((item)=>{
+                if(item._id==product._id && item.size == product.size) return false; 
+                return true
+            })
         }) 
     }  
 
@@ -45,10 +48,10 @@ const CartProvider = ({children}) => {
     
 
     function cartItemPrice(){
-       return cartItems.length > 0 ? cartItems.reduce((acc,item)=> acc + item.price,0) : 0
+       return cartItems.length > 0 ? cartItems.reduce((acc,item)=> acc + (item.price*item.quantity),0) : 0
     }
   return (
-    <cartContext.Provider value={{addItem,removeItem,cartItems,incrementQuantity,decrementQuantity,cartItemPrice}}> 
+    <cartContext.Provider value={{addToCart,removeItem,cartItems,incrementQuantity,decrementQuantity,cartItemPrice}}> 
         {children}
     </cartContext.Provider>
   )

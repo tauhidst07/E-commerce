@@ -18,7 +18,7 @@ const Cart = () => {
                     {/* cart itesm */}
                     <div className='border border-black/10 rounded-2xl px-2 flex flex-col gap-4 w-full lg:w-[60%]'>
                         {  cartItems.length>0 &&
-                            cartItems.map((product)=><CartItem key={product.id} product={product}/>)
+                            cartItems.map((product)=><CartItem key={product._id} product={product}/>)
                         }
                     </div>
                     <div className='p-4 border border-black/10 rounded-2xl w-full lg:w-[35%] max-h-max '>
