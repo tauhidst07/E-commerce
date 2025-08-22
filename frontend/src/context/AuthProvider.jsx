@@ -30,7 +30,6 @@ const AuthProvider = ({children}) => {
             setUser(data?.user); 
             localStorage.setItem("token",data?.token);  
             navigate("/");
-            
         } 
         catch(err){ 
            alert(err.response.data.message);

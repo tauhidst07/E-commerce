@@ -17,6 +17,7 @@ import AdminRoute from './components/AdminRoute'
 import StockProducts from './pages/Admin/StockProducts'
 import EditProduct from './pages/Admin/EditProduct'
 import ProductDisplay from './components/product/ProductDisplay'
+import Checkout from './pages/Checkout'
 
 const Profile = lazy(()=>import("./pages/Profile"));
 
@@ -34,7 +35,8 @@ const App = () => {
        <Route path='/search' element={<Search/>} />
        <Route path='/Profile' element={<Suspense fallback={<div>loading..</div>}><PrivateRoute> <Profile/></PrivateRoute></Suspense> } />  
        <Route path='/unauthorized' element={<Unauthorized/>} /> 
-       <Route path='/shop/:id' element={<ProductDetails/>} />
+       <Route path='/shop/:id' element={<ProductDetails/>} /> 
+       <Route path='/checkout' element={<Checkout/>} />
        {/* admin routes */} 
        <Route path='/admin' element={<AdminRoute/>}>  
          <Route path='addProduct' element={<AddProducts/>} />  

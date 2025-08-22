@@ -26,9 +26,7 @@ const ProductDetails = () => {
     <HorizontalLine/>
     <div></div>
      <div className='max-w-[80rem] mx-auto my-8'>
-       {
-        loading?<Loader/>:<ProductDisplay singleProduct={singleProduct} loading={loading}/>
-       } 
+      <ProductDisplay singleProduct={singleProduct}/>
      </div>
 
 
