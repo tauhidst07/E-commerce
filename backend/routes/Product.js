@@ -62,8 +62,7 @@ router.get("/:id",async(req,res)=>{
     const product = await Product.findById(id);  
     res.status(200).json({
       product, 
-    
-    }) 
+    })
 }) 
  
 // edit product -> only admin

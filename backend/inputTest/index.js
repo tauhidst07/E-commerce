@@ -20,7 +20,7 @@ const productSchema = zod.object({
     category:zod.enum([
             "Shirt", "T-Shirt", "Jeans", "Trousers", "Shorts",
             "Jacket", "Hoodie", "Sweater", "Kurta", "Dress",
-            "Skirt", "Saree", "Blazer", "Sportswear", "Nightwear"
+            "Skirt", "Saree", "Blazer", "Sportswear", "Nightwear","Chinos"
         ]),  
     audience: zod.enum(["Men","Women","Boys","Girls"]),
     sizes :zod.array(zod.string())
@@ -35,6 +35,28 @@ const productSchema = zod.object({
     },{
         message:"invalid sizes for given audience", 
         path:["sizes"]
-    }) 
+    }); 
 
-module.exports={registerSchema,loginSchema,productSchema}
+const orderSchema = zod.object({
+    user:zod.string(),  
+    orderItems:zod.array(zod.object({
+        product:zod.string(), 
+        price:zod.number(), 
+        quantity:zod.number(), 
+        size:zod.string()
+})), 
+   shippingInfo:zod.object({
+      firstname:zod.string(), 
+        lastname:zod.string(), 
+        address:zod.string(), 
+        apartment:zod.string().optional(),  
+        phone:zod.string(),
+        city:zod.string(), 
+        state:zod.string(),  
+        pincode:zod.string()
+   }), 
+   paymentMethod:zod.enum(["COD","razorpay"]).default("COD"), 
+   totalAmount:zod.number()
+})
+
+module.exports={registerSchema,loginSchema,productSchema,orderSchema}

@@ -25,7 +25,7 @@ const ProductSchema = new mongoose.Schema({
          enum: [
             "Shirt", "T-Shirt", "Jeans", "Trousers", "Shorts",
             "Jacket", "Hoodie", "Sweater", "Kurta", "Dress",
-            "Skirt", "Saree", "Blazer", "Sportswear", "Nightwear"
+            "Skirt", "Saree", "Blazer", "Sportswear", "Nightwear","Chinos"
         ]
     }, 
     audience:{
@@ -41,10 +41,48 @@ const ProductSchema = new mongoose.Schema({
 
 }, {
     timestamps:true
-   })
+   }) 
+
+  const OrderSchema = new mongoose.Schema({
+    user:{
+        type:mongoose.Schema.Types.ObjectId,  
+        ref:"User"
+    }, 
+    orderItems:[{
+        product:{
+            type:mongoose.Schema.Types.ObjectId, 
+            ref:"Product"
+        }, 
+        price:Number, 
+        quantity:Number, 
+        size:String
+  }],  
+    shippingInfo:{
+        firstname:String, 
+        lastname:String, 
+        address:String, 
+        apartment:String,  
+        phone:String,
+        city:String, 
+        state:String,  
+        pincode:String
+    } , 
+    paymentMethod:{
+        type:String, 
+        enum:["COD","razorpay"], 
+        default:"COD"
+    }, 
+    totalAmount:Number, 
+    orderStatus:{
+        type:String, 
+        enum:["Pending", "Confirmed", "Shipped", "Delivered"], 
+        default:"Pending"
+    }
+  })
  
 
 const User = mongoose.model("User",UserSchema);  
-const Product = mongoose.model("Product",ProductSchema);
+const Product = mongoose.model("Product",ProductSchema); 
+const Order = mongoose.model("Order",OrderSchema);
 
-module.exports={User,Product};
+module.exports={User,Product,Order};
