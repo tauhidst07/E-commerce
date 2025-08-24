@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import productContext from './ProductContext'
 import { useState } from 'react'
 import axios from 'axios';
 import { useEffect } from 'react';
 import { checkTokenExpiry } from '../utility/checkTokenExpiray';
 import axiosInstance from '../api/apiConnector';
+import authContext from './AuthContext';
 const baseUrl=import.meta.env.VITE_BASE_URL; 
 const ProductProvider = ({children}) => { 
     const [products,setProducts] = useState([]);   
@@ -12,7 +13,8 @@ const ProductProvider = ({children}) => {
     const [loading,setLoading]= useState(false); 
     const [search,setSearch] = useState(""); 
      const [audience,setAudience]  = useState(null); 
-      const [categories,setCategories]=useState([]);
+      const [categories,setCategories]=useState([]); 
+      const {user} = useContext(authContext);
     async function fetchAllProducts() {  
         setLoading(true)
        try{
@@ -56,7 +58,8 @@ const ProductProvider = ({children}) => {
     },[categories]); 
     
     useEffect(()=>{ 
-     fetchAllProducts(); 
+     fetchAllProducts();  
+     console.log("user in fetch all: ",user)
     },[]);
   return (
     <productContext.Provider value={{products,fetchAllProducts,loading,setLoading,singleProduct,fetchProductById,search,setSearch,deleteProduct,audience,setAudience,categories,setCategories}}> 

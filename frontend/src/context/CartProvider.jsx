@@ -41,10 +41,6 @@ const CartProvider = ({children}) => {
         }) 
     }  
 
-    function isItemInCart(id){ 
-       
-        return cartItems.some((item)=>item._id === id);
-    } 
     
 
     function cartItemPrice(){

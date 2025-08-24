@@ -7,7 +7,7 @@ const PrivateRoute = ({children}) => {
     const {isValid} = checkTokenExpiry();
     if(!isValid){ 
       alert("login first");
-       return  <Navigate  to="/login" /> 
+       return  <Navigate  to="/login" replace /> 
     } 
   return (
     children

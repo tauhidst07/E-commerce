@@ -1,16 +1,47 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Controller, useForm } from 'react-hook-form';
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import indianStatesAndUTs from "../constants/indianState";
+import axiosInstance from '../api/apiConnector';
+import cartContext from '../context/CartContext';
+import authContext from '../context/AuthContext';
+import { payment } from '../utility/payment';
 const Checkout = () => {
     const { register, reset,control, handleSubmit, formState: { errors } } = useForm({
-        defaultValues:{state:"Bihar"}
-});
-
+        defaultValues:{state:"Bihar",paymentMethod:"COD"}
+}); 
+    const {cartItems,cartItemPrice} = useContext(cartContext);  
+    const storedUser= localStorage.getItem("user");
+    const user = storedUser? JSON.parse(storedUser):null;  
+    
     function submitHandler(data) {
-      console.log("address: ",data); 
-      reset();
+
+      const {paymentMethod,...rest}={...data};   
+    
+      const orderItems=cartItems.map((item)=>({product:item._id,price:item.price,quantity:item.quantity,size:item.size}));  
+       if(orderItems.length==0){
+        alert("add atleast one item in cart"); 
+        return
+      }
+      const order = {
+          user:user._id, 
+          orderItems,  
+          shippingInfo:rest, 
+          paymentMethod,  
+          totalAmount:cartItemPrice()
+      } 
+    //   console.log("order: ",order)
+      
+      axiosInstance.post("/order/",order).then((res)=>{ 
+        // alert("order sucess: ");
+        console.log("resspone of order: ",res.data); 
+        payment(res.data);
+      })
+      .catch((err)=>{
+        console.log("error of order: ",err.data);
+      })
+      reset(); 
     }
     return (
         <div className='max-w-[80rem] mx-auto h-screen flex justify-center  items-center'>
@@ -48,7 +79,7 @@ const Checkout = () => {
                        
                     </div>
                     <div>
-                        <input type="text" placeholder='PIN code' {...register("pin",{required:"Enter PIN code"})} />
+                        <input type="text" placeholder='PIN code' {...register("pincode",{required:"Enter PIN code"})} />
                         {errors.pin && <span>{errors.pin.message}</span>}
                     </div>
                 </div>
@@ -71,7 +102,18 @@ const Checkout = () => {
 
                    {errors.phone && <span>{errors.phone.message}</span>}
 
-                </div> 
+                </div>  
+
+                <div>
+                   <label className='cursor-pointer'> 
+                       <input type="radio"  value={"COD"} {...register("paymentMethod")} /> 
+                       <span>Cash On Delivery</span>
+                   </label> 
+                     <label className='cursor-pointer'> 
+                       <input type="radio" value={"razorpay"} {...register("paymentMethod")} /> 
+                       <span>Razorpay</span>
+                   </label>
+                </div>
 
                 <button type='submit' className='py-2 px-4 bg-black text-white'>Continue</button>
             </form>

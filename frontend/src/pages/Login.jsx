@@ -2,10 +2,12 @@ import React from 'react'
 import { useContext } from 'react'
 import {useForm} from 'react-hook-form' 
 import AuthContext from '../context/AuthContext'
+import { Link } from 'react-router-dom'
 const Login = () => { 
   const {register,handleSubmit,reset,formState:{errors}} = useForm() 
 
-  const {login} = useContext(AuthContext);
+  const {login} = useContext(AuthContext); 
+  
   const onSubmit =(data)=>{
    login(data);  
    reset();
@@ -65,7 +67,7 @@ const Login = () => {
     </button>
 
     <div className="text-center text-sm text-gray-600">
-      Don't have an account? <a href="#" className="text-black font-medium hover:underline">Sign up</a>
+      Don't have an account? <Link to={"/register"} className="text-black font-medium hover:underline" onClick={()=>{}}>Sign up</Link>
     </div>
   </form>
 </div>

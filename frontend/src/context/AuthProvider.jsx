@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'  
-import AuthContext from './AuthContext'; 
+import authContext from './AuthContext'; 
 import axios from "axios"
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../api/apiConnector'; 
@@ -10,7 +10,7 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 
 
 const AuthProvider = ({children}) => { 
-    const [user,setUser] = useState(null); 
+   
     const navigate = useNavigate();  
     
    
@@ -26,8 +26,9 @@ const AuthProvider = ({children}) => {
     }
     const login = async (credentials)=>{  
         try{
-            const {data} = await axios.post(`${baseUrl}/auth/login`,credentials);   
-            setUser(data?.user); 
+            const {data} = await axios.post(`${baseUrl}/auth/login`,credentials);    
+            
+            localStorage.setItem("user",JSON.stringify(data?.user));
             localStorage.setItem("token",data?.token);  
             navigate("/");
         } 
@@ -37,15 +38,15 @@ const AuthProvider = ({children}) => {
 
     }  
     const logout = ()=>{
-        setUser(null); 
+        localStorage.removeItem("user"); 
         localStorage.removeItem("token"); 
         navigate("/login")
     } 
 
   return (
-    <AuthContext.Provider value={{user,login,logout,signup}}> 
+    <authContext.Provider value={{login,logout,signup}}> 
       {children}
-    </AuthContext.Provider>
+    </authContext.Provider>
   )
 }
 

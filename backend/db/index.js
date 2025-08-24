@@ -77,7 +77,16 @@ const ProductSchema = new mongoose.Schema({
         type:String, 
         enum:["Pending", "Confirmed", "Shipped", "Delivered"], 
         default:"Pending"
-    }
+    }, 
+    paymentStatus: {
+    type: String,
+    enum: ["Pending", "Paid", "Failed", "Refunded"],  
+    default: "Pending",
+    }, 
+    razorpayOrderId: String,      //  ID from Razorpay when you create order
+    razorpayPaymentId: String,    // ID returned after successful payment
+    razorpaySignature: String,    // Signature for server-side verification
+    paidAt: Date,                 // When payment was successfully made
   })
  
 
