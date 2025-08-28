@@ -31,10 +31,8 @@ const Checkout = () => {
             paymentMethod,
             totalAmount: cartItemPrice()
         }
-        //   console.log("order: ",order)
 
         axiosInstance.post("/order/", order).then((res) => {
-            // alert("order sucess: ");
             console.log("resspone of order: ", res.data);
             payment(res.data);
         })

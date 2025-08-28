@@ -44,7 +44,7 @@ const ProductProvider = ({children}) => {
 
     async function deleteProduct(id) {
         try{
-          const respose = await axiosInstance.delete(`${baseUrl}/products/${id}`);  
+          const respose = await axiosInstance.delete(`/products/${id}`);  
           setProducts((prev)=>prev.filter((prod)=>prod._id!==id))
           alert(respose.data.message);
         } 

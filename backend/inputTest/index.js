@@ -21,7 +21,8 @@ const productSchema = zod.object({
             "Shirt", "T-Shirt", "Jeans", "Trousers", "Shorts",
             "Jacket", "Hoodie", "Sweater", "Kurta", "Dress",
             "Skirt", "Saree", "Blazer", "Sportswear", "Nightwear","Chinos"
-        ]),  
+        ]),    
+    stock:zod.number(),
     audience: zod.enum(["Men","Women","Boys","Girls"]),
     sizes :zod.array(zod.string())
 }).refine((data)=>{ 

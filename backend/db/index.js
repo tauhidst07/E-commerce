@@ -36,9 +36,12 @@ const ProductSchema = new mongoose.Schema({
         type:String, 
         enum:[...kidSizes,...adultSizes]
     } 
-   ]
+   ], 
+   stock:{
+    type:Number, 
+    default:0
+   }
   
-
 }, {
     timestamps:true
    }) 
@@ -82,12 +85,12 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     enum: ["Pending", "Paid", "Failed", "Refunded"],  
     default: "Pending",
-    }, 
+    },  
     razorpayOrderId: String,      //  ID from Razorpay when you create order
     razorpayPaymentId: String,    // ID returned after successful payment
     razorpaySignature: String,    // Signature for server-side verification
-    paidAt: Date,                 // When payment was successfully made
-  })
+    paidAt: Date,                  // When payment was successfully made
+  },{timestamps:true})
  
 
 const User = mongoose.model("User",UserSchema);  

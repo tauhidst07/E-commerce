@@ -5,6 +5,7 @@ require("dotenv").config();
 const Razorpay = require("razorpay");
 const router = require("express").Router();    
 const crypto = require("crypto");
+const adminMiddleware = require("../middleware/adminMiddleware");
 
 const razorpay = new Razorpay({
   key_id:process.env.RAZORPAY_ID, 
@@ -85,6 +86,19 @@ router.post("/verify-payment",userMiddleware,async(req,res)=>{
     }
 
         
-})
+}) 
+
+// get all orders for admin 
+
+router.get("/allOrders",userMiddleware,adminMiddleware,async (req,res)=>{
+    let orders = await Order.find({}).populate("user");  
+    console.log("orders: ",orders); 
+    res.status(200).json({
+        success:true,  
+        orders
+    
+    })
+}) 
+
 
 module.exports=router;
