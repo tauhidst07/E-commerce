@@ -91,14 +91,40 @@ router.post("/verify-payment",userMiddleware,async(req,res)=>{
 // get all orders for admin 
 
 router.get("/allOrders",userMiddleware,adminMiddleware,async (req,res)=>{
-    let orders = await Order.find({}).populate("user");  
-    console.log("orders: ",orders); 
+    let orders = await Order.find({}).populate("user");   
     res.status(200).json({
         success:true,  
         orders
     
     })
-}) 
+})  
+
+router.put("/updateStatus",userMiddleware,adminMiddleware,async(req,res)=>{ 
+    const {id,status} = req.body;  
+    // console.log("body: ",req.body);
+    if(!id || !status){
+        return res.status(403).json({
+            success:false, 
+            message:"invalid input"
+        })
+    };  
+    try{
+      const order = await Order.findByIdAndUpdate(id,{orderStatus:status});  
+      console.log("updated: ",order);
+      res.status(200).json({
+        success:true, 
+        message:"status updated", 
+        order:order
+      })
+    } 
+    catch(err){
+        res.status(400).json({
+            message:"cant update status", 
+            err:err.message
+        })
+    }
+
+})
 
 
 module.exports=router;

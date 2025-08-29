@@ -23,12 +23,12 @@ const OrderProvider = ({children}) => {
         setLoading(false);
     }
 
-    useEffect(()=>{
-       fetchAllOrders();
-    },[])
+   //  useEffect(()=>{
+   //     fetchAllOrders();
+   //  },[])
     
   
-    return (<orderContext.Provider value={{allOrders}}>
+    return (<orderContext.Provider value={{allOrders,fetchAllOrders}}>
             {children}
           </orderContext.Provider> 
     )

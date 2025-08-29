@@ -1,13 +1,52 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import orderContext from '../../context/OrderContext'
 import productContext from '../../context/ProductContext';
 import Loader from '../../components/common/Loader';
 import orderStatus from '../../constants/orderStaus';
+import axiosInstance from '../../api/apiConnector';
 
 const Orders = () => {
-    const { allOrders } = useContext(orderContext);
+    const { allOrders, fetchAllOrders } = useContext(orderContext);
+    const [ordersStatus, setOrdersStatus] = useState([]);
 
-    console.log("all: ", allOrders);
+    async function handleStatusChange(id, value) {
+        console.log("orders: ", ordersStatus);
+        const prevStatus = ordersStatus.find((order) => order.id == id)?.status;
+        console.log("previous: ", prevStatus);
+        setOrdersStatus((prev) => {
+            const updated = prev.map((o) => (o.id == id ? { ...o, status: value } : { ...o }));
+            console.log("updated: ", updated);
+            return updated;
+        })
+        try {
+            const res = await axiosInstance.put("/order/updateStatus", { id: id, status: value });
+            console.log("status update res: ", res);
+            alert("status updated");
+        }
+        catch (err) {
+            console.log("err: ", err);
+            setOrdersStatus((prev) => {
+                const updated = prev.map((o) => (o.id == id ? { ...o, status: prevStatus } : { ...o }));
+                console.log("updated: ", updated);
+                return updated;
+            }) 
+            alert("cant update staus");
+
+        }
+
+    }
+    useEffect(() => {
+        if (allOrders.length > 0) {
+            console.log("allorders in condition: ", allOrders);
+            setOrdersStatus(allOrders.map((order) => ({ id: order._id, status: order.orderStatus })))
+        }
+    }, [allOrders]);
+    useEffect(() => {
+        fetchAllOrders();
+
+    }, [])
+
+
     const { loading } = useContext(productContext);
     return (
         <div className='max-w-[80rem] p-6 mx-auto '>
@@ -52,16 +91,15 @@ const Orders = () => {
                                 <div className='col-span-2 flex items-center gap-2'>
                                     <select
                                         className="border rounded-lg px-2 py-1 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-black/20"
-                                        value={order.orderStatus}
+                                        value={ordersStatus.find((o) => o.id == order._id)?.status}
                                         onChange={(e) => handleStatusChange(order._id, e.target.value)}
-                                    >
-                                        <option value="Pending">Pending</option> 
-                                        <option value="Processing">Processing</option>
-                                        <option value="Shipped">Shipped</option>
-                                        <option value="Delivered">Delivered</option>
-                                        <option value="Cancelled">Cancelled</option>
+                                    >  {
+                                            orderStatus.map((status, i) => <option key={i} value={status}>{status}</option>)
+                                        }
+
                                     </select>
-                            
+
+
                                 </div>
                                 <div className='col-span-2 text-right flex justify-end'>
                                     <button className='px-4 py-2 text-right border bg-black/5 rounded-2xl'>view order</button>

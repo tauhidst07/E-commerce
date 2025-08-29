@@ -14,7 +14,7 @@ const isTokenExpired = (token)=>{
     return true; 
   }
 } 
-const  logoutUser = ()=>{
+const logoutUser = ()=>{
    localStorage.removeItem("token"); 
    window.location.href="/login"
 }
@@ -28,9 +28,9 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use((config)=>{
     const token = localStorage.getItem("token");  
     if(!token || isTokenExpired(token)){ 
-        logoutUser(); 
-        alert("session expired login again");
-        return Promise.reject("session expired login again..")
+      logoutUser(); 
+      alert("session expired login again yaha pa");
+      return Promise.reject("session expired login again..")
     } 
     config.headers.Authorization =`Bearer ${token}` 
 
@@ -43,7 +43,7 @@ axiosInstance.interceptors.response.use(
   (error) => { 
     console.log("401 handling: ",error);
     if (error.response?.status === 401 && error.response?.data?.message.includes("token")) { 
-      altert("session expired login again")
+      altert("session expired login again idhr bhi")
       localStorage.removeItem("token"); // Clear invalid token
       window.location.href = "/login?expired=true"; 
     } 
