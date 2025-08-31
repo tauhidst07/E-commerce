@@ -19,6 +19,7 @@ import EditProduct from './pages/Admin/EditProduct'
 import ProductDisplay from './components/product/ProductDisplay'
 import Checkout from './pages/Checkout'
 import Orders from './pages/Admin/Orders'
+import ProfileInfo from './components/pofile/profileInfo'
 
 const Profile = lazy(()=>import("./pages/Profile"));
 
@@ -37,7 +38,8 @@ const App = () => {
        <Route path='/Profile' element={<Suspense fallback={<div>loading..</div>}><PrivateRoute> <Profile/></PrivateRoute></Suspense> } />  
        <Route path='/unauthorized' element={<Unauthorized/>} /> 
        <Route path='/shop/:id' element={<ProductDetails/>} /> 
-       <Route path='/checkout' element={<Checkout/>} />
+       <Route path='/checkout' element={<Checkout/>} /> 
+       <Route path='/profile/info' element={<ProfileInfo/>} />
        {/* admin routes */} 
        <Route path='/admin' element={<AdminRoute/>}>  
          <Route path='addProduct' element={<AddProducts/>} />  

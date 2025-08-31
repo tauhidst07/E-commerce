@@ -5,7 +5,9 @@ import Pagination from './Pagination'
 import HorizontalLine from './HorizontalLine'
 import Loader from './Loader'
 import Product from './Product'
-import productContext from '../../context/ProductContext';
+import productContext from '../../context/ProductContext'; 
+import { BiSort } from "react-icons/bi"; 
+import { RiFilter3Fill } from "react-icons/ri";
 
 const ProductsFilter = ({products,heading,query}) => { 
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,7 +19,8 @@ const ProductsFilter = ({products,heading,query}) => {
   const [sortBy, setSortBy] = useState("newest");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(10000);    
-  const{audience,categories} = useContext(productContext);
+  const{audience,categories} = useContext(productContext); 
+  
  
  
   useEffect(()=>{
@@ -101,7 +104,7 @@ const ProductsFilter = ({products,heading,query}) => {
           </div>
           {/* products */}
           {
-            loading ? <Loader /> : <div className='grid grid-cols-2  lg:grid-cols-4 gap-0 sm:gap-2 min-h-[90vh]'>
+            loading ? <Loader /> : <div className='grid grid-cols-2  lg:grid-cols-4  sm:gap-2 items-stretch'>
               {
                 filteredProduct.slice(startIndex, endIndex).map((product) => <Product key={product._id} product={product} />)
               }
@@ -116,8 +119,12 @@ const ProductsFilter = ({products,heading,query}) => {
 
       {/* small screen buttons */}
       <div className='fixed w-full bottom-0 left-0 flex justify-between md:hidden z-50'>
-        <button className='w-[50%] text-center py-2 cursor-pointer bg-white border-r border-black/20' onClick={() => setShowSort(true)}>SORT</button>
-        <button className='w-[50%] text-center py-2 cursor-pointer bg-white' onClick={() => setShowFilter(true)}>FILTER</button>
+        <div className='w-[50%] flex items-center justify-center gap-x-2 text-center py-2 cursor-pointer bg-white border-r border-black/20 font-semibold text-black/80' onClick={() => setShowSort(true)}> 
+        <span><BiSort /></span> <span>SORT</span>
+        </div>
+        <div className='w-[50%] flex items-center justify-center gap-x-2 text-center py-2 cursor-pointer bg-white font-semibold text-black/80' onClick={() => setShowFilter(true)}> 
+        <span><RiFilter3Fill /></span> <span>FILTER</span>
+        </div>
       </div>
       {/* filter for mobile device */}
       {
