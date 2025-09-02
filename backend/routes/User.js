@@ -62,16 +62,16 @@ router.post("/login",async(req,res)=>{
         message:"incorrect password"
     }) 
   } 
- const payload ={
-  email:isValidUser.email, 
-  role:isValidUser.role
- }   
- const user ={ 
-  _id:isValidUser._id,
-  name:isValidUser.firstname, 
-  role:isValidUser.role, 
-  email:isValidUser.email
- }
+  const payload ={
+    email:isValidUser.email, 
+    role:isValidUser.role
+  }   
+  const user ={ 
+    _id:isValidUser._id,
+    name:isValidUser.firstname, 
+    role:isValidUser.role, 
+    email:isValidUser.email
+  }
 
  const token =  jwt.sign(payload,process.env.JWT_SECRET,{expiresIn:'24h'}); 
 
@@ -84,10 +84,10 @@ router.post("/login",async(req,res)=>{
 })
 
 
-router.get("/profile",userMiddleware,async(req,res)=>{
+router.get("/user",userMiddleware,async(req,res)=>{
     const email = req.user.email; 
     const user = await User.findOne({email:email});   
-    const {password,...userWithoutPassword} = user.toObject();
+    const {password,...userWithoutPassword} = user.toObject(); 
     res.status(200).json({
       user :userWithoutPassword, 
     });

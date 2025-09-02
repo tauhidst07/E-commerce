@@ -1,6 +1,4 @@
 import axios from "axios";
-import { useContext } from "react";
-import AuthContext from "../context/AuthContext"; 
 const baseUrl=import.meta.env.VITE_BASE_URL;
 
 // function to check token expiration
@@ -15,7 +13,8 @@ const isTokenExpired = (token)=>{
   }
 } 
 const logoutUser = ()=>{
-   localStorage.removeItem("token"); 
+   localStorage.removeItem("token");  
+   localStorage.removeItem("user");
    window.location.href="/login"
 }
 
@@ -28,7 +27,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use((config)=>{
     const token = localStorage.getItem("token");  
     if(!token || isTokenExpired(token)){ 
-      logoutUser(); 
+      logoutUser();
       alert("session expired login again yaha pa");
       return Promise.reject("session expired login again..")
     } 
@@ -44,7 +43,8 @@ axiosInstance.interceptors.response.use(
     console.log("401 handling: ",error);
     if (error.response?.status === 401 && error.response?.data?.message.includes("token")) { 
       altert("session expired login again idhr bhi")
-      localStorage.removeItem("token"); // Clear invalid token
+      localStorage.removeItem("token"); 
+      localStorage.removeItem("user") // Clear invalid token
       window.location.href = "/login?expired=true"; 
     } 
     else{

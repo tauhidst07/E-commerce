@@ -1,12 +1,24 @@
 
 const mongoose = require("mongoose"); 
-const { kidSizes, adultSizes } = require("../utils/sizeConstants");
+const { kidSizes, adultSizes } = require("../utils/sizeConstants"); 
+
+const addressSchema = new mongoose.Schema({
+    firstname:String,  
+    lastname:String, 
+    address:String, 
+    phone:String, 
+    city:String, 
+    state:String, 
+    pincode:String
+})
 
 const UserSchema = new mongoose.Schema({
     firstname:String, 
     lastname:String, 
     email:String, 
-    password:String, 
+    password:String,  
+    defaultAddress:addressSchema, 
+    addresses:[addressSchema],
     role :{
         type:String, 
         enum:["user","admin"], 

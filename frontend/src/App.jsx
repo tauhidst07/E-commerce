@@ -18,10 +18,11 @@ import StockProducts from './pages/Admin/StockProducts'
 import EditProduct from './pages/Admin/EditProduct'
 import ProductDisplay from './components/product/ProductDisplay'
 import Checkout from './pages/Checkout'
-import Orders from './pages/Admin/Orders'
+import UserOrders from './components/pofile/Orders'
 import ProfileInfo from './components/pofile/profileInfo'
-
-const Profile = lazy(()=>import("./pages/Profile"));
+import AccountLayout from './components/pofile/AccountLayout'
+import Address from './components/pofile/Address' 
+import AdminOrders from "./pages/Admin/Orders"
 
 const App = () => {
   return (
@@ -35,17 +36,22 @@ const App = () => {
        <Route path='/shop' element={<Shop/>}  /> 
        <Route path='/cart' element={<Cart/>} />  
        <Route path='/search' element={<Search/>} />
-       <Route path='/Profile' element={<Suspense fallback={<div>loading..</div>}><PrivateRoute> <Profile/></PrivateRoute></Suspense> } />  
        <Route path='/unauthorized' element={<Unauthorized/>} /> 
        <Route path='/shop/:id' element={<ProductDetails/>} /> 
        <Route path='/checkout' element={<Checkout/>} /> 
-       <Route path='/profile/info' element={<ProfileInfo/>} />
+       
+       <Route path='/account' element={<PrivateRoute><AccountLayout/></PrivateRoute>}> 
+         <Route path='profile' element={<ProfileInfo/>} /> 
+         <Route path='address' element={<Address/>} /> 
+         <Route path='orders' element={<UserOrders/>} />
+       </Route>
+
        {/* admin routes */} 
        <Route path='/admin' element={<AdminRoute/>}>  
          <Route path='addProduct' element={<AddProducts/>} />  
          <Route path='products' element={<StockProducts/>} /> 
          <Route path='editProduct/:id' element={<EditProduct />} />  
-         <Route path='orders' element={<Orders/>} />
+         <Route path='orders' element={<AdminOrders/>} />
        </Route>
     </Routes> 
   </>

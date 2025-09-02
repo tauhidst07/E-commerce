@@ -91,7 +91,7 @@ router.post("/verify-payment",userMiddleware,async(req,res)=>{
 // get all orders for admin 
 
 router.get("/allOrders",userMiddleware,adminMiddleware,async (req,res)=>{
-    let orders = await Order.find({}).populate("user");   
+    let orders = await Order.find({}).populate("user").populate("orderItems.product","title images");   
     res.status(200).json({
         success:true,  
         orders
