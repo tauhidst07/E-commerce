@@ -7,14 +7,17 @@ import { BrowserRouter } from 'react-router-dom'
 import ProductProvider from './context/ProductProvider.jsx'
 import CartProvider from './context/CartProvider.jsx'
 import OrderProvider from './context/OrderProvider.jsx'
+import UserProvider from './context/UserProvider.jsx'
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <AuthProvider>
       <ProductProvider>
         <CartProvider>
-          <OrderProvider>
-            <App />
+          <OrderProvider> 
+            <UserProvider>
+               <App /> 
+            </UserProvider>
           </OrderProvider>
         </CartProvider>
       </ProductProvider>

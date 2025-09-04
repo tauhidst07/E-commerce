@@ -13,7 +13,8 @@ import { BsCart } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { Popover, Transition } from "@headlessui/react";
 import HorizontalLine from '../common/HorizontalLine'
-import ProfileDropdown from './ProfileDropdown'
+import ProfileDropdown from './ProfileDropdown' 
+
 
 
 

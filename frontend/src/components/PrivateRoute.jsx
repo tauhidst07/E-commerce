@@ -5,7 +5,9 @@ import { checkTokenExpiry } from '../utility/checkTokenExpiray';
 const PrivateRoute = ({children}) => { 
 
     const {isValid} = checkTokenExpiry();
-    if(!isValid){ 
+    if(!isValid){  
+      localStorage.removeItem("token"); 
+      localStorage.removeItem("user");
       alert("login first");
        return  <Navigate  to="/login" replace /> 
     } 

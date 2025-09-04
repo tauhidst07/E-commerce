@@ -28,7 +28,8 @@ axiosInstance.interceptors.request.use((config)=>{
     const token = localStorage.getItem("token");  
     if(!token || isTokenExpired(token)){ 
       logoutUser();
-      alert("session expired login again yaha pa");
+      alert("session expired login again yaha pa"); 
+      window.location.href = "/login?expired=true";
       return Promise.reject("session expired login again..")
     } 
     config.headers.Authorization =`Bearer ${token}` 

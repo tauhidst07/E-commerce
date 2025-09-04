@@ -4,12 +4,13 @@ import { FaLocationDot } from "react-icons/fa6";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import authContext from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import userContext from '../../context/UserContext';
 const ProfileDropdown = ({onClose}) => {  
     
     const {logout} = useContext(authContext);  
     const navigate=useNavigate();
     const dropdownRef= useRef();  
-    const user = JSON.parse(localStorage.getItem("user")); 
+    const {user} = useContext(userContext);
     console.log("user:",user);
     useEffect(()=>{
         function handeClickOutside(e){
@@ -29,7 +30,7 @@ const ProfileDropdown = ({onClose}) => {
         >
              
              {user?<div className='py-4 px-8 space-y-1'>
-                <p className='font-semibold'>{user.name}</p>
+                <p className='font-semibold'>{user.firstname} {user.lastname}</p>
                 <p className='text-sm text-black/60'>{user.email}</p>
             </div>: <div className='py-4 px-7 space-y-2'> 
                 <p>To access account and manage orders</p>  
@@ -45,10 +46,10 @@ const ProfileDropdown = ({onClose}) => {
                                 </svg></span><span>My Orders</span></div>
                 <div className='flex items-center gap-x-4 cursor-pointer' onClick={()=>navigate("/account/address")}><span><FaLocationDot/></span> <span>Address</span></div>
             </div>
-            <div className='p-4 px-8 border-t-1 border-black/10 rounded-2xl flex items-center gap-x-4 text-[18px] cursor-pointer'> 
+           {user && <div className='p-4 px-8 border-t-1 border-black/10 rounded-2xl flex items-center gap-x-4 text-[18px] cursor-pointer'> 
                  <span className='text-red-400'><RiLogoutBoxLine/></span>
                 <span className='text-red-400' onClick={logout} >Logout</span>
-            </div>
+            </div>}
         </div>
     )
 }
