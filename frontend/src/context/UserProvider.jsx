@@ -6,46 +6,31 @@ import { checkTokenExpiry } from '../utility/checkTokenExpiray';
 
 const UserProvider = ({children}) => {  
      const [user,setUser]=useState(null); 
-     const [userOrders,setUerOrders]=useState([]);   
-     const {loading,setLoading} = useContext(productContext); 
-
-     
-     async function fetchUserOrders() { 
-         setLoading(true);
-          try{
-             const {data} = await axiosInstance.get("/auth/user/orders");  
-             setUerOrders(data.orders)
-    
-          } 
-          catch(err){
-           console.log("error in fethcing orders ",err);
-          } 
-          setLoading(false);
-     }
+     const [loading,setLoading] = useState(false);
 
 
      async function fetchUser(){  
       setLoading(true);
          try{  
            const res = await axiosInstance.get("/auth/user"); 
-           setUser(res.data.user);
+           setUser(res.data.user); 
+           console.log("user in context: ",res.data.user);
          } 
          catch(err){
           alert("something went wrong in fethcing user info"); 
           console.log(err);
          } 
-         setLoading(false);
+         setLoading(false); 
     }
      
     useEffect(()=>{   
     if(checkTokenExpiry().isValid){
         fetchUser();  
-        fetchUserOrders();
     }  
-    },[localStorage.getItem("token")])
+    },[])
 
   return (
-     <userContext.Provider value={{user,fetchUser,fetchUserOrders,userOrders}}> 
+     <userContext.Provider value={{user,fetchUser}}> 
       {children}
     </userContext.Provider>
   )

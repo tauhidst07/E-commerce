@@ -2,9 +2,8 @@
 const mongoose = require("mongoose"); 
 const { kidSizes, adultSizes } = require("../utils/sizeConstants"); 
 
-const addressSchema = new mongoose.Schema({
-    firstname:String,  
-    lastname:String, 
+const addressSchema = new mongoose.Schema({ 
+    fullname:String,  
     address:String, 
     phone:String, 
     city:String, 

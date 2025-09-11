@@ -11,7 +11,7 @@ const ProfileDropdown = ({onClose}) => {
     const navigate=useNavigate();
     const dropdownRef= useRef();  
     const {user} = useContext(userContext);
-    console.log("user:",user);
+    console.log("user in profile:",user);
     useEffect(()=>{
         function handeClickOutside(e){
            if(dropdownRef.current && !dropdownRef.current.contains(e.target)){

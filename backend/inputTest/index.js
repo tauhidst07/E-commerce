@@ -60,4 +60,13 @@ const orderSchema = zod.object({
    totalAmount:zod.number()
 })
 
-module.exports={registerSchema,loginSchema,productSchema,orderSchema}
+const addressSchema = zod.object({
+    fullname:zod.string(),  
+    address:zod.string(),  
+    city:zod.string(), 
+    state:zod.string(), 
+    pincode:zod.string(), 
+    phone:zod.string()
+})
+
+module.exports={registerSchema,loginSchema,productSchema,orderSchema,addressSchema}

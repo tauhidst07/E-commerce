@@ -6,8 +6,8 @@ require("dotenv").config();
 const userMiddleware = require("../middleware/usermiddleware");
 
 
-const {registerSchema, loginSchema}=require("../inputTest/index");
-const { User } = require("../db");
+const {registerSchema, loginSchema, addressSchema}=require("../inputTest/index");
+const { User, Order } = require("../db");
 router.post("/register",async (req,res)=>{ 
     const inputdata = req.body; 
    const response = registerSchema.safeParse(inputdata); 
@@ -62,10 +62,7 @@ router.post("/login",async(req,res)=>{
         message:"incorrect password"
     }) 
   } 
-  const payload ={
-    email:isValidUser.email, 
-    role:isValidUser.role
-  }   
+  
   const user ={ 
     _id:isValidUser._id,
     name:isValidUser.firstname, 
@@ -73,7 +70,7 @@ router.post("/login",async(req,res)=>{
     email:isValidUser.email
   }
 
- const token =  jwt.sign(payload,process.env.JWT_SECRET,{expiresIn:'24h'}); 
+ const token =  jwt.sign(user,process.env.JWT_SECRET,{expiresIn:'24h'}); 
 
   res.status(200).json({
     message:"logged in", 
@@ -91,8 +88,99 @@ router.get("/user",userMiddleware,async(req,res)=>{
     res.status(200).json({
       user :userWithoutPassword, 
     });
-    
+     
+})  
+
+router.get("/user/orders",userMiddleware,async(req,res)=>{
+    const id = req.user._id; 
+    const orders = await Order.find({user:id}).populate("orderItems.product","title images"); 
+    res.status(200).json({
+      message:"order fetched",
+      orders
+    }) 
 }) 
+router.get("/user/address",userMiddleware,async(req,res)=>{
+   const id = req.user._id;  
+   const user = await User.findById(id);  
+   res.status(200).json({
+    address:user.addresses, 
+    defaultAddress:user.defaultAddress
+   })
+
+})
+router.post("/user/address",userMiddleware, async(req,res)=>{
+    const id = req.user._id;  
+    const address= req.body;  
+    const response = addressSchema.safeParse(address); 
+    if(!response.success){
+      return res.status(403).json({
+        message:"invalid input"
+      })
+    }  
+      let user = await User.findByIdAndUpdate(id,
+        {$push:{addresses:address}}, 
+        {new:true}
+      );
+      if(!user.defaultAddress){
+        user = await User.findByIdAndUpdate(id,{defaultAddress:user.addresses[user.addresses.length-1]},{new:true});
+      }
+
+    res.status(200).json({
+      message:"address added", 
+      user
+    })
+}) 
+
+router.put("/user/address",userMiddleware,async(req,res)=>{
+      const id = req.user._id; 
+      const addressId = req.body.id;  
+      try{
+        const user = await User.updateOne({_id:id,"addresses._id":addressId},{
+          $set:{
+             "addresses.$":req.body
+          }
+        }) 
+      } 
+      catch(err){
+        console.log("err in updating address"); 
+        res.status(403).json({ 
+          message:"error in updating address",
+          err:err.message
+        })
+      }
+      res.status(200).json({
+        messagee:"updated"
+      })
+}) 
+
+router.delete("/user/address/:addressId",userMiddleware,async(req,res)=>{
+     const id = req.user._id;  
+     const {addressId}= req.params;  
+     console.log("address id: ",addressId);
+
+     await User.updateOne({_id:id},{
+        $pull:{
+           addresses:{_id:addressId}
+        }
+     }); 
+
+     res.status(200).json({
+      success:true, 
+      message:'address deleted'
+     })
+})
+
+router.post("/user/address/setDefault",userMiddleware,async(req,res)=>{
+  const address = req.body.address;   
+  const id = req.user._id;  
+
+  const user = await User.findByIdAndUpdate(id,{defaultAddress:address})  
+
+  res.status(200).json({
+    success:true
+  })
+
+})
 
   
 module.exports = router;

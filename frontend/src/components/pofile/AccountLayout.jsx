@@ -19,7 +19,7 @@ function DesktopLayout() {
                 {/* Sidebar and Content */}
                 <div className='flex'>
                     {/* Sidebar */}
-                    <div className=' p-6 w-full md:w-44 border-r border-gray-300 flex flex-col justify-between  gap-4 overflow-x-auto md:overflow-x-visible'>
+                    <div className=' p-6 w-full h-[75vh] md:w-44 border-r border-gray-300 flex flex-col justify-between  gap-4 overflow-x-auto md:overflow-x-visible'>
                         <div className='flex flex-col gap-y-4 '>{navLinks.map((link, i) => (
                             <NavLink
                                 key={i}
