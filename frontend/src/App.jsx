@@ -24,6 +24,7 @@ import AccountLayout from './components/pofile/AccountLayout'
 import Address from './components/pofile/Address' 
 import AdminOrders from "./pages/Admin/Orders"
 import EditPofile from './components/pofile/EditPofile'
+import OrderDetails from './components/pofile/OrderDetails'
 
 const App = () => {
   return (
@@ -45,7 +46,8 @@ const App = () => {
          <Route path='profile' element={<ProfileInfo/>} /> 
          <Route path='address' element={<Address/>} /> 
          <Route path='orders' element={<UserOrders/>} />  
-         <Route path='edit profile' element={<EditPofile/>} />
+         <Route path='edit profile' element={<EditPofile/>} /> 
+         <Route path='orders/orderDetails' element={<OrderDetails/>}/>
        </Route>
 
        {/* admin routes */} 
@@ -53,8 +55,9 @@ const App = () => {
          <Route path='addProduct' element={<AddProducts/>} />  
          <Route path='products' element={<StockProducts/>} /> 
          <Route path='editProduct/:id' element={<EditProduct />} />  
-         <Route path='orders' element={<AdminOrders/>} /> 
+         <Route path='orders' element={<AdminOrders/>} />  
          
+
        </Route>
     </Routes> 
   </>

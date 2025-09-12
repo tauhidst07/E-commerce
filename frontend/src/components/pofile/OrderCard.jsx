@@ -1,35 +1,33 @@
-import React from 'react'
+import React from 'react' 
+import { FaAngleRight } from "react-icons/fa6";
+import { useNavigate } from 'react-router-dom';
+ 
+const OrderCard = ({ orderItem, status ,orderId}) => {  
+  const params = new URLSearchParams(location.search); 
+  const navigate = useNavigate();
+  function handleClick(){
+    params.append("orderId",orderId); 
+    params.append("itemId",orderItem._id);  
+    navigate(`/account/orders/orderDetails?${params.toString()}`);
 
-const OrderCard = ({ orderItem, status }) => {
+  }
   return (
-    <div className='bg-white p-6 rounded-lg border border-gray-200 hover:shadow-md transition-shadow duration-200'>
-      <div className="flex items-center justify-between mb-4">
-        <span className={`px-3 py-1 rounded-full text-sm font-medium ${status === 'Delivered' ? 'bg-green-100 text-green-800' :
-            status === 'Pending' ? 'bg-blue-100 text-blue-800' :
-              status === 'Shipped' ? 'bg-yellow-100 text-yellow-800' :
-                'bg-gray-100 text-gray-800'
-          }`}>
+    <div className='bg-white p-4' >
+        <p className="text-black my-4">
           {status}
-        </span>
-        <p className="text-sm text-gray-600">Qty: {orderItem.quantity}</p>
-      </div>
-
-      <div className='flex gap-6'>
+        </p>
+      <div className='flex gap-6 relative bg-gray-100 p-2 rounded-lg hover:bg-gray-200 cursor-pointer transition-all duration-300'>
         <img
           src={orderItem.product.images[0]}
-          className='w-20 h-20 object-cover  rounded-lg border border-gray-200'
+          className='w-15 object-contain  rounded-lg border border-gray-200'
           alt={orderItem.product.title}
         />
 
-        <div className="flex-1">
-          <p className='font-semibold text-gray-900 text-lg mb-2'>{orderItem.product.title}</p>
+        <div className="flex-1" onClick={handleClick}>
+          <p className='font-semibold text-gray-800 text-lg mb-2'>{orderItem.product.title}</p>
           <p className="text-gray-600 mb-2">Size: {orderItem.size}</p>
-          <p className="text-gray-900 font-bold">₨{orderItem.price * orderItem.quantity}</p>
-
-          <div className="mt-3 pt-3 border-t border-gray-100">
-            <p className="text-sm text-gray-600">Item price: ₨{orderItem.price}</p>
-          </div>
-        </div>
+        </div> 
+        <FaAngleRight className='absolute right-2 top-[42%] text-gray-900' />
       </div>
     </div>
   )

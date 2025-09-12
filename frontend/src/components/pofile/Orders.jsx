@@ -15,31 +15,13 @@ const Orders = () => {
       </div>
 
       {/* Orders Container */}
-      {!loading ? (
-        <div className='space-y-4'>
-          {userOrders?.length>0 && userOrders.map((order) => (
-            <div key={order._id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-              {/* Order Header */}
-              <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <p className="font-semibold text-gray-900">Order #{order._id.slice(-8).toUpperCase()}</p>
-                    <p className="text-sm text-gray-600">Placed on {new Date(order.createdAt).toLocaleDateString()}</p>
-                  </div>
-                
-                </div>
-              </div>
-
-              {/* Order Items */}
-              <div className="p-6 space-y-4">
-                {order.orderItems.map((orderItem) => (
-                  <OrderCard key={orderItem._id} orderItem={orderItem} status={order.orderStatus} />
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : <Loader />}
+      {!loading ?<div className='bg-gray-100 p-6 space-y-2'>{
+          userOrders?.length>0 && userOrders.map((order) => (
+                order.orderItems.map((orderItem) => (
+                  <OrderCard key={orderItem._id} orderItem={orderItem} status={order.orderStatus} orderId={order._id}/>
+                ))
+          ))
+      }</div> : <Loader />}
     </div>
   )
 }
