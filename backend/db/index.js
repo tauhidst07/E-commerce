@@ -80,7 +80,11 @@ const ProductSchema = new mongoose.Schema({
         city:String, 
         state:String,  
         pincode:String
-    } , 
+    } ,  
+    shippingCharge:{
+        type:Number,
+    }, 
+    discount:Number, 
     paymentMethod:{
         type:String, 
         enum:["COD","razorpay"], 
@@ -89,9 +93,16 @@ const ProductSchema = new mongoose.Schema({
     totalAmount:Number, 
     orderStatus:{
         type:String, 
-        enum:["Pending", "Confirmed", "Shipped", "Delivered"], 
+        enum:["Pending", "Confirmed", "Shipped", "Delivered","Cancelled"], 
         default:"Pending"
-    }, 
+    },  
+    statusHistory:{
+        type:[{
+         status:{type:String,enum:["Pending", "Confirmed", "Shipped", "Delivered","Cancelled"]}, 
+         timestamp:{type:Date ,default:Date.now}
+     } ], 
+        default:{status:"Pending"}
+    },
     paymentStatus: {
     type: String,
     enum: ["Pending", "Paid", "Failed", "Refunded"],  

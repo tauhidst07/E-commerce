@@ -22,11 +22,11 @@ router.post("/",userMiddleware,async (req,res)=>{
             err:response.error
         }) 
     }  
-    const {user,shippingInfo,orderItems,paymentMethod,totalAmount} = input;   
-    const computedTotal = orderItems.reduce((acc,item)=>acc+(item.quantity*item.price),0); 
+    const {user,shippingInfo,orderItems,paymentMethod,totalAmount,shippingCharge,discount} = input;   
+    const computedTotal = orderItems.reduce((acc,item)=>acc+(item.quantity*item.price),0)+shippingCharge-discount; 
     // if code place the order
     if(paymentMethod === "COD"){
-        const order = await Order.create({user,shippingInfo,orderItems,paymentMethod,totalAmount:computedTotal,orderStatus:"Pending",paymentStatus:"Pending"}); 
+        const order = await Order.create({user,shippingInfo,orderItems,paymentMethod,totalAmount:computedTotal,shippingCharge,discount,orderStatus:"Pending",paymentStatus:"Pending"}); 
         return res.status(200).json({
         message:"odrder placed successfully COD", 
         order
@@ -44,8 +44,11 @@ router.post("/",userMiddleware,async (req,res)=>{
         shippingInfo, 
         orderItems, 
         paymentMethod, 
-        totalAmount:computedTotal,  
-        razorpayOrderId:rZorder.id
+        totalAmount:computedTotal, 
+        shippingCharge:shippingCharge,   
+        discount:discount,
+        razorpayOrderId:rZorder.id ,  
+
      }) ; 
      
 
@@ -109,7 +112,14 @@ router.put("/updateStatus",userMiddleware,adminMiddleware,async(req,res)=>{
         })
     };  
     try{
-      const order = await Order.findByIdAndUpdate(id,{orderStatus:status});  
+      const order = await Order.findByIdAndUpdate(id,{
+        $set:{
+            orderStatus:status
+        }, 
+        $push:{
+            statusHistory:{status}
+        }
+      },{new:true});  
       console.log("updated: ",order);
       res.status(200).json({
         success:true, 
@@ -124,6 +134,19 @@ router.put("/updateStatus",userMiddleware,adminMiddleware,async(req,res)=>{
         })
     }
 
+}) 
+
+router.put("/cancelOrder/:id",userMiddleware,async(req,res)=>{
+    const {id} = req.params; 
+
+    const order = await Order.findByIdAndUpdate(id,{
+        $set:{orderStatus:"Cancelled"}
+    },{new:true}); 
+
+    res.status(200).json({
+        message:"status updated",
+        order
+    })
 })
 
 

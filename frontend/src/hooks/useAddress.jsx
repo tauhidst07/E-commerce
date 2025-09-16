@@ -45,7 +45,7 @@ const useAddress = () => {
     }  
 
     async function editAddres(data){  
-        console.log("edit address: ",data);
+        console.log("edit address data: ",data);
         setLoading(true);
         try {
             const res = await axiosInstance.put("/auth/user/address",data);

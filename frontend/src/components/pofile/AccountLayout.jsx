@@ -1,14 +1,31 @@
 import React, { useContext } from 'react'
-import { Link, NavLink, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import Navbar from '../layout/Navbar'
 import Footer from '../layout/Footer'
 import authContext from '../../context/AuthContext'
+import { useMediaQuery } from 'react-responsive'
+import profileImage from "../../assets/profilePic.png"
+import { FaAngleRight } from 'react-icons/fa6'
 
 
-const navLinks = ["Profile", "Address", "Orders", "Edit Profile"] 
 
-function DesktopLayout() { 
-    const {logout} = useContext(authContext);
+const navLinks = [
+  { name: "Profile", path: "profile" },
+  { name: "Address", path: "address" },
+  { name: "Orders", path: "orders" },
+  { name: "Edit Profile", path: "edit-profile" }
+];
+
+function MobileLayout() { 
+    
+    return (<>  
+        <Navbar/>
+        <Outlet/>
+    </>)
+}
+
+function DesktopLayout() {
+    const { logout } = useContext(authContext);
     return (
         <>
             <Navbar />
@@ -23,19 +40,19 @@ function DesktopLayout() {
                         <div className='flex flex-col gap-y-4 '>{navLinks.map((link, i) => (
                             <NavLink
                                 key={i}
-                                to={link.toLowerCase()}
+                                to={link.path}
                                 className={({ isActive }) => `px-4 py-2 rounded-lg transition-colors duration-200 ${isActive
                                     ? "bg-black text-white font-medium"
                                     : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                                     }`}
                             >
-                                {link}
+                                {link.name}
                             </NavLink>
-                        ))} 
+                        ))}
                         </div>
 
-                        <button 
-                        onClick={logout}
+                        <button
+                            onClick={logout}
                             className='px-4 py-2 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 hover:text-red-800 transition-colors duration-200 cursor-pointer mt-auto'
                         >
                             Logout
@@ -53,8 +70,9 @@ function DesktopLayout() {
     )
 }
 const AccountLayout = () => {
+    const isMobile = useMediaQuery({ query: "(max-width:768px)" })
     return (
-        <DesktopLayout />
+        isMobile ? <MobileLayout /> : <DesktopLayout />
     )
 }
 

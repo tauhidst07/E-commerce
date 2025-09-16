@@ -13,20 +13,34 @@ import { BsCart } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { Popover, Transition } from "@headlessui/react";
 import HorizontalLine from '../common/HorizontalLine'
-import ProfileDropdown from './ProfileDropdown' 
+import ProfileDropdown from './ProfileDropdown'
+import { useMediaQuery } from 'react-responsive'
+import userContext from '../../context/UserContext'
 
 
 
 
 const Navbar = () => {
     const [isMobileNavOpen, setisMobileNavOpen] = useState(false);
-    const { setAudience, setCategories } = useContext(productContext); 
-    const [isOpen,setIsOpen]= useState(false)
+    const { setAudience, setCategories } = useContext(productContext);
+    const [isOpen, setIsOpen] = useState(false)
     const params = new URLSearchParams(location.search);
     const navigate = useNavigate();
+    const { user } = useContext(userContext);
+    const isMobile = useMediaQuery({ query: "(max-width:768px)" })
     function handleNavClick(audience) {
         params.set("audience", audience)
         navigate(`/shop?${params.toString()}`);
+    }
+
+
+    function handleProfileClick() {
+        if (isMobile) {
+            navigate("/account")
+        }
+        else {
+            setIsOpen(true)
+        }
     }
 
     return (
@@ -82,17 +96,21 @@ const Navbar = () => {
                     <SearchInput />
                 </div>
                 {/* profile logos */}
+
                 <div className='flex items-center space-x-4 relative' >
-                    <Link to={"/cart"}><BsCart className='text-black text-2xl' /></Link> 
-                    <div className='relative'>
-                    <CgProfile className="text-black text-2xl cursor-pointer" onClick={()=>setIsOpen(true)} />  
-                    {
-                     isOpen && <ProfileDropdown onClose={()=>setIsOpen(false)}/>
-                    }  
-                
-                    </div>
-        
+                    <Link to={"/cart"}><BsCart className='text-black text-2xl' /></Link>
+                    { (!isMobile || user) &&
+                        <div className='relative'>
+                            <CgProfile className="text-black text-2xl cursor-pointer" onClick={handleProfileClick} />
+                            {
+                                isOpen && <ProfileDropdown onClose={() => setIsOpen(false)} />
+                            }
+
+                        </div>
+                    }
+
                 </div>
+
 
             </nav>
             {/*search input for mobile and tablets  */}

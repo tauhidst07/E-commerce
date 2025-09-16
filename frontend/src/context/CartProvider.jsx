@@ -3,7 +3,9 @@ import cartContext from './CartContext'
 import { useState } from 'react'
 
 const CartProvider = ({children}) => { 
-    const [cartItems,setCartItems] = useState([]); 
+    const [cartItems,setCartItems] = useState([]);  
+    const [shippingCharge,setShippingCharge]=useState(0); 
+    const [discount,setDiscount]=useState(0);
     function addToCart (itemToAdd){
         setCartItems((prev)=>{
             if(prev.find((item)=>item._id === itemToAdd._id && item.size === itemToAdd.size)){
@@ -39,15 +41,34 @@ const CartProvider = ({children}) => {
                 return true
             })
         }) 
-    }  
+    }   
+    useEffect(()=>{  
+        const currentCartPrice=cartItemPrice();
+        // shipping charge
+        if(currentCartPrice>0 && currentCartPrice<=999){
+            setShippingCharge(49);
+        } 
+        else{
+            setShippingCharge(0)
+        }  
 
-    
+        //discount 
+        if(currentCartPrice>0){
+            let discount= Math.floor((currentCartPrice*20)/100);  
+            console.log(`current price : ${currentCartPrice} discount ${discount}`);
+            setDiscount(discount); 
+        } 
+        else{
+            setDiscount(0);
+        }
+    },[cartItemPrice()])
+
 
     function cartItemPrice(){
        return cartItems.length > 0 ? cartItems.reduce((acc,item)=> acc + (item.price*item.quantity),0) : 0
     }
   return (
-    <cartContext.Provider value={{addToCart,removeItem,cartItems,incrementQuantity,decrementQuantity,cartItemPrice}}> 
+    <cartContext.Provider value={{addToCart,removeItem,cartItems,incrementQuantity,decrementQuantity,cartItemPrice,shippingCharge,discount}}> 
         {children}
     </cartContext.Provider>
   )

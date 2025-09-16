@@ -26,7 +26,7 @@ const ProfileDropdown = ({onClose}) => {
     },[onClose])
     return (
         <div ref={dropdownRef}
-            className="z-50 absolute flex flex-col gap-y-4 right-[2px] top-8 lg:top-12 mt-2 w-[300px] rounded-xl bg-white shadow-lg border border-gray-200 transform origin-top-right transition-all duration-300 ease-out scale-95 "
+            className="z-50   absolute flex flex-col gap-y-4 right-[2px] top-8 lg:top-12 mt-2 w-[300px] rounded-xl bg-white shadow-lg border border-gray-200 transform origin-top-right transition-all duration-300 ease-out scale-95 "
         >
              
              {user?<div className='py-4 px-8 space-y-1'>

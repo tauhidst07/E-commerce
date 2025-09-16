@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import authContext from './AuthContext'; 
 import axios from "axios"
@@ -10,7 +10,8 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const AuthProvider = ({children}) => { 
    
-    const navigate = useNavigate();   
+    const navigate = useNavigate();    
+    const [token,setToken]=useState(localStorage.getItem("token"));
    
     const signup = async (credentials)=>{
         try{
@@ -27,7 +28,8 @@ const AuthProvider = ({children}) => {
             const {data} = await axios.post(`${baseUrl}/auth/login`,credentials);    
             console.log("")
             localStorage.setItem("user",JSON.stringify(data?.user));
-            localStorage.setItem("token",data?.token);   
+            localStorage.setItem("token",data?.token);  
+            setToken(data?.token);
             navigate("/");
         } 
         catch(err){ 
@@ -44,7 +46,7 @@ const AuthProvider = ({children}) => {
     } 
 
   return (
-    <authContext.Provider value={{login,logout,signup}}> 
+    <authContext.Provider value={{login,logout,signup,token}}> 
       {children}
     </authContext.Provider>
   )

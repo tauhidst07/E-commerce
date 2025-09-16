@@ -6,12 +6,12 @@ import indianStatesAndUTs from "../constants/indianState";
 import axiosInstance from '../api/apiConnector';
 import cartContext from '../context/CartContext';
 import authContext from '../context/AuthContext';
-import { payment } from '../utility/payment';
+import { payment } from '../utility/payment'; 
 const Checkout = () => {
     const { register, reset, control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: { state: "Bihar", paymentMethod: "COD" }
     });
-    const { cartItems, cartItemPrice } = useContext(cartContext);
+    const { cartItems, cartItemPrice,shippingCharge,discount } = useContext(cartContext);
     const storedUser = localStorage.getItem("user");
     const user = storedUser ? JSON.parse(storedUser) : null;
 
@@ -29,11 +29,14 @@ const Checkout = () => {
             orderItems,
             shippingInfo: rest,
             paymentMethod,
-            totalAmount: cartItemPrice()
+            totalAmount: cartItemPrice(), 
+            shippingCharge:shippingCharge, 
+            discount:discount
         }
 
         axiosInstance.post("/order/", order).then((res) => {
-            console.log("resspone of order: ", res.data);
+            console.log("resspone of order: ", res.data); 
+            alert("order placed");
             payment(res.data);
         })
             .catch((err) => {

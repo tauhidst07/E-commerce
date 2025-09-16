@@ -20,14 +20,27 @@ const useUserOrders = () => {
             console.log("error in fethcing orders ", err);
         }
         setLoading(false);
-    } 
+    }  
+
+    async function cancelOrder(id) { 
+        setLoading(true); 
+        try{
+            const res = await axiosInstance.put(`/order/cancelOrder/${id}`); 
+            console.log("cancel order response: ",res);
+        } 
+        catch(err){
+            console.error("error in order cancel",err)
+        } 
+        fetchUserOrders();
+        
+    }
 
     useEffect(()=>{
         fetchUserOrders();
     },[])
    
 
-    return {loading,userOrders,fetchUserOrders}
+    return {loading,userOrders,fetchUserOrders,cancelOrder}
 }
 
 export default useUserOrders

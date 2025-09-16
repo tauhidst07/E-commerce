@@ -55,7 +55,9 @@ const orderSchema = zod.object({
         city:zod.string(), 
         state:zod.string(),  
         pincode:zod.string()
-   }), 
+   }),  
+   shippingCharge:zod.number(), 
+   discount:zod.number(),
    paymentMethod:zod.enum(["COD","razorpay"]).default("COD"), 
    totalAmount:zod.number()
 })

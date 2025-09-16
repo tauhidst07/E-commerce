@@ -5,7 +5,9 @@ import OrderCard from './OrderCard';
 import useUserOrders from '../../hooks/useUserOrders';
 
 const Orders = () => {
-  const { userOrders, fetchUserOrders,loading } = useUserOrders();
+  const { userOrders, fetchUserOrders,loading } = useUserOrders(); 
+
+  console.log("user orders: ",userOrders);
 
   return (
     <div className="max-w-6xl mx-auto p-6">
