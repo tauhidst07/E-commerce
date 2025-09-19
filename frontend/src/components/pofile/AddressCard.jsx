@@ -1,51 +1,48 @@
 import React from 'react'
 import Loader from '../common/Loader';
 
-const AddressCard = ({ address, defaultAddress, setDefault,setIsOpen,setMode ,setEditAddressData,deleteAddress}) => {
+const AddressCard = ({ address, defaultAddress, setDefault, setIsOpen, setMode, setEditAddressData, deleteAddress, expand, setExpand }) => {
     function handleClick() {
         setDefault(address);
     }
+    console.log(`expand: `, expand);
     return (
-        <div className={`relative p-6 rounded-lg border-2 transition-all duration-200 ${address._id == defaultAddress._id
-                ? "border-black bg-black/5"
-                : "border-gray-200 bg-white hover:border-gray-400 hover:shadow-md"
+        <div onClick={()=>setExpand(address._id)} className={` p-4 rounded-sm shadow-md hover:shadow-xl
             }`}>
 
-            {/* Default Badge */}
-            {address._id == defaultAddress._id && (
-                <div className='absolute px-3 py-1 right-4 top-[-12px] bg-black text-white text-xs font-medium rounded-full'>
-                    Default
-                </div>
-            )}
-
             {/* Address Details */}
-            <div className="space-y-3 mb-4">
-                <p className="font-semibold text-gray-900 text-lg">{address.fullname}</p>
-                <p className="text-gray-700">{address.address}</p>
-                <p className="text-gray-700">{address.city}, {address.state} - {address.pincode}</p>
-                <p className="text-gray-600">India</p>
-                <p className="text-gray-700 font-medium">{address.phone}</p>
+            <div className="space-y-1 mb-4">
+                <p className="font-semibold text-gray-900 ">{address.fullname}</p>
+                <p className="text-gray-700 text-sm">{address.address}</p>
+                <p className="text-gray-700 text-sm">{address.city} - {address.pincode}</p>
+                {
+                    expand == address._id && <div>
+                        <p className="text-gray-600 text-sm">{address.state}</p>
+                        <p className="text-gray-700 font-medium text-sm py-2">{address.phone}</p>
+                        {address._id !== defaultAddress._id && (
+                            <button
+                                className="text-blue-600  text-xs font-semibold cursor-pointer py-2"
+                                onClick={handleClick}
+                            >
+                                MAKE THIS DEFAULT
+                            </button>
+                        )}
+                    </div>
+                }
             </div>
 
             {/* Action Buttons */}
-            <div className='flex flex-wrap gap-3 pt-4 border-t border-gray-100'>
-                <button onClick={()=>{setIsOpen(true);setMode("edit");setEditAddressData(address)}} className="px-3 py-1.5 text-sm text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded transition-colors duration-200">
-                    Edit
-                </button>
-
-                <button className="px-3 py-1.5 text-sm text-red-600 hover:text-red-800 hover:bg-red-50 rounded transition-colors duration-200" onClick={()=>deleteAddress(address._id)}>
-                    Remove
-                </button>
-
-                {address._id !== defaultAddress._id && (
-                    <button
-                        className="px-4 py-1.5 text-sm bg-black text-white rounded hover:bg-gray-800 transition-colors duration-200 cursor-pointer ml-auto"
-                        onClick={handleClick}
-                    >
-                        Set as default
+            { expand == address._id && 
+                <div className='flex w-full justify-between  border-t border-gray-100 divide-x divide-black/10 pt-2 pb-0'>
+                    <button onClick={() => { setIsOpen(true); setMode("edit"); setEditAddressData(address) }} className=" text-center text-sm  w-[50%] font-semibold cursor-pointer">
+                        EDIT
                     </button>
-                )}
-            </div>
+
+                    <button className="w-[50%] text-sm font-semibold cursor-pointer " onClick={() => deleteAddress(address._id)}>
+                        REMOVE
+                    </button>
+                </div>
+            }
         </div>
     )
 }

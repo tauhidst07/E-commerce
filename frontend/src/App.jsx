@@ -9,7 +9,6 @@ import ProductProvider from './context/ProductProvider'
 import Product from './pages/Product'
 import Shop from './pages/Shop'
 import ProductDetails from './pages/ProductDetails'
-import Cart from './pages/Cart'
 import Search from './pages/Search'
 import { AddProducts } from './pages/Admin/AddProducts'
 import Unauthorized from './components/Unauthorized'
@@ -27,6 +26,10 @@ import EditPofile from './components/pofile/EditPofile'
 import OrderDetails from './components/pofile/OrderDetails'
 import AdminLayout from './components/admin/AdminLayout'
 import MobileAccountHome from './components/pofile/MobileAccountHome'
+import CheckoutLayout from './components/checkout/checkoutLayout'
+import Cart from './components/cart/Cart'
+import CheckoutAddress from './components/checkout/CheckoutAddress'
+import Payment from './components/checkout/Payment'
 
 const App = () => {
   return (
@@ -38,11 +41,9 @@ const App = () => {
         <Route path='/Register' element={<Register />} />
         <Route path='/Product/:id' element={<Product />} />
         <Route path='/shop' element={<Shop />} />
-        <Route path='/cart' element={<Cart />} />
         <Route path='/search' element={<Search />} />
         <Route path='/unauthorized' element={<Unauthorized />} />
         <Route path='/shop/:id' element={<ProductDetails />} />
-        <Route path='/checkout' element={<Checkout />} />
 
         <Route path='/account' element={<PrivateRoute><AccountLayout /></PrivateRoute>}> 
           <Route index element={<MobileAccountHome/>} />
@@ -52,7 +53,11 @@ const App = () => {
           <Route path='edit-profile' element={<EditPofile />} />
           <Route path='orders/orderDetails' element={<OrderDetails />} />
         </Route>
-
+       <Route path='/checkout' element={<PrivateRoute><CheckoutLayout/></PrivateRoute>}> 
+         <Route path='cart' element={<Cart/>} /> 
+         <Route path='address' element={<CheckoutAddress/>} /> 
+         <Route path='payment' element={<Payment/>} />
+       </Route>
         {/* admin routes */}
         <Route path='/admin' element={<AdminRoute />}>
           <Route path='dashboard' element={<AdminLayout />}> 

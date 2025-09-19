@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import AddressDialog from './AddressDialog';
 import Loader from '../common/Loader';
 import AddressCard from './AddressCard';
@@ -9,22 +9,34 @@ const Address = () => {
   const [isOpen, setIsOpen] = useState(false); 
   const [mode,setMode] = useState("add"); 
   const [editAddressData,setEditAddressData]= useState(null);
-  const { addresses, loading, defaultAddress, fetchAddresses, setDefault,addAddress,deleteAddress,editAddres} = useAddress();
-  console.log("address in component: ", addresses);
+  const { addresses, loading, defaultAddress, fetchAddresses, setDefault,addAddress,deleteAddress,editAddres} = useAddress(); 
+  const [expand,setExpand] = useState(defaultAddress?._id ?? null);  
+  useEffect(()=>{
+    if(defaultAddress){
+      setExpand(defaultAddress._id);
+    }
+  },[defaultAddress]);
+  console.log("default address  in component: ", defaultAddress);
   return (
     <div className="p-6">
       <div className='flex justify-between items-center mb-6'>
-        <h1 className='text-2xl font-bold text-black'>Saved Addresses</h1>
-        <button className='bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors' onClick={() => {setIsOpen(true);setMode("add");setEditAddress(null)}}>Add new address</button>
+        <h1 className='text-xl font-bold text-black'>Saved Addresses</h1>
+        <button className='bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors text-sm' onClick={() => {setIsOpen(true);setMode("add");setEditAddressData(null)}}>Add new address</button>
       </div>
       {
         isOpen && <AddressDialog isOpen={isOpen} close={() => setIsOpen(false)} fetchAddresses={fetchAddresses} mode={mode} editAddressData={editAddressData} addAddress={addAddress} editAddres={editAddres} />
       }
       {
-        !loading ? <div className='grid grid-cols-1 gap-6'>
+        !loading ? <div className=''> 
+          <p className='text-sm font-semibold my-4'>DEFAULT ADDRESS</p> 
+          {
+            defaultAddress && 
+            <AddressCard address={defaultAddress} defaultAddress={defaultAddress} setDefault={setDefault} setIsOpen={setIsOpen} setMode={setMode} setEditAddressData={setEditAddressData} deleteAddress={deleteAddress} expand={expand} setExpand={setExpand} />
+          } 
+          <p className='text-sm font-semibold mt-8 '>OTHER ADDRESSES</p>
           {addresses.length > 0 &&
-            addresses.map((add, i) => (
-              <AddressCard key={i} address={add} defaultAddress={defaultAddress} setDefault={setDefault} setIsOpen={setIsOpen} setMode={setMode} setEditAddressData={setEditAddressData} deleteAddress={deleteAddress} />
+            addresses.filter((add)=>add._id!==defaultAddress._id).map((add, i) => (
+              <AddressCard key={i} address={add} defaultAddress={defaultAddress} setDefault={setDefault} setIsOpen={setIsOpen} setMode={setMode} setEditAddressData={setEditAddressData} deleteAddress={deleteAddress} expand={expand} setExpand={setExpand} />
             ))
           }
         </div> : <Loader />

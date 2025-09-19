@@ -11,8 +11,8 @@ const useAddress = () => {
         setLoading(true)
         try {
             const { data } = await axiosInstance.get("/auth/user/address");
-            console.log("address backedn response", data.address);
-            setAddresses(data.address);
+            console.log("address backend response",data);
+            setAddresses(data.address); 
             setDefaultAddress(data.defaultAddress);
         }
         catch (err) {

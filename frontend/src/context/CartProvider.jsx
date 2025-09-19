@@ -41,7 +41,16 @@ const CartProvider = ({children}) => {
                 return true
             })
         }) 
-    }   
+    }     
+
+    useEffect(()=>{
+         setCartItems(JSON.parse(localStorage.getItem("cartItems")));
+    },[])
+    useEffect(()=>{
+       localStorage.setItem("cartItems",JSON.stringify(cartItems));
+    },[cartItems]);
+
+
     useEffect(()=>{  
         const currentCartPrice=cartItemPrice();
         // shipping charge

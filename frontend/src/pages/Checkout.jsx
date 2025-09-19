@@ -33,11 +33,15 @@ const Checkout = () => {
             shippingCharge:shippingCharge, 
             discount:discount
         }
-
         axiosInstance.post("/order/", order).then((res) => {
             console.log("resspone of order: ", res.data); 
-            alert("order placed");
-            payment(res.data);
+            if(order.paymentMethod==="razorpay"){
+                
+                payment(res.data); 
+            } 
+            else{
+                alert("order placed");
+            }
         })
             .catch((err) => {
                 console.log("error of order: ", err.data);
