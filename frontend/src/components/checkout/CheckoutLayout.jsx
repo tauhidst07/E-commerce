@@ -2,10 +2,12 @@ import React from 'react'
 import logo from "../../assets/logo.png"
 import { payment } from '../../utility/payment';
 import { Outlet, useNavigate } from 'react-router-dom';
+import useOrder from '../../hooks/useOrder';
 const CheckoutLayout = () => { 
     const navLinks=["cart","address","payment"]; 
     const pathname=location.pathname.split('/'); 
-    const currentTab=pathname[pathname.length-1];  
+    const currentTab=pathname[pathname.length-1];   
+    const {paymentMethod,setPaymentMethod,setShippingInfo,createOrder}=useOrder();
     const navigate = useNavigate();
 
     function handleTabClick (link){
@@ -34,7 +36,7 @@ const CheckoutLayout = () => {
       </div> 
 
       <div>
-        <Outlet/>
+        <Outlet context={{paymentMethod,setPaymentMethod,setShippingInfo,createOrder}}/>
       </div>
 
     </div>

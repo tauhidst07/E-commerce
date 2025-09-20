@@ -8,7 +8,7 @@ const OrderSummary = () => {
   const {cartItemPrice,shippingCharge,discount} = useContext(cartContext);  
   const navigate = useNavigate();
   function clickHandler (){
-    navigate("/checkout")
+    navigate("/checkout/address")
   }
   return (
     <div className='flex flex-col gap-4 '>

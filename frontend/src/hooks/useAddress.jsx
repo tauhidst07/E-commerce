@@ -16,7 +16,7 @@ const useAddress = () => {
             setDefaultAddress(data.defaultAddress);
         }
         catch (err) {
-            console.log("error in fetching address: ", err)
+            console.log("error in fetching address: ",err)
         }
         setLoading(false)
     }

@@ -21,7 +21,7 @@ const ProductDisplay = ({ singleProduct }) => {
     } 
      setClicked(true);  
     if(clicked){
-      navigate("/cart"); 
+      navigate("/checkout/cart"); 
       return;
     }
     const product = {

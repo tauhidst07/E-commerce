@@ -98,7 +98,7 @@ const Navbar = () => {
                 {/* profile logos */}
 
                 <div className='flex items-center space-x-4 relative' >
-                    <Link to={"/cart"}><BsCart className='text-black text-2xl' /></Link>
+                    <Link to={"/checkout/cart"}><BsCart className='text-black text-2xl' /></Link>
                     { (!isMobile || user) &&
                         <div className='relative'>
                             <CgProfile className="text-black text-2xl cursor-pointer" onClick={handleProfileClick} />

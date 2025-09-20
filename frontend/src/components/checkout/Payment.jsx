@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
+import { useOutletContext } from 'react-router-dom';
 
 const Payment = () => { 
-    const [paymentMethod,setPaymentMethod]=useState("COD"); 
+    const {paymentMethod,setPaymentMethod,createOrder}=useOutletContext();   
+    console.log("paymenet method",paymentMethod); 
     function handleChange(e){ 
         setPaymentMethod(e.target.value);
-        console.log("method: ",e.target.value);
+        console.log("method: ",e.target.value); 
     }
   return (
     <div className='max-w-[70rem] mx-auto'>
@@ -48,6 +50,10 @@ const Payment = () => {
                             <p className='text-sm text-gray-600 mt-1'>Secure online payment</p>
                         </div>
                     </label>
+                </div> 
+
+                <div className='my-4 ' >
+                    <button className='px-4 py-2 bg-black text-white cursor-pointer' onClick={createOrder}> Place Order</button>
                 </div>
 
     </div>
