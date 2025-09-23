@@ -133,7 +133,20 @@ router.post("/user/address",userMiddleware, async(req,res)=>{
 
 router.put("/user/address",userMiddleware,async(req,res)=>{
       const id = req.user._id; 
-      const addressId = req.body.id;  
+      const addressId = req.body.id;    
+  
+      const user = await User.findById(id);  
+      if(user.defaultAddress && user.defaultAddress._id==addressId){
+        await User.updateOne({_id:id},{
+          $set:{
+            defaultAddress:req.body
+          }
+        }); 
+
+       return res.status(200).json({
+          message:"updated"
+        })
+      } 
       try{
         const user = await User.updateOne({_id:id,"addresses._id":addressId},{
           $set:{
@@ -156,14 +169,20 @@ router.put("/user/address",userMiddleware,async(req,res)=>{
 router.delete("/user/address/:addressId",userMiddleware,async(req,res)=>{
      const id = req.user._id;  
      const {addressId}= req.params;  
-     console.log("address id: ",addressId);
-
+     console.log("address id: ",addressId); 
+     let user = await User.findById(id); 
+     if(user.defaultAddress && user.defaultAddress._id == addressId){
+         await User.updateOne({_id:id},{
+          $set:{
+            defaultAddress:null
+          }
+        },{new:true})
+     }
      await User.updateOne({_id:id},{
         $pull:{
            addresses:{_id:addressId}
         }
-     }); 
-
+     },{new:true});  
      res.status(200).json({
       success:true, 
       message:'address deleted'

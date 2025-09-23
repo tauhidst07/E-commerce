@@ -47,10 +47,8 @@ const orderSchema = zod.object({
         size:zod.string()
 })), 
    shippingInfo:zod.object({
-      firstname:zod.string(), 
-        lastname:zod.string(), 
-        address:zod.string(), 
-        apartment:zod.string().optional(),  
+       fullname:zod.string(),  
+        address:zod.string(),  
         phone:zod.string(),
         city:zod.string(), 
         state:zod.string(),  

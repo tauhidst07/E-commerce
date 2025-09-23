@@ -15,12 +15,16 @@ const razorpay = new Razorpay({
 
 router.post("/",userMiddleware,async (req,res)=>{ 
      const input = req.body
-     const response = orderSchema.safeParse(input); 
-    if(!response.success){
-        res.status(403).json({
+     const response = orderSchema.safeParse(input);  
+
+    if(!response.success){  
+        console.log("err: ",response.error); 
+        console.log("user input",input);
+        return res.status(403).json({
             message:"invlaid input for order", 
             err:response.error
-        }) 
+        })  
+
     }  
     const {user,shippingInfo,orderItems,paymentMethod,totalAmount,shippingCharge,discount} = input;   
     const computedTotal = orderItems.reduce((acc,item)=>acc+(item.quantity*item.price),0)+shippingCharge-discount; 

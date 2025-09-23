@@ -72,10 +72,8 @@ const ProductSchema = new mongoose.Schema({
         size:String
   }],  
     shippingInfo:{
-        firstname:String, 
-        lastname:String, 
+        fullname:String, 
         address:String, 
-        apartment:String,  
         phone:String,
         city:String, 
         state:String,  
