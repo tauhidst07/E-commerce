@@ -8,8 +8,6 @@ import productContext from '../context/ProductContext'
 const Search = () => { 
     const {products,search} = useContext(productContext);    
     useEffect(()=>{
-    console.log("search ",search); 
-    console.log("products",products)
     },[search,products])
     const {searchProducts,heading} = useMemo(()=>{
        

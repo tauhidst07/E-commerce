@@ -11,7 +11,6 @@ const useAddress = () => {
         setLoading(true)
         try {
             const { data } = await axiosInstance.get("/auth/user/address");
-            console.log("address backend response",data);
             setAddresses(data.address); 
             setDefaultAddress(data.defaultAddress);
         }
@@ -25,7 +24,6 @@ const useAddress = () => {
         setLoading(true);
         try {
             const { data } = await axiosInstance.post("/auth/user/address/setDefault", { address: address });
-            console.log("response in setting default: ", data);
         }
         catch (err) {
             console.log("err in setting default address");
@@ -44,8 +42,7 @@ const useAddress = () => {
         fetchAddresses();
     }  
 
-    async function editAddres(data){  
-        console.log("edit address data: ",data);
+    async function editAddres(data){   
         setLoading(true);
         try {
             const res = await axiosInstance.put("/auth/user/address",data);
@@ -57,11 +54,9 @@ const useAddress = () => {
     }
 
     async function deleteAddress(id){ 
-        console.log("id in delete id: ",id);
          setLoading(true); 
          try{
             const {data} = await axiosInstance.delete(`/auth/user/address/${id}`); 
-            console.log("address deleted",data);
          } 
          catch(err){
             console.log("error in deleting address");

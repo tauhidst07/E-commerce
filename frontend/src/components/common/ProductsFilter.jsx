@@ -5,11 +5,11 @@ import Pagination from './Pagination'
 import HorizontalLine from './HorizontalLine'
 import Loader from './Loader'
 import Product from './Product'
-import productContext from '../../context/ProductContext'; 
-import { BiSort } from "react-icons/bi"; 
+import productContext from '../../context/ProductContext';
+import { BiSort } from "react-icons/bi";
 import { RiFilter3Fill } from "react-icons/ri";
 
-const ProductsFilter = ({products,heading,query}) => { 
+const ProductsFilter = ({ products, heading, query }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilter, setShowFilter] = useState(false);
   const [showSort, setShowSort] = useState(false);
@@ -18,15 +18,11 @@ const ProductsFilter = ({products,heading,query}) => {
   let endIndex = startIndex + 10;
   const [sortBy, setSortBy] = useState("newest");
   const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(10000);    
-  const{audience,categories} = useContext(productContext); 
-  
- 
- 
-  useEffect(()=>{
-    console.log("query:  ",query); 
-   
-  },[query]) 
+  const [maxPrice, setMaxPrice] = useState(10000);
+  const { audience, categories } = useContext(productContext);
+
+
+
 
   const handleChange = (e) => {
     setSortBy(e.target.value)
@@ -49,40 +45,40 @@ const ProductsFilter = ({products,heading,query}) => {
 
   const { filteredProduct, totalPage } = useMemo(() => {
     const sortedProducts = [...products].sort(sortProduct);
-    let filteredProduct = sortedProducts.filter(priceRangeFilter);  
-    filteredProduct = filteredProduct.filter((prod)=>{
-      if(query.length>0){
-        return prod.title.toLowerCase().replace("-","").split(" ").includes(query)||prod.description.toLowerCase().replace("-","").split(" ").includes(query);
-      }  
-      else{
-          return true
+    let filteredProduct = sortedProducts.filter(priceRangeFilter);
+    filteredProduct = filteredProduct.filter((prod) => {
+      if (query.length > 0) {
+        return prod.title.toLowerCase().replace("-", "").split(" ").includes(query) || prod.description.toLowerCase().replace("-", "").split(" ").includes(query);
       }
-    
+      else {
+        return true
+      }
+
     })
-    
-    filteredProduct = filteredProduct.filter((prod)=>{
-      if(audience){
+
+    filteredProduct = filteredProduct.filter((prod) => {
+      if (audience) {
         return prod.audience === audience
-      } 
+      }
       return true
-    })   
-    filteredProduct = filteredProduct.filter((prod)=>{
-      if(categories.length>0){
-       return categories.includes(prod.category);
-      } 
-      else{
+    })
+    filteredProduct = filteredProduct.filter((prod) => {
+      if (categories.length > 0) {
+        return categories.includes(prod.category);
+      }
+      else {
         return true
       }
     });
-    const totalPage = Math.max(1, Math.ceil(filteredProduct.length / 10));  
+    const totalPage = Math.max(1, Math.ceil(filteredProduct.length / 10));
     return {
       filteredProduct, totalPage
     }
-    
-  }, [products, sortBy, minPrice, maxPrice,categories,audience,query])
+
+  }, [products, sortBy, minPrice, maxPrice, categories, audience, query])
   return (
-    <> 
-        <div className='max-w-[80rem] mx-auto px-4 flex gap-x-0'> 
+    <>
+      <div className='max-w-[80rem] mx-auto px-4 flex gap-x-4'>
         {/* filters */}
         <div className='w-[250px] hidden md:block my-2'>
           <FilterBar minPrice={minPrice} maxPrice={maxPrice} setMinPrice={setMinPrice} setMaxPrice={setMaxPrice} />
@@ -90,16 +86,14 @@ const ProductsFilter = ({products,heading,query}) => {
         {/* product dislay */}
         <div className='flex-1'>
           {/* heading */}
-          <div className='flex justify-between my-2'>
-            <h1 className='font-bold '>{heading}</h1>
-            <div className='relative  hidden md:block'>
+          <div className='flex justify-end mb-2'>
+            <div className='relative hidden md:flex items-center gap-2'>
               <span className='text-sm text-black/60'>Sort By: </span>
-              <select className="cursor-pointer appearance-none focus:border-none focus:outline-0" value={sortBy} onChange={handleChange}>
-                <option value="newest">Newest First </option>
+              <select className="cursor-pointer appearance-none focus:outline-none border border-black/20 rounded-lg px-3 py-1 bg-white" value={sortBy} onChange={handleChange}>
+                <option value="newest">Newest First</option>
                 <option value="highToLow">Price: High to Low</option>
                 <option value="lowToHigh">Price: Low to High</option>
               </select>
-              <RxChevronDown className='absolute right-[-8%] top-1 cursor-pointer pointer-events-none' />
             </div>
           </div>
           {/* products */}
@@ -115,15 +109,15 @@ const ProductsFilter = ({products,heading,query}) => {
 
         </div>
 
-      </div> 
+      </div>
 
       {/* small screen buttons */}
       <div className='fixed w-full bottom-0 left-0 flex justify-between md:hidden z-50'>
-        <div className='w-[50%] flex items-center justify-center gap-x-2 text-center py-2 cursor-pointer bg-white border-r border-black/20 font-semibold text-black/80' onClick={() => setShowSort(true)}> 
-        <span><BiSort /></span> <span>SORT</span>
+        <div className='w-[50%] flex items-center justify-center gap-x-2 text-center py-2 cursor-pointer bg-white border-r border-black/20 font-semibold text-black/80' onClick={() => setShowSort(true)}>
+          <span><BiSort /></span> <span>SORT</span>
         </div>
-        <div className='w-[50%] flex items-center justify-center gap-x-2 text-center py-2 cursor-pointer bg-white font-semibold text-black/80' onClick={() => setShowFilter(true)}> 
-        <span><RiFilter3Fill /></span> <span>FILTER</span>
+        <div className='w-[50%] flex items-center justify-center gap-x-2 text-center py-2 cursor-pointer bg-white font-semibold text-black/80' onClick={() => setShowFilter(true)}>
+          <span><RiFilter3Fill /></span> <span>FILTER</span>
         </div>
       </div>
       {/* filter for mobile device */}

@@ -4,7 +4,8 @@ import Navbar from '../components/layout/Navbar';
 import HeroSection from '../components/layout/HeroSection';
 import Feature from '../components/layout/Feature';
 import Footer from '../components/layout/Footer';
-import Styles from '../components/Layout/Styles';
+import Styles from '../components/layout/Styles';
+
 
 const Home = () => { 
   const {cartItems,cartItemPrice} = useContext(cartContext); 
@@ -13,8 +14,6 @@ const Home = () => {
     <div className='bg-white w-full'>  
      <Navbar/>  
      <HeroSection/> 
-     <Feature heading={"NEW ARRIVAL"}/>   
-     <Feature heading={"TOP SELLING"} />
      <Styles/>
      <Footer/>
 

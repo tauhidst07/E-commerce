@@ -29,7 +29,6 @@ const ProductForm = ({ mode, product }) => {
       setSelectedSize(product?.sizes ? product.sizes : [])
       setExistingimage(product?.images ? product.images : []);
       setPreviewImages(product?.images ? product.images : [])
-      console.log("updated")
     }
   }, [mode, product])
 
@@ -40,7 +39,6 @@ const ProductForm = ({ mode, product }) => {
     else {
       setSelectedSize([...selectedSize, size]);
     }
-    console.log("size:", selectedSize);
   }
 
   useEffect(() => {
@@ -67,7 +65,6 @@ const ProductForm = ({ mode, product }) => {
 
 
   function onFileChnage(e) {
-    console.log("existing image length: ", existingImage.length)
     if (existingImage.length >= 3) {
       alert("cant upload more than three images")
       e.target.value = ""

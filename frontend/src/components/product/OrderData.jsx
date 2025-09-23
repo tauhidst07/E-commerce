@@ -8,11 +8,9 @@ const OrderData = ({ order }) => {
     const [orderStatus, setOrderStatus] = useState(order?.orderStatus);
     const [isOpen, setIsOpen] = useState(false);
     function open() {
-        console.log("opened")
         setIsOpen(true);
     }
     function close() {
-        console.log("closed");
         setIsOpen(false);
     }
     async function handleStatusChange(id, value) {
@@ -20,11 +18,10 @@ const OrderData = ({ order }) => {
         setOrderStatus(value);
         try {
             const res = await axiosInstance.put("/order/updateStatus", { id: id, status: value });
-            console.log("status update res: ", res);
+
             alert("status updated");
         }
         catch (err) {
-            console.log("err: ", err);
             setOrderStatus(prevStatus);
             alert("cant update staus");
         }

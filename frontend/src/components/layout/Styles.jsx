@@ -35,7 +35,6 @@ const Styles = () => {
     const navigate = useNavigate();  
     const params = new URLSearchParams(location.search);
     function handleClick (category){   
-        console.log("after styles:",category);
         params.append("category",category); 
         navigate(`/shop?${params.toString()}`);
     }

@@ -19,7 +19,6 @@ const ProductProvider = ({children}) => {
         setLoading(true)
        try{
           const result = await axios.get(`${baseUrl}/products/`);   
-          console.log("products: ",result.data.products);
           setProducts(result.data.products);
        } 
        catch(err){
@@ -32,7 +31,6 @@ const ProductProvider = ({children}) => {
        setLoading(true)
        try{
          const result = await axios.get(`${baseUrl}/products/${id}`);   
-         console.log("product fetched",result.data.product);
          setSingleProduct(result.data.product); 
        } 
        catch(err){
@@ -53,13 +51,10 @@ const ProductProvider = ({children}) => {
         } 
         fetchAllProducts();
     }
-    useEffect(()=>{
-      console.log("cat: ",categories);
-    },[categories]); 
+
     
     useEffect(()=>{ 
      fetchAllProducts();  
-     console.log("user in fetch all: ",user)
     },[]);
   return (
     <productContext.Provider value={{products,fetchAllProducts,loading,setLoading,singleProduct,fetchProductById,search,setSearch,deleteProduct,audience,setAudience,categories,setCategories}}> 

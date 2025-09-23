@@ -14,9 +14,6 @@ import Loader from '../components/common/Loader'
 const ProductDetails = () => { 
   const {id} = useParams(); 
   const {fetchProductById,singleProduct,loading} = useContext(productContext);  
-  console.log("single product: ",singleProduct); 
-  console.log("id: ",id); 
-  console.log("hellooooo")
    useEffect(()=>{
        fetchProductById(id);
    },[id])

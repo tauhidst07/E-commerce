@@ -3,8 +3,6 @@ import { useState } from 'react'
 
 const ProductDialogAdmin = ({ close, isOpen, orderItems,id }) => { 
 
-    console.log(`order id ${id} order items: ${orderItems}`);
-
     if (orderItems.length == 0) return null;
 
     return (

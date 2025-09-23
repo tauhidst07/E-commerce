@@ -64,7 +64,6 @@ const CartProvider = ({children}) => {
         //discount 
         if(currentCartPrice>0){
             let discount= Math.floor((currentCartPrice*20)/100);  
-            console.log(`current price : ${currentCartPrice} discount ${discount}`);
             setDiscount(discount); 
         } 
         else{
@@ -74,7 +73,7 @@ const CartProvider = ({children}) => {
 
 
     function cartItemPrice(){
-       return cartItems.length > 0 ? cartItems.reduce((acc,item)=> acc + (item.price*item.quantity),0) : 0
+       return cartItems?.length > 0 ? cartItems.reduce((acc,item)=> acc + (item.price*item.quantity),0) : 0
     }
   return (
     <cartContext.Provider value={{addToCart,removeItem,cartItems,incrementQuantity,decrementQuantity,cartItemPrice,shippingCharge,discount}}> 

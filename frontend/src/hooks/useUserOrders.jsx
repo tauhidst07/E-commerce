@@ -12,7 +12,6 @@ const useUserOrders = () => {
         setLoading(true);
         try {
             const { data } = await axiosInstance.get("/auth/user/orders");
-            console.log("user orders :", data.orders)
             setUerOrders(data.orders)
 
         }
@@ -26,7 +25,6 @@ const useUserOrders = () => {
         setLoading(true); 
         try{
             const res = await axiosInstance.put(`/order/cancelOrder/${id}`); 
-            console.log("cancel order response: ",res);
         } 
         catch(err){
             console.error("error in order cancel",err)

@@ -5,7 +5,6 @@ const baseUrl=import.meta.env.VITE_BASE_URL;
 const isTokenExpired = (token)=>{
     try {
     const payload = JSON.parse(atob(token.split('.')[1])); 
-    console.log(`${payload.exp} and ${Date.now()}`);
     return payload.exp * 1000 < Date.now();
    } catch (e) { 
     // return true if invalid token

@@ -5,7 +5,6 @@ const AddressCard = ({ address, defaultAddress, setDefault, setIsOpen, setMode, 
     function handleClick() {
         setDefault(address);
     }
-    console.log(`expand: `, expand);
     return (
         <div onClick={()=>setExpand(address._id)} className={` p-4 rounded-sm shadow-md hover:shadow-xl
             }`}>
@@ -19,7 +18,7 @@ const AddressCard = ({ address, defaultAddress, setDefault, setIsOpen, setMode, 
                     expand == address._id && <div>
                         <p className="text-gray-600 text-sm">{address.state}</p>
                         <p className="text-gray-700 font-medium text-sm py-2">{address.phone}</p>
-                        {address._id !== defaultAddress._id && (
+                        {address._id !== defaultAddress?._id && (
                             <button
                                 className="text-blue-600  text-xs font-semibold cursor-pointer py-2"
                                 onClick={handleClick}

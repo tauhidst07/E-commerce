@@ -10,7 +10,6 @@ const useOrder = () => {
     const [shippingInfo, setShippingInfo] = useState(null);
     const [paymentMethod,setPaymentMethod]=useState("COD"); 
     function createOrder() { 
-        console.log("current shipping info: ",shippingInfo)
         const orderItems = cartItems.map((item) => ({ product: item._id, price: item.price, quantity: item.quantity, size: item.size })); 
         let {_id,...shippingInfoWithoutId}=shippingInfo
         const order = {
@@ -22,9 +21,7 @@ const useOrder = () => {
             shippingCharge: shippingCharge,
             discount: discount
         } 
-        console.log("order data ",order);
         axiosInstance.post("/order/", order).then((res) => {
-            console.log("resspone of order: ", res.data);
             if (order.paymentMethod === "razorpay") {
 
                 payment(res.data);

@@ -34,7 +34,6 @@ const Checkout = () => {
             discount:discount
         }
         axiosInstance.post("/order/", order).then((res) => {
-            console.log("resspone of order: ", res.data); 
             if(order.paymentMethod==="razorpay"){
                 
                 payment(res.data); 
