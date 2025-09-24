@@ -30,6 +30,7 @@ import CheckoutLayout from './components/checkout/checkoutLayout'
 import Cart from './components/cart/Cart'
 import CheckoutAddress from './components/checkout/CheckoutAddress'
 import Payment from './components/checkout/Payment'
+import Dashboard from './pages/Admin/Dashboard'
 
 const App = () => {
   return (
@@ -44,31 +45,31 @@ const App = () => {
         <Route path='/search' element={<Search />} />
         <Route path='/unauthorized' element={<Unauthorized />} />
         <Route path='/shop/:id' element={<ProductDetails />} />
-
-        <Route path='/account' element={<PrivateRoute><AccountLayout /></PrivateRoute>}> 
-          <Route index element={<MobileAccountHome/>} />
+        <Route path='/account' element={<PrivateRoute><AccountLayout /></PrivateRoute>}>
+          <Route index element={<MobileAccountHome />} />
           <Route path='profile' element={<ProfileInfo />} />
           <Route path='address' element={<Address />} />
           <Route path='orders' element={<UserOrders />} />
           <Route path='edit-profile' element={<EditPofile />} />
           <Route path='orders/orderDetails' element={<OrderDetails />} />
         </Route>
-       <Route path='/checkout' element={<PrivateRoute><CheckoutLayout/></PrivateRoute>}> 
-         <Route path='cart' element={<Cart/>} /> 
-         <Route path='address' element={<CheckoutAddress/>} /> 
-         <Route path='payment' element={<Payment/>} />
-       </Route>
-        {/* admin routes */}
-        <Route path='/admin' element={<AdminRoute />}>
-          <Route path='dashboard' element={<AdminLayout />}> 
-            <Route index element={<AdminOrders />} />
-            <Route path='addProduct' element={<AddProducts />} />
-            <Route path='products' element={<StockProducts />} />
-            <Route path='editProduct/:id' element={<EditProduct />} />
-            <Route path='orders' element={<AdminOrders />} />
-          </Route>
-
+        <Route path='/checkout' element={<PrivateRoute><CheckoutLayout /></PrivateRoute>}>
+          <Route path='cart' element={<Cart />} />
+          <Route path='address' element={<CheckoutAddress />} />
+          <Route path='payment' element={<Payment />} />
         </Route>
+        {/* admin routes */}
+        <Route path="/admin" element={<AdminRoute />}>
+          <Route element={<AdminLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="orders" element={<AdminOrders />} />
+            <Route path="addProduct" element={<AddProducts />} />
+            <Route path="products" element={<StockProducts />} />
+            <Route path="editProduct/:id" element={<EditProduct />} />
+          </Route>
+        </Route>
+
       </Routes>
     </>
 

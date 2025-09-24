@@ -2,10 +2,11 @@ import React, { useContext, useEffect, useState } from 'react'
 import productContext from '../../context/ProductContext'
 import { useNavigate } from 'react-router-dom';
 import Loader from '../../components/common/Loader';
+import ProductsRow from '../../components/admin/ProductsRow';
 
 const StockProducts = () => { 
     const {products,deleteProduct,loading,setLoading} = useContext(productContext);  
-    const navigate = useNavigate();
+    console.log("products: ",products)
 
   return (
 <div className="max-w-[80rem] mx-auto p-4 sm:p-6">
@@ -31,65 +32,7 @@ const StockProducts = () => {
     <div className="divide-y divide-black/10">
       {products.length > 0 ? (
         products.map((product) => (
-          <div key={product._id} className="grid grid-cols-1 lg:grid-cols-15 gap-2 lg:gap-4 p-3 lg:p-4 items-center hover:bg-black/5 transition-colors">
-            {/* Mobile and tablet view */}
-            <div className="lg:hidden flex justify-between items-center">
-              <div className="flex items-center space-x-2">
-                <img 
-                  src={product.images[0]} 
-                  alt={product.title}
-                  className="w-8 h-8 object-cover rounded border border-black/10"
-                />
-                <div>
-                  <p className="font-medium truncate">{product.title}</p>
-                  <p className="text-xs text-black/60">#{product._id}</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <p className="font-medium">${product.price.toFixed(2)}</p>
-                <p className="text-xs text-black/60">{product.category}</p>  
-                 <p className="text-xs text-black/60">{product.stock}</p>  
-              </div>
-            </div>
-
-            {/* Desktop view - hidden on mobile */}
-            <div className='hidden lg:block col-span-3 text-black/80 truncate'>
-              #{product._id}
-            </div>
-            <div className="hidden lg:flex col-span-4 items-center space-x-3 ">
-              <img 
-                src={product.images[0]} 
-                alt={product.title}
-                className="w-10 h-10 object-cover rounded border border-black/10"
-              />
-              <span className="truncate">{product.title}</span>
-            </div> 
-            <div className="hidden lg:block col-span-2 text-black/80  lg:px-2 ">
-              {product.stock}
-            </div>
-            <div className="hidden lg:block col-span-2 text-black/80  lg:px-2">
-              {product.category}
-            </div>
-            <div className="hidden lg:block col-span-2 font-medium  ">
-              ${product.price.toFixed(2)}
-            </div>
-            
-            {/* Actions - visible on all screens */}
-            <div className="col-span-full lg:col-span-2 flex justify-end space-x-2 mt-2 lg:mt-0">
-              <button 
-                onClick={() =>navigate(`/admin/editProduct/${product._id}`) } 
-                className={`px-2 sm:px-3 py-1 text-xs sm:text-sm cursor-pointer bg-black/90 text-white rounded hover:bg-black transition-colors `}
-              >
-                Edit
-              </button>
-              <button 
-                className="px-2 sm:px-3 py-1 text-xs sm:text-sm bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
-                onClick={() => { deleteProduct(product._id); setLoading(true) }}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
+          < ProductsRow key={product._id} product={product} deleteProduct={deleteProduct} setLoading={setLoading}/>
         ))
       ) : (
         <div className="p-8 text-center text-black/50">

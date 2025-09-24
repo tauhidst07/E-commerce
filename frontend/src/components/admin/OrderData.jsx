@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import orderStatusConstants from '../../constants/orderStaus';
 import { useState } from 'react';
 import axiosInstance from '../../api/apiConnector';
-import ProductDialogAdmin from './ProductDialogAdmin';
+import ProductDialogAdmin from '../product/ProductDialogAdmin';
 const OrderData = ({ order }) => {
     const [orderStatus, setOrderStatus] = useState(order?.orderStatus);
     const [isOpen, setIsOpen] = useState(false);

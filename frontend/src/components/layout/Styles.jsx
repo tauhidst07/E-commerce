@@ -41,7 +41,7 @@ const Styles = () => {
 
     return (
         <div className='max-w-[80rem] lg:mx-auto my-6 mt-8  rounded-2xl px-2 mx-4'>
-            <h1 className='text-3xl font-bold text-center py-8'>BROWS BY CATEGORY</h1>
+            <h1 className='text-xl sm:text-3xl font-bold text-center py-8'>BROWS BY CATEGORY</h1>
             {/* select styles */}
             <div className='max-w-[80rem] mx-auto p-6'>
                 <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>

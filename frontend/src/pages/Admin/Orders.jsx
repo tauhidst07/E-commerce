@@ -5,11 +5,10 @@ import Loader from '../../components/common/Loader';
 
 import axiosInstance from '../../api/apiConnector';
 import ProductDialogAdmin from '../../components/product/ProductDialogAdmin';
-import OrderData from '../../components/product/OrderData';
+import OrderData from '../../components/admin/OrderData';
 
 const Orders = () => {
     const { allOrders, fetchAllOrders } = useContext(orderContext);
-   
     useEffect(() => {
         fetchAllOrders();
     }, [])

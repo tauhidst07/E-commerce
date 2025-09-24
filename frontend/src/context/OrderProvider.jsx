@@ -9,7 +9,8 @@ import productContext from './ProductContext';
 const OrderProvider = ({children}) => { 
 
     const [allOrders,setAllOrders]=useState([]);  
-    const {setLoading} = useContext(productContext);
+    const {setLoading} = useContext(productContext); 
+    const [recentOrders,setRecentOrders]=useState([]);
     
     async function fetchAllOrders() { 
          setLoading(true)
@@ -22,13 +23,21 @@ const OrderProvider = ({children}) => {
         } 
         setLoading(false);
     }
+ 
 
-   //  useEffect(()=>{
-   //     fetchAllOrders();
-   //  },[])
+    useEffect(()=>{ 
+      
+     if(allOrders.length>0){ 
+      console.log("all orders in context",allOrders)
+       setRecentOrders(allOrders.slice(-5).reverse());
+     }
+    },[allOrders])
+    useEffect(()=>{
+       fetchAllOrders(); 
+    },[])
     
   
-    return (<orderContext.Provider value={{allOrders,fetchAllOrders}}>
+    return (<orderContext.Provider value={{allOrders,fetchAllOrders,recentOrders}}>
             {children}
           </orderContext.Provider> 
     )
