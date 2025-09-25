@@ -96,7 +96,6 @@ router.post("/verify-payment",userMiddleware,async(req,res)=>{
 }) 
 
 // get all orders for admin 
-
 router.get("/allOrders",userMiddleware,adminMiddleware,async (req,res)=>{
     let orders = await Order.find({}).populate("user").populate("orderItems.product","title images");   
     res.status(200).json({
@@ -105,6 +104,18 @@ router.get("/allOrders",userMiddleware,adminMiddleware,async (req,res)=>{
     
     })
 })  
+
+
+//  get order by id for admin  
+
+router.get("/:id",userMiddleware,adminMiddleware,async (req,res)=>{
+    const id = req.params.id; 
+    const order = await Order.findById(id); 
+    res.status(200).json({
+        order
+    })
+})
+
 
 router.put("/updateStatus",userMiddleware,adminMiddleware,async(req,res)=>{ 
     const {id,status} = req.body;  
@@ -138,7 +149,9 @@ router.put("/updateStatus",userMiddleware,adminMiddleware,async(req,res)=>{
         })
     }
 
-}) 
+})  
+
+// cancel order for user
 
 router.put("/cancelOrder/:id",userMiddleware,async(req,res)=>{
     const {id} = req.params; 
