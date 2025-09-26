@@ -3,7 +3,7 @@ import { HiOutlineShoppingBag } from "react-icons/hi";
 
 const DashboardCard = ({title,value}) => {
   return (
-    <div className='flex-1 rounded-md bg-white '>
+    <div className='col-span-1 rounded-md bg-white '>
        <div className='py-6 px-2 space-y-2'>
         <p className='text-sm font-semibold'>{title}</p> 
         <div className='flex gap-x-2 items-center'>

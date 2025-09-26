@@ -6,41 +6,54 @@ import orderContext from './OrderContext'
 import axiosInstance from '../api/apiConnector';
 import productContext from './ProductContext';
 
-const OrderProvider = ({children}) => { 
+const OrderProvider = ({ children }) => {
 
-    const [allOrders,setAllOrders]=useState([]);  
-    const {setLoading} = useContext(productContext); 
-    const [recentOrders,setRecentOrders]=useState([]);
-    
-    async function fetchAllOrders() { 
-         setLoading(true)
-        try{
-          const res = await axiosInstance.get("/order/allOrders"); 
-          setAllOrders(res.data.orders);
-        } 
-        catch(err){
-           alert(err.data.message);
-        } 
-        setLoading(false);
+  const [allOrders, setAllOrders] = useState([]);
+  const [loading,setLoading]=useState(false);
+  const [recentOrders, setRecentOrders] = useState([]); 
+  const [order,setOrder]=useState(null);
+
+  async function fetchAllOrders() {
+    setLoading(true)
+    try {
+      const res = await axiosInstance.get("/order/allOrders");
+      setAllOrders(res.data.orders);
     }
- 
+    catch (err) {
+      alert(err.data.message);
+    }
+    setLoading(false);
+  } 
 
-    useEffect(()=>{ 
-      
-     if(allOrders.length>0){ 
-      console.log("all orders in context",allOrders)
-       setRecentOrders(allOrders.slice(-5).reverse());
-     }
-    },[allOrders])
-    useEffect(()=>{
-       fetchAllOrders(); 
-    },[])
-    
-  
-    return (<orderContext.Provider value={{allOrders,fetchAllOrders,recentOrders}}>
-            {children}
-          </orderContext.Provider> 
-    )
+  async function fetchOrder(id){  
+    console.log("fetch order triggered")
+    setLoading(true)
+     try{
+       const res = await axiosInstance.get(`/order/${id}`); 
+      setOrder(res.data.order);
+     } 
+     catch(err){
+      console.log("cant fetch order details: ",err);
+     } 
+     setLoading(false);
+  }
+
+
+  useEffect(() => { 
+    if (allOrders.length > 0) {
+      console.log("all orders in context", allOrders)
+      setRecentOrders(allOrders.slice(-5).reverse());
+    }
+  }, [allOrders]); 
+
+  useEffect(()=>{
+    fetchAllOrders();
+  },[])
+
+  return (<orderContext.Provider value={{ allOrders, fetchAllOrders, recentOrders,loading,fetchOrder,order}}>
+    {children}
+  </orderContext.Provider>
+  )
 }
 
 export default OrderProvider

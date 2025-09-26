@@ -4,7 +4,9 @@ import orderStatusConstants from '../../constants/orderStaus';
 import { useState } from 'react';
 import axiosInstance from '../../api/apiConnector';
 import ProductDialogAdmin from '../product/ProductDialogAdmin';
-const OrderData = ({ order }) => {
+import { useNavigate } from 'react-router-dom';
+const OrderData = ({ order }) => { 
+    const navigate = useNavigate();
     const [orderStatus, setOrderStatus] = useState(order?.orderStatus);
     const [isOpen, setIsOpen] = useState(false);
     function open() {
@@ -32,7 +34,7 @@ const OrderData = ({ order }) => {
         }
     }, [order])
     return (
-        <div key={order._id} className='lg:grid lg:grid-cols-15 gap-4 p-4 hover:bg-black/5 transition-colors'>
+        <div key={order._id} className='lg:grid lg:grid-cols-11 gap-4 p-4 hover:bg-black/5 transition-colors'>
 
             {/* only mobile and tablet */}
             <div className='lg:hidden flex justify-between '>
@@ -67,10 +69,8 @@ const OrderData = ({ order }) => {
                     </div>
                 </div>
             </div>
-            <div className= ' hidden lg:block col-span-4 text-black/80'>
-                #{order._id}
-            </div>
-            <div className='hidden lg:block col-span-2'>
+      
+            <div className='hidden lg:block col-span-3'>
                 <p>{order.user.firstname + " " + order.user.lastname}</p>
                 <p className='text-xs text-black/80'>{order.user.email}</p>
             </div>
@@ -84,9 +84,9 @@ const OrderData = ({ order }) => {
             <div className='hidden lg:block col-span-2'>
                 ₹{order.totalAmount.toFixed(2)}
             </div>
-            <div className='hidden lg:flex col-span-2  items-center gap-2'>
+            <div className='hidden lg:flex col-span-2  items-center gap-2 '>
                 <select
-                    className="border rounded-lg px-2 py-1 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-black/20"
+                    className="border rounded-lg px-2 py-1 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-black/20 "
                     value={orderStatus}
                     onChange={(e) => handleStatusChange(order._id, e.target.value)}
                 >  {
@@ -95,9 +95,8 @@ const OrderData = ({ order }) => {
 
                 </select>
             </div>
-            <div className='hidden lg:flex col-span-3 text-right  justify-end'>
-                <button className='px-4 py-2 text-right border bg-black/5 rounded-2xl cursor-pointer' onClick={open} >view order</button>
-                {isOpen && <ProductDialogAdmin close={close} isOpen={isOpen} orderItems={order.orderItems} id={order._id} />}
+            <div className='hidden lg:flex col-span-2 justify-end items-center  '>
+                <button className='text-right px-2 py-1 border bg-black/5 rounded-md cursor-pointer text-sm' onClick={()=>navigate(`/admin/orders/${order._id}`)} >view order</button>
             </div>
 
         </div>

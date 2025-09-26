@@ -30,7 +30,8 @@ import CheckoutLayout from './components/checkout/checkoutLayout'
 import Cart from './components/cart/Cart'
 import CheckoutAddress from './components/checkout/CheckoutAddress'
 import Payment from './components/checkout/Payment'
-import Dashboard from './pages/Admin/Dashboard'
+import Dashboard from './pages/Admin/Dashboard' 
+import AdminOrderDetails from './pages/Admin/OrderDetails'
 
 const App = () => {
   return (
@@ -53,10 +54,10 @@ const App = () => {
           <Route path='edit-profile' element={<EditPofile />} />
           <Route path='orders/orderDetails' element={<OrderDetails />} />
         </Route>
-        <Route path='/checkout' element={<PrivateRoute><CheckoutLayout /></PrivateRoute>}>
+        <Route path='/checkout' element={<CheckoutLayout />}>
           <Route path='cart' element={<Cart />} />
-          <Route path='address' element={<CheckoutAddress />} />
-          <Route path='payment' element={<Payment />} />
+          <Route path='address' element={<PrivateRoute><CheckoutAddress /></PrivateRoute>} />
+          <Route path='payment' element={<PrivateRoute><Payment /></PrivateRoute> } />
         </Route>
         {/* admin routes */}
         <Route path="/admin" element={<AdminRoute />}>
@@ -66,7 +67,8 @@ const App = () => {
             <Route path="orders" element={<AdminOrders />} />
             <Route path="addProduct" element={<AddProducts />} />
             <Route path="products" element={<StockProducts />} />
-            <Route path="editProduct/:id" element={<EditProduct />} />
+            <Route path="editProduct/:id" element={<EditProduct />} /> 
+            <Route path="orders/:id" element={<AdminOrderDetails/>} />
           </Route>
         </Route>
 

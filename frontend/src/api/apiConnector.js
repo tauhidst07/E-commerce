@@ -11,11 +11,6 @@ const isTokenExpired = (token)=>{
     return true; 
   }
 } 
-const logoutUser = ()=>{
-   localStorage.removeItem("token");  
-   localStorage.removeItem("user");
-   window.location.href="/login"
-}
 
 // add baseurl from env
 const axiosInstance = axios.create({
@@ -25,10 +20,11 @@ const axiosInstance = axios.create({
 //add token in every axios instance request
 axiosInstance.interceptors.request.use((config)=>{
     const token = localStorage.getItem("token");  
-    if(!token || isTokenExpired(token)){ 
-      logoutUser();
+    if(!token || isTokenExpired(token)){  
+      console.log("triggered in use request")
+      localStorage.removeItem("token");  
+      localStorage.removeItem("user");
       alert("session expired login again yaha pa"); 
-      window.location.href = "/login?expired=true";
       return Promise.reject("session expired login again..")
     } 
     config.headers.Authorization =`Bearer ${token}` 
@@ -42,13 +38,13 @@ axiosInstance.interceptors.response.use(
   (error) => { 
     console.log("401 handling: ",error);
     if (error.response?.status === 401 && error.response?.data?.message.includes("token")) { 
-      altert("session expired login again idhr bhi")
+      altert("session expired login again")
       localStorage.removeItem("token"); 
       localStorage.removeItem("user") // Clear invalid token
       window.location.href = "/login?expired=true"; 
     } 
-    else{
-      alert(error?.response?.data?.message);
+    else{ 
+      console.log("err in response: ",error);
     }
     return Promise.reject(error);
   }

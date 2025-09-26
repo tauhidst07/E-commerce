@@ -8,29 +8,23 @@ import ProductDialogAdmin from '../../components/product/ProductDialogAdmin';
 import OrderData from '../../components/admin/OrderData';
 
 const Orders = () => {
-    const { allOrders, fetchAllOrders } = useContext(orderContext);
-    useEffect(() => {
-        fetchAllOrders();
-    }, [])
+    const { allOrders, fetchAllOrders,loading } = useContext(orderContext);
 
-    const { loading } = useContext(productContext);
     return (
         <div className='max-w-[80rem] p-6 mx-auto '>
             <h1 className='text-2xl font-bold mb-6'>Orders</h1>
-
             {
                 loading && <Loader />
             }
             {/* orders table */}
             <div className='bg-white rounded-lg shadow-md overflow-hidden'>
                 {/* table header */}
-                <div className=' hidden lg:grid grid-cols-15 gap-4 bg-black/10 p-4'>
-                    <div className='col-span-4 '>order-id</div>
-                    <div className='col-span-2'>customer</div>
+                <div className=' hidden lg:grid grid-cols-11 gap-4 bg-black/10 p-4'>
+                    <div className='col-span-3'>customer</div>
                     <div className='col-span-2'>Date</div>
                     <div className='col-span-2'>Amount</div>
                     <div className='col-span-2'>Status</div>
-                    <div className='col-span-3 text-right'>Action</div>
+                    <div className='col-span-2 text-right'>Action</div>
                 </div>
                 {/* table data */}
                 <div className='divide-y divide-black/10'>

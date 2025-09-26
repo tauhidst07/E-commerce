@@ -6,8 +6,12 @@ import useUserOrders from '../../hooks/useUserOrders';
 
 const Orders = () => {
   const { userOrders, fetchUserOrders,loading } = useUserOrders(); 
+    
+    // useEffect(()=>{
+    //     fetchUserOrders();
+    // },[]) 
 
-  console.log("user orders: ",userOrders);
+    
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -18,11 +22,11 @@ const Orders = () => {
 
       {/* Orders Container */}
       {!loading ?<div className='bg-gray-100 p-6 space-y-2'>{
-          userOrders?.length>0 && userOrders.map((order) => (
+          userOrders?.length>0 ? userOrders.map((order) => (
                 order.orderItems.map((orderItem) => (
                   <OrderCard key={orderItem._id} orderItem={orderItem} status={order.orderStatus} orderId={order._id}/>
                 ))
-          ))
+          )):<p>No orders found</p>
       }</div> : <Loader />}
     </div>
   )

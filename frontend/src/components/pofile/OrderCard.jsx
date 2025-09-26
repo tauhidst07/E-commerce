@@ -2,16 +2,16 @@ import React from 'react'
 import { FaAngleRight } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
  
-const OrderCard = ({ orderItem, status ,orderId}) => {  
-  const params = new URLSearchParams(location.search); 
+const OrderCard = ({ orderItem, status ,orderId}) => {   
+  console.log("order item in card:",orderItem)
+  const params = new URLSearchParams(location.search);  
   const navigate = useNavigate();
   function handleClick(){
     params.append("orderId",orderId); 
     params.append("itemId",orderItem._id);  
     navigate(`/account/orders/orderDetails?${params.toString()}`);
-
-  }
-  return (
+  } 
+  return orderItem.product? (
     <div className='bg-white p-4' >
         <p className="text-black my-4">
           {status}
@@ -30,7 +30,9 @@ const OrderCard = ({ orderItem, status ,orderId}) => {
         <FaAngleRight className='absolute right-2 top-[42%] text-gray-900' />
       </div>
     </div>
-  )
+  ):(<div className='bg-white p-4'>
+        <p>Product deleted</p>
+  </div>)
 }
 
 export default OrderCard

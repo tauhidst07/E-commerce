@@ -4,22 +4,21 @@ import { useNavigate } from 'react-router-dom';
 const ProductsRow = ({product,deleteProduct,setLoading}) => { 
      const navigate = useNavigate();
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-15 gap-2 lg:gap-4 p-3 lg:p-4 items-center hover:bg-black/5 transition-colors">
+    <div className="grid grid-cols-1 gap-2 lg:grid-cols-15   lg:gap-4 p-2  sm:p-3 lg:p-4 items-center bg-white hover:bg-black/5 transition-colors">
             {/* Mobile and tablet view */}
-            <div className="lg:hidden flex justify-between items-center">
-              <div className="flex items-center space-x-2">
+            <div className="lg:hidden flex justify-between items-center gap-4 ">
+              <div className="flex space-x-2 w-[80%] ">
                 <img 
                   src={product.images[0]} 
                   alt={product.title}
-                  className="w-8 h-8 object-cover rounded border border-black/10"
+                  className="w-8 h-8 object-cover rounded  border-black/10"
                 />
-                <div>
-                  <p className="font-medium truncate">{product.title}</p>
-                  <p className="text-xs text-black/60">#{product._id}</p>
+                <div className=' w-full'>
+                  <p className="font-medium truncate max-w-[90%]">{product.title}</p>
                 </div>
               </div>
-              <div className="text-right">
-                <p className="font-medium">${product.price.toFixed(2)}</p>
+              <div className="text-right pr-2">
+                <p className="font-medium text-sm sm:text-base">₹{product.price.toFixed(2)}</p>
                 <p className="text-xs text-black/60">{product.category}</p>  
                  <p className="text-xs text-black/60">{product.stock}</p>  
               </div>
@@ -55,12 +54,12 @@ const ProductsRow = ({product,deleteProduct,setLoading}) => {
               >
                 Edit
               </button>
-              <button 
+              {/* <button 
                 className="px-2 sm:px-3 py-1 text-xs sm:text-sm bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
                 onClick={() => { deleteProduct(product._id); setLoading(true) }}
               >
                 Delete
-              </button>
+              </button> */}
             </div>
           </div>
   )

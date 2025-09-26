@@ -150,7 +150,7 @@ const ProductForm = ({ mode, product }) => {
         loading && <Loader />
       }
 
-      <form onSubmit={handleSubmit(submitHandler)} className='max-w-md  mx-auto p-6 bg-white rounded-lg shadow-md flex flex-col gap-6'>
+      <form onSubmit={handleSubmit(submitHandler)} className='max-w-[900px]  mx-auto p-6 bg-white rounded-lg shadow-md flex flex-col gap-6'>
         <div className='space-y-2'>
           <input
             type="text"
