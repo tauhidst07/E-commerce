@@ -12,9 +12,9 @@ const ProductProvider = ({children}) => {
     const [singleProduct,setSingleProduct]=useState({}); 
     const [loading,setLoading]= useState(false); 
     const [search,setSearch] = useState(""); 
-     const [audience,setAudience]  = useState(null); 
-      const [categories,setCategories]=useState([]); 
-      const {user} = useContext(authContext);
+    const [audience,setAudience]  = useState(null); 
+    const [categories,setCategories]=useState([]); 
+    const {user} = useContext(authContext);
     async function fetchAllProducts() {  
         setLoading(true)
        try{

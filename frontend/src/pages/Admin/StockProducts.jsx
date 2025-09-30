@@ -1,12 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import productContext from '../../context/ProductContext'
 import { Link, useNavigate } from 'react-router-dom';
 import Loader from '../../components/common/Loader';
 import ProductsRow from '../../components/admin/ProductsRow';
+import Pagination from '../../components/common/Pagination';
+
 
 const StockProducts = () => {
   const { products, deleteProduct, loading, setLoading } = useContext(productContext);
-  console.log("products: ", products)
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPage = Math.ceil(products.length / 10);
+  const { startIndex, endIndex } = useMemo(() => {
+    const startIndex = (currentPage - 1) * 10;
+    const endIndex = startIndex + 10;
+    return { startIndex, endIndex };
+  }, [currentPage]);
 
   return (
     <div className="max-w-[80rem] mx-auto p-1 sm:p-6">
@@ -34,7 +42,7 @@ const StockProducts = () => {
         {/* Table Body */}
         <div className="space-y-1 sm:space-y-0 bg-black/10 sm:divide-y divide-black/10">
           {products.length > 0 ? (
-            products.map((product) => (
+            products.slice(startIndex, endIndex).map((product) => (
               < ProductsRow key={product._id} product={product} deleteProduct={deleteProduct} setLoading={setLoading} />
             ))
           ) : (
@@ -43,6 +51,12 @@ const StockProducts = () => {
             </div>
           )}
         </div>
+
+      </div>
+      <div className='my-4'>
+        {
+          products.length > 10 && <Pagination currentPage={currentPage} totalPage={totalPage} onChange={(page) => setCurrentPage(page)} />
+        }
       </div>
     </div>
   )

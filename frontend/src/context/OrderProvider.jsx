@@ -4,22 +4,26 @@
 import React, { useContext, useEffect, useState } from 'react'
 import orderContext from './OrderContext'
 import axiosInstance from '../api/apiConnector';
-import productContext from './ProductContext';
+import productContext from './ProductContext';  
+import axios from 'axios';
+const baseUrl=import.meta.env.VITE_BASE_URL;
 
 const OrderProvider = ({ children }) => {
 
   const [allOrders, setAllOrders] = useState([]);
   const [loading,setLoading]=useState(false);
   const [recentOrders, setRecentOrders] = useState([]); 
-  const [order,setOrder]=useState(null);
+  const [order,setOrder]=useState(null); 
+
 
   async function fetchAllOrders() {
     setLoading(true)
     try {
-      const res = await axiosInstance.get("/order/allOrders");
+      const res = await axiosInstance.get(`/order/allOrders`);
       setAllOrders(res.data.orders);
     }
-    catch (err) {
+    catch (err) { 
+      console.log("error in fetch order: ",err);
       alert(err.data.message);
     }
     setLoading(false);
@@ -29,7 +33,7 @@ const OrderProvider = ({ children }) => {
     console.log("fetch order triggered")
     setLoading(true)
      try{
-       const res = await axiosInstance.get(`/order/${id}`); 
+       const res = await axiosInstance.get(`order/${id}`); 
       setOrder(res.data.order);
      } 
      catch(err){
@@ -46,9 +50,9 @@ const OrderProvider = ({ children }) => {
     }
   }, [allOrders]); 
 
-  useEffect(()=>{
-    fetchAllOrders();
-  },[])
+  // useEffect(()=>{
+  //   fetchAllOrders();
+  // },[])
 
   return (<orderContext.Provider value={{ allOrders, fetchAllOrders, recentOrders,loading,fetchOrder,order}}>
     {children}

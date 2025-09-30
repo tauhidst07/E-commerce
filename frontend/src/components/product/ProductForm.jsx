@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import CLOTHS_CATEGORIES from '../../constants/categories';
 import audience from '../../constants/audience';
-import sizes from '../../constants/sizes';
+import {sizes,pantTypes} from '../../constants/sizes';
 import { LiaFileUploadSolid } from "react-icons/lia";
 import axiosInstance from '../../api/apiConnector';
 import productContext from '../../context/ProductContext';
@@ -11,7 +11,8 @@ import Loader from '../common/Loader';
 const ProductForm = ({ mode, product }) => {
   const { register, handleSubmit, reset, formState: { errors }, watch, resetField, setValue } = useForm();
 
-  const selectedAudience = watch("audience");
+  const selectedAudience = watch("audience"); 
+  const selectedCategory=watch("category");
   const [audienceType, setAudienceType] = useState("");
   const [selectedSize, setSelectedSize] = useState([]);
   const [selectedImage, setSelectedImage] = useState([]);
@@ -41,7 +42,12 @@ const ProductForm = ({ mode, product }) => {
     }
   }
 
-  useEffect(() => {
+  useEffect(() => {  
+
+    if((selectedAudience === "Men" || selectedAudience == "Women") && pantTypes.includes(selectedCategory)){
+      setAudienceType("pants"); 
+      return
+    }
     if (selectedAudience === "Men" || selectedAudience == "Women") {
       setAudienceType("adults")
     }
@@ -60,8 +66,7 @@ const ProductForm = ({ mode, product }) => {
       }
     }
 
-
-  }, [selectedAudience]);
+  }, [selectedAudience,selectedCategory]);
 
 
   function onFileChnage(e) {
@@ -213,7 +218,7 @@ const ProductForm = ({ mode, product }) => {
         </div>
         <div className='space-y-2'>
           <p className='text-black/80'>Select available sizes:</p>
-          {audienceType ?
+          {audienceType && selectedCategory ?
             <div className='flex flex-wrap gap-2'>{
               sizes[audienceType].map((size, index) =>
                 <div
@@ -228,7 +233,7 @@ const ProductForm = ({ mode, product }) => {
                 </div>
               )
             }</div> :
-            <p className='text-black/60'>Select audience type first</p>
+            <p className='text-black/60'>Select audience type and category first</p>
           }
         </div>
         <div className='space-y-3'>

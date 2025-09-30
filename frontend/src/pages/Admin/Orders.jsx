@@ -1,14 +1,24 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import orderContext from '../../context/OrderContext'
 import productContext from '../../context/ProductContext';
 import Loader from '../../components/common/Loader';
-
 import axiosInstance from '../../api/apiConnector';
 import ProductDialogAdmin from '../../components/product/ProductDialogAdmin';
 import OrderData from '../../components/admin/OrderData';
+import Pagination from '../../components/common/Pagination';
 
 const Orders = () => {
-    const { allOrders, fetchAllOrders,loading } = useContext(orderContext);
+    const { allOrders, fetchAllOrders,loading } = useContext(orderContext);  
+    const [currentPage,setCurrentPage]=useState(1); 
+    const totalPage = Math.ceil(allOrders.length/10); 
+    const {startIndex,endIndex} = useMemo(()=>{
+         const startIndex = (currentPage-1)*10; 
+         const endIndex = startIndex+10; 
+        return {startIndex,endIndex};
+    },[currentPage])
+    useEffect(()=>{
+        fetchAllOrders();
+    },[])
 
     return (
         <div className='max-w-[80rem] p-6 mx-auto '>
@@ -30,11 +40,17 @@ const Orders = () => {
                 <div className='divide-y divide-black/10'>
                     {
                         allOrders.length > 0 ? (
-                            allOrders.map((order) =><OrderData key={order._id} order={order} /> )
+                            allOrders.slice(startIndex,endIndex).map((order) =><OrderData key={order._id} order={order} /> )
                         ) : <div className='p-8 text-black/50 text-center'>No data to show </div>
                     }
                 </div>
-            </div>
+            </div> 
+            <div className='my-4'>
+                {
+                    allOrders.length>10 && <Pagination currentPage={currentPage} totalPage={totalPage} onChange={(page) => setCurrentPage(page)}  />
+                }
+            </div> 
+            
 
         </div>
     )

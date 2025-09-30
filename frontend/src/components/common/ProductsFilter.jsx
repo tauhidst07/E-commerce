@@ -98,14 +98,16 @@ const ProductsFilter = ({ products, heading, query }) => {
           </div>
           {/* products */}
           {
-            loading ? <Loader /> : <div className='grid grid-cols-2  lg:grid-cols-4  sm:gap-2 items-stretch'>
+            loading ? <Loader /> : <div className='grid grid-cols-2  lg:grid-cols-4  sm:gap-2 '>
               {
                 filteredProduct.slice(startIndex, endIndex).map((product) => <Product key={product._id} product={product} />)
               }
             </div>
           }
           <HorizontalLine />
-          <Pagination currentPage={currentPage} totalPage={totalPage} onChange={(page) => setCurrentPage(page)} />
+          {filteredProduct.length>10 &&
+            <Pagination currentPage={currentPage} totalPage={totalPage} onChange={(page) => setCurrentPage(page)} />
+          }
 
         </div>
 

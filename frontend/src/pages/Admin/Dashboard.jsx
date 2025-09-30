@@ -1,14 +1,18 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import DashboardCard from '../../components/admin/DashboardCard'
 import orderContext from '../../context/OrderContext'
 import OrderData from '../../components/admin/OrderData';
 import Loader from '../../components/common/Loader';
 
 const Dashboard = () => {
-    const { recentOrders, loading } = useContext(orderContext);
-    console.log("recent orders: ", recentOrders);
+    const { recentOrders, loading ,fetchAllOrders} = useContext(orderContext); 
+
+    useEffect(()=>{
+        fetchAllOrders();
+    },[]); 
+    
     return (
-        <div className=''>
+        <div className='p-4'>
             <h1 className='font-semibold'>Dashboard</h1>
             <div className='w-full grid lg:grid-cols-4 grid-cols-2 gap-4 my-2'>
                 <DashboardCard title={"Total Orders"} value={"1000"} />

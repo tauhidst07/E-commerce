@@ -16,8 +16,6 @@ const Product = ({ product }) => {
       title: product.title,
       price: product.price,
       quantity: 1,
-      size: "large",
-      color: "Black",
       image: product.image
     }
     addItem(cartItem);
@@ -36,7 +34,7 @@ const Product = ({ product }) => {
 
       <div className='px-3 py-2 space-y-1 sm:space-y-2'>
         {/* Title */}
-        <p className="font-semibold text-sm sm:text-base text-black/60 hover:text-black cursor-pointer transition-colors duration-200 line-clamp-2">
+        <p className="font-semibold text-sm  text-black/60 hover:text-black cursor-pointer transition-colors duration-200 line-clamp-2">
           {product.title}
         </p>
 

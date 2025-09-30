@@ -4,6 +4,8 @@ import productContext from './ProductContext';
 import axiosInstance from '../api/apiConnector';
 import { checkTokenExpiry } from '../utility/checkTokenExpiray';
 import authContext from './AuthContext';
+import axios from 'axios'; 
+const baseUrl=import.meta.env.VITE_BASE_URL;
 
 const UserProvider = ({children}) => {  
      const [user,setUser]=useState(null); 
@@ -11,10 +13,16 @@ const UserProvider = ({children}) => {
      const {token}= useContext(authContext);
 
 
-     async function fetchUser(){  
+    async function fetchUser(){  
       setLoading(true);
          try{  
-           const res = await axiosInstance.get("/auth/user"); 
+           const res = await axios.get(`${baseUrl}/auth/user`,{
+            headers:{
+              Authorization:`Bearer ${token}`
+            }
+           });  
+           console.log("axios instance called") 
+           console.log("user response: ",res.data);
            setUser(res.data.user); 
          } 
          catch(err){

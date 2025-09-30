@@ -3,11 +3,14 @@ import OrderInfoCard from '../../components/admin/OrderInfoCard'
 import { FaRegUser } from "react-icons/fa6";
 import orderContext from '../../context/OrderContext';
 import { useParams } from 'react-router-dom';
-import Loader from '../../components/common/Loader';
+import Loader from '../../components/common/Loader'; 
+import { HiOutlineShoppingBag } from 'react-icons/hi';
+
 
 const OrderDetails = () => {
   const { id } = useParams();
-  const { fetchOrder, loading, order } = useContext(orderContext);
+  const { fetchOrder, loading, order } = useContext(orderContext); 
+  console.log("order details: ",order);
   useEffect(() => {
     fetchOrder(id);
   }, [])
@@ -33,9 +36,9 @@ const OrderDetails = () => {
           <p className='text-black/80'>Order Date: <span>{getDate(order?.createdAt)}</span></p>
         </div>
         <div className='w-full  gap-x-4 gap-y-2  my-2 grid lg:grid-cols-3 sm:grid-cols-2'>
-          <OrderInfoCard heading={"Customer"} icon={<FaRegUser />} p1={`Full name: ${order?.user.firstname} ${order?.user.lastname}`} p2={`Email: ${order?.user.email}`} p3={`Phone: ${order?.user.phone?order.user.phone:"NA"}`} />
-          <OrderInfoCard heading={"Order Info"} icon={<FaRegUser />} p1={"Full name: Md Tauhid Ansari"} p2={"Email: atauhid07@gmail.com"} p3={"Phone: 8084587991"} />
-          <OrderInfoCard heading={"Customer"} icon={<FaRegUser />} p1={"Full name: Md Tauhid Ansari"} p2={"Email: atauhid07@gmail.com"} p3={"Phone: 8084587991"} />
+          <OrderInfoCard heading={"Customer"} icon={<FaRegUser />} content={<><p>Full name: {order?.user.firstname} {order?.user.lastname}</p><p>Email: {order?.user.email} </p> <p>Phone: {order?.user.phone?order.user.phone:"NA"} </p> </>}/>
+          <OrderInfoCard heading={"Order Info"} icon={<HiOutlineShoppingBag/>} content={<><p>Shipping: E-cart </p> <p>Payment Method: {order?.paymentMethod}</p> <p>Payment Status: {order?.paymentStatus}</p> </>} />
+          <OrderInfoCard heading={"Deliver to"} icon={<HiOutlineShoppingBag/>} content={<><p>Address:{order?.shippingInfo.address},</p> <p>{order?.shippingInfo.city}-{order?.shippingInfo.pincode}</p><p>{order?.shippingInfo.state}</p></>} />
         </div>
 
       </div>
@@ -45,8 +48,11 @@ const OrderDetails = () => {
         <p className='font-semibold mt-2 mb-6'>Products</p>
         {/* table header */}
         <div className='bg-white grid grid-cols-10 text-black/60 p-4 border-t border-b border-black/20 font-semibold'>
-          <div className='col-span-6'>
+          <div className='col-span-4'>
             Product Name
+          </div> 
+          <div className='col-span-2'>
+           Size
           </div>
           <div className='col-span-2 '> Quantity </div>
           <div className='col-span-2 text-end'> Total </div>
@@ -55,9 +61,12 @@ const OrderDetails = () => {
         <div className=''>
           {
             order && order.orderItems.map((item) => item.product ? <div key={item._id} className='grid grid-cols-10 p-4 bg-white  border-b border-black/20 '>
-              <div className='col-span-6 flex gap-x-2 items-center'>
+              <div className='col-span-4 flex gap-x-2 items-center'>
                 <img src={item?.product.images[0]} className='w-[30px]' />
                 <p>{item.product.title}</p>
+              </div> 
+              <div className='col-span-2 px-2'>
+                 <p>{item.size}</p>
               </div>
               <div className='col-span-2 px-2'>
                 <p>{item.quantity}</p>
@@ -80,7 +89,6 @@ const OrderDetails = () => {
 
       </div>
 
-      {/* order price details */}
 
     </div>
   )
