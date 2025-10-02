@@ -1,7 +1,9 @@
+import toast from "react-hot-toast";
 import axiosInstance from "../api/apiConnector";
 
 
-export async function payment(data){ 
+
+export async function payment(data,onSuccess,onFailure){ 
     try{
    const options = {
         key: data.key, // Your Razorpay test key
@@ -18,9 +20,12 @@ export async function payment(data){
             razorpay_signature: response.razorpay_signature, // send your cart/shipping info too
           });
           if (verifyRes.data.success) {
-            alert("Payment successful!");
+            toast.success("Payment successful!");   
+            onSuccess(); 
+
           } else {
-            alert("Payment verification failed!");
+            toast.error("Payment verification failed!");  
+            onFailure();
           }
         },
         prefill: {
@@ -35,10 +40,9 @@ export async function payment(data){
 
     const razor = new window.Razorpay(options);
       razor.open();
-
      }  
-
       catch(err){
-        console.log("error in payment",err)
+        console.log("error in payment",err); 
+        toast.error("err in payment")
       }
 }

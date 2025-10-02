@@ -21,9 +21,6 @@ const ProductsFilter = ({ products, heading, query }) => {
   const [maxPrice, setMaxPrice] = useState(10000);
   const { audience, categories } = useContext(productContext);
 
-
-
-
   const handleChange = (e) => {
     setSortBy(e.target.value)
   }
@@ -98,7 +95,7 @@ const ProductsFilter = ({ products, heading, query }) => {
           </div>
           {/* products */}
           {
-            loading ? <Loader /> : <div className='grid grid-cols-2  lg:grid-cols-4  sm:gap-2 '>
+            loading ? <Loader /> : <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 '>
               {
                 filteredProduct.slice(startIndex, endIndex).map((product) => <Product key={product._id} product={product} />)
               }
@@ -136,12 +133,12 @@ const ProductsFilter = ({ products, heading, query }) => {
 
       }
       {
-        showSort && <div className='fixed bottom-0 w-full h-[50%] flex flex-col overflow-y-auto  bg-white z-50'>
-          <p className='p-4'>Sort by: </p>
-          <div className='flex flex-col gap-y-4 p-4'>
-            <p onClick={() => { setShowSort(false); setSortBy("newest") }} className='cursor-pointer'>Newest First</p>
-            <p onClick={() => { setShowSort(false); setSortBy("highToLow") }} className='cursor-pointer'>Price High to low</p>
-            <p onClick={() => { setShowSort(false); setSortBy("lowToHigh") }} className='cursor-pointer'>Price Low to high</p>
+        showSort && <div className='fixed bottom-0 w-full h-[50%] flex flex-col overflow-y-auto  bg-gray-50 z-50'>
+          <p className='p-4 font-semibold text-sm text-black mt-6'>Sort by: </p>
+          <div className=' divide-y divide-black/10 text-sm space-y-4 text-black/80 '>
+            <p onClick={() => { setShowSort(false); setSortBy("newest") }} className='cursor-pointer px-4 py-2 hover:text-black'>Newest First</p>
+            <p onClick={() => { setShowSort(false); setSortBy("highToLow") }} className='cursor-pointer px-4 py-2 hover:text-black'>Price High to low</p>
+            <p onClick={() => { setShowSort(false); setSortBy("lowToHigh") }} className='cursor-pointer px-4 py-2 hover:text-black'>Price Low to high</p>
           </div>
 
         </div>

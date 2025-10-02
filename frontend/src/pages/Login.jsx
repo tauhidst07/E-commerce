@@ -49,14 +49,6 @@ const Login = () => {
         {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
       </div>
 
-      <div className="flex items-center justify-center">
-
-        <div className="text-sm">
-          <a href="#" className="font-medium text-black hover:underline">
-            Forgot password?
-          </a>
-        </div>
-      </div>
     </div>
 
     <button 

@@ -5,6 +5,7 @@ import axiosInstance from '../api/apiConnector';
 import { checkTokenExpiry } from '../utility/checkTokenExpiray';
 import authContext from './AuthContext';
 import axios from 'axios'; 
+import toast from 'react-hot-toast';
 const baseUrl=import.meta.env.VITE_BASE_URL;
 
 const UserProvider = ({children}) => {  
@@ -21,12 +22,10 @@ const UserProvider = ({children}) => {
               Authorization:`Bearer ${token}`
             }
            });  
-           console.log("axios instance called") 
-           console.log("user response: ",res.data);
            setUser(res.data.user); 
          } 
          catch(err){
-          alert("something went wrong in fethcing user info"); 
+          toast.error("something went wrong in fethcing user info"); 
           console.log(err);
          } 
          setLoading(false); 

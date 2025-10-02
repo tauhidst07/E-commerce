@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axiosInstance from '../api/apiConnector';
+import toast from 'react-hot-toast';
 
 const useAddress = () => {
 
@@ -23,10 +24,11 @@ const useAddress = () => {
     async function setDefault(address) {
         setLoading(true);
         try {
-            const { data } = await axiosInstance.post("/auth/user/address/setDefault", { address: address });
+            const { data } = await axiosInstance.post("/auth/user/address/setDefault", { address: address }); 
+            toast.success("address set to default");
         }
         catch (err) {
-            console.log("err in setting default address");
+            toast.error("something went wrong! Try Again")
         }
         fetchAddresses();
     }
@@ -34,10 +36,11 @@ const useAddress = () => {
     async function addAddress(data) { 
         setLoading(true);
         try {
-            const res = await axiosInstance.post("/auth/user/address",data);
+            const res = await axiosInstance.post("/auth/user/address",data); 
+            toast.success("address added")
         }
         catch (err) {
-            console.error("in adding address", err);
+            toast.error("something went wrong! Try Again");
         }  
         fetchAddresses();
     }  
@@ -56,10 +59,11 @@ const useAddress = () => {
     async function deleteAddress(id){ 
          setLoading(true); 
          try{
-            const {data} = await axiosInstance.delete(`/auth/user/address/${id}`); 
+            const {data} = await axiosInstance.delete(`/auth/user/address/${id}`);  
+            toast.success("address deleted")
          } 
-         catch(err){
-            console.log("error in deleting address");
+         catch(err){ 
+             toast.error("something went wrong! Try Again");
          } 
          fetchAddresses();
     }

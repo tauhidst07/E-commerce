@@ -12,7 +12,7 @@ const EditProduct = () => {
     },[id]);
   return (
     <div className='max-w-[80rem] mx-auto relative'>  
-    <h1>Edit Product</h1>
+    <h1 className='p-4 font-semibold'>Edit Product</h1>
        {singleProduct && <ProductForm mode="edit" product={singleProduct}/>}
     </div>
   )

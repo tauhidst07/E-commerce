@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import cartContext from './CartContext'
 import { useState } from 'react'
+import toast from 'react-hot-toast';
 
 const CartProvider = ({children}) => { 
     const [cartItems,setCartItems] = useState([]);  
@@ -17,7 +18,8 @@ const CartProvider = ({children}) => {
             else{
                return [...prev,itemToAdd];
             }
-        }); 
+        });  
+        toast.success("product added to Cart")
     }  
     function incrementQuantity(itemToAdd){ 
           setCartItems((prev)=>{
@@ -40,7 +42,8 @@ const CartProvider = ({children}) => {
                 if(item._id==product._id && item.size == product.size) return false; 
                 return true
             })
-        }) 
+        }); 
+        toast.error("product removed from Cart")
     }     
 
     useEffect(()=>{

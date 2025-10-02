@@ -12,7 +12,6 @@ const Address = () => {
   const { addresses, loading, defaultAddress, fetchAddresses, setDefault, addAddress, deleteAddress, editAddres } = useAddress();
   const [expand, setExpand] =useState(defaultAddress?._id ?? null);
   useEffect(() => {  
-    console.log("rendered")
     if (defaultAddress) {
       setExpand(defaultAddress._id);
     } 

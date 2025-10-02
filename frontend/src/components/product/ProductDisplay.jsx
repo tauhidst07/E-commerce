@@ -36,7 +36,7 @@ const ProductDisplay = ({ singleProduct }) => {
   }
 
   useEffect(() => {
-    if (singleProduct?.images?.length > 0) {
+    if (singleProduct?.images?.length > 0) { 
       setMainImage(singleProduct.images[0]);
     }
   }, [singleProduct]);
@@ -53,7 +53,7 @@ const ProductDisplay = ({ singleProduct }) => {
           {
             singleProduct.images.map((src, i) => (
               <div key={i} className='lg:h-1/3 w-full'>
-                <img src={src} onClick={() => setMainImage(src)} className={`h-full object-cover w-full rounded-lg cursor-pointer ${src == mainImage ? "border border-black/40" : ""}`} />
+                <img src={src} loading='lazy' onClick={() => setMainImage(src)} className={`h-full object-cover w-full rounded-lg cursor-pointer ${src == mainImage ? "border border-black/40" : ""}`} />
               </div>
             ))
           }
@@ -63,7 +63,8 @@ const ProductDisplay = ({ singleProduct }) => {
           <img
             className=" rounded-[16px]  h-full object-cover "
             alt="Product Main Image"
-            src={mainImage == "" ? null : mainImage}
+            src={mainImage == "" ? null : mainImage} 
+            loading='lazy'
           />
         </div>
       </div>
@@ -105,8 +106,6 @@ const ProductDisplay = ({ singleProduct }) => {
         <HorizontalLine />
 
         <button onClick={clickHandler} className={`px-6 py-3 bg-black text-white rounded-4xl my-4 cursor-pointer `}>{clicked?"Go To Cart":"Add To Cart"}</button>
-
-
       </div>
     </div>
   )

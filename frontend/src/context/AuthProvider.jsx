@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import authContext from './AuthContext'; 
 import axios from "axios"
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 
@@ -16,32 +17,33 @@ const AuthProvider = ({children}) => {
     const signup = async (credentials)=>{
         try{
          const {data} = await axios.post(`${baseUrl}/auth/register`,credentials); 
-          alert(data?.message); 
+          toast.success(data?.message); 
           navigate("/login");
         } 
         catch(err){
-           alert(err.response.data.message);
+           toast.error(err.response.data.message);
         }
     }
     const login = async (credentials)=>{  
         try{
             const {data} = await axios.post(`${baseUrl}/auth/login`,credentials);    
-            console.log("")
             localStorage.setItem("user",JSON.stringify(data?.user));
             localStorage.setItem("token",data?.token);  
             setToken(data?.token);
-            navigate("/");
+            navigate("/"); 
+            toast.success("Logged in")
         } 
-        catch(err){ 
-           alert("error while login"); 
-           console.log("err in login: ",err);
+        catch(err){  
+          console.log("login err: ",err.response);
+          toast.error(err.response.data.message);
         }
 
     }   
     
     const logout = ()=>{
         localStorage.removeItem("user"); 
-        localStorage.removeItem("token"); 
+        localStorage.removeItem("token");  
+        toast.error("Logged out")
         navigate("/login")
     } 
 

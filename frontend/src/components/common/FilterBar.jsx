@@ -28,7 +28,7 @@ const FilterBar = ({ minPrice, maxPrice, setMinPrice, setMaxPrice, }) => {
   }
   return (
     <div className='md:w-[200px] lg:w-[250px] bg-white rounded-lg divide-y'>
-      <p className='font-bold p-4 py-3 text-black border-b border-black/10'>Filters</p>
+      <p className='font-bold p-1 text-black border-b border-black/10'>Filters</p>
 
       {/* audience  */}
       <div className='flex flex-col gap-3 p-4 border-r border-black/10 border-l'>

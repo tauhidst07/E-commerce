@@ -9,7 +9,6 @@ const AdminLayout = () => {
   const [showSidebar,setShowSidebar]=useState(isLargeScreen); 
   useEffect(()=>{
    setShowSidebar(isLargeScreen) 
-  console.log("is large Screen",isLargeScreen);
   },[isLargeScreen])
   return ( 
     <div className='w-full h-full flex  '>  

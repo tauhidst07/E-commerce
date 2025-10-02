@@ -3,7 +3,6 @@ import { FaAngleRight } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
  
 const OrderCard = ({ orderItem, status ,orderId}) => {   
-  console.log("order item in card:",orderItem)
   const params = new URLSearchParams(location.search);  
   const navigate = useNavigate();
   function handleClick(){

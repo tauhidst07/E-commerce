@@ -7,6 +7,7 @@ import { LiaFileUploadSolid } from "react-icons/lia";
 import axiosInstance from '../../api/apiConnector';
 import productContext from '../../context/ProductContext';
 import Loader from '../common/Loader';
+import toast from 'react-hot-toast';
 
 const ProductForm = ({ mode, product }) => {
   const { register, handleSubmit, reset, formState: { errors }, watch, resetField, setValue } = useForm();
@@ -79,7 +80,7 @@ const ProductForm = ({ mode, product }) => {
     let updated = [...selectedImage, ...newFiles];
     if (updated.length > (3 - existingImage.length)) {
       updated = updated.slice(0, 3 - existingImage.length);
-      alert("you cant upload more than three image");
+      toast.error("you cant upload more than three image");
     }
     setSelectedImage(updated);
     setPreviewImages([...existingImage, ...updated]);

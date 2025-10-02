@@ -7,6 +7,7 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import { useContext } from 'react';
 import cartContext from '../../context/CartContext';
 import AddressDialog from '../pofile/AddressDialog';
+import toast from 'react-hot-toast';
 
 const CheckoutAddress = () => {
     const { loading, defaultAddress, addresses, fetchAddresses,editAddres,addAddress,deleteAddress } = useAddress();
@@ -42,10 +43,10 @@ const CheckoutAddress = () => {
 
     function handleContinue(){
         if(selected){
-            navigate("/checkout/payment")
+            navigate("/checkout/payment",{replace:true});
         } 
         else{
-            alert("select address first")
+            toast.error("select address first")
         }
 
     }

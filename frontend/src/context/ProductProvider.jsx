@@ -27,7 +27,7 @@ const ProductProvider = ({children}) => {
        setLoading(false);
     }  
 
-    async function fetchProductById(id) { 
+    async function fetchProductById(id) {  
        setLoading(true)
        try{
          const result = await axios.get(`${baseUrl}/products/${id}`);   

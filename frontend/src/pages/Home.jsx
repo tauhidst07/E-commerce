@@ -5,6 +5,7 @@ import HeroSection from '../components/layout/HeroSection';
 import Feature from '../components/layout/Feature';
 import Footer from '../components/layout/Footer';
 import Styles from '../components/layout/Styles';
+import NewArrival from '../components/product/NewArrival';
 
 
 const Home = () => { 
@@ -13,8 +14,9 @@ const Home = () => {
   return ( 
     <div className='bg-white w-full'>  
      <Navbar/>  
-     <HeroSection/> 
-     <Styles/>
+     <HeroSection/>  
+     <NewArrival/>
+     <Styles/>  
      <Footer/>
 
     </div>

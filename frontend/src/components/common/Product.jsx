@@ -5,51 +5,48 @@ import cartContext from '../../context/CartContext'
 import image from "../../assets/Thumbnail1.avif"
 import { useNavigate } from 'react-router-dom'
 const Product = ({ product }) => {
-  const { addItem } = useContext(cartContext);
+
   const navigate = useNavigate();
   function handleClick() {
     navigate(`/shop/${product._id}`)
   }
-  const addToCart = () => {
-    const cartItem = {
-      _id: product.id,
-      title: product.title,
-      price: product.price,
-      quantity: 1,
-      image: product.image
-    }
-    addItem(cartItem);
-  }
+
   return (
-    <div className="flex flex-col  bg-white border border-gray-200 sm:min-w-[170px]  sm:my-4 cursor-pointer" onClick={handleClick}>
+    <div
+      className="cursor-pointer  flex flex-col bg-white w-full max-w-[200px] lg:max-w-[280px] flex-shrink-0"
+      onClick={handleClick}
+    >
       {/* Image container */}
-      <div className="flex items-center sm:rounded-2xl mb-2">
+      <div className="flex justify-center items-center w-full aspect-[3/4] ">
         <img
           src={product.images[0]}
           alt="Product"
-          className="w-full  object-contain transition-transform duration-300 hover:scale-105"
-          loading='lazy'
+          className="object-contain w-full h-full"
+          loading="lazy"
         />
       </div>
 
-      <div className='px-3 py-2 space-y-1 sm:space-y-2'>
+      {/* Text content */}
+      <div className="px-2 py-3 flex flex-col space-y-2">
         {/* Title */}
-        <p className="font-semibold text-sm  text-black/60 hover:text-black cursor-pointer transition-colors duration-200 line-clamp-2">
+        <p className="font-medium text-sm lg:text-base text-black/80 line-clamp-2 leading-tight">
           {product.title}
         </p>
 
         {/* Price */}
-        <p className="font-bold text-black flex items-center text-xs sm:text-base gap-x-1">
-          ₨.{product.price}
-          <span className='text-black/40 text-[10px] sm:text-sm line-through'>
-            ₨.{Math.floor(product.price * 30 / 100) + product.price}
+        <div className="flex items-center gap-x-2">
+          <p className="font-bold text-black text-sm lg:text-base">₨.{product.price}</p>
+          <span className="text-black/40 text-xs lg:text-sm line-through">
+            ₨.{Math.floor((product.price * 30) / 100) + product.price}
           </span>
-          <span className='text-[10px] bg-red-100 px-1.5 py-[1px] rounded-full text-red-400'>
-            -{30}%
+          <span className="text-xs lg:text-sm bg-red-100 px-2 py-1 rounded text-red-600 font-medium">
+            -30%
           </span>
-        </p>
+        </div>
       </div>
     </div>
+
+
 
   )
 }

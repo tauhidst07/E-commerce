@@ -3,10 +3,8 @@ import { Route, Routes } from "react-router-dom"
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
-import Products from './pages/Product'
 import PrivateRoute from './components/PrivateRoute'
 import ProductProvider from './context/ProductProvider'
-import Product from './pages/Product'
 import Shop from './pages/Shop'
 import ProductDetails from './pages/ProductDetails'
 import Search from './pages/Search'
@@ -16,7 +14,6 @@ import AdminRoute from './components/AdminRoute'
 import StockProducts from './pages/Admin/StockProducts'
 import EditProduct from './pages/Admin/EditProduct'
 import ProductDisplay from './components/product/ProductDisplay'
-import Checkout from './pages/Checkout'
 import UserOrders from './components/pofile/Orders'
 import ProfileInfo from './components/pofile/profileInfo'
 import AccountLayout from './components/pofile/AccountLayout'
@@ -31,21 +28,23 @@ import Cart from './components/cart/Cart'
 import CheckoutAddress from './components/checkout/CheckoutAddress'
 import Payment from './components/checkout/Payment'
 import Dashboard from './pages/Admin/Dashboard' 
-import AdminOrderDetails from './pages/Admin/OrderDetails'
+import AdminOrderDetails from './pages/Admin/OrderDetails' 
+import toast, { Toaster } from 'react-hot-toast';
+import OrderConfirmation from './components/checkout/OrderConfirmation'
+import NoRouteMatch from './components/NoRouteMatch'
 
 const App = () => {
   return (
     <>
-
-      <Routes>
+      <Routes> 
+        <Route path='*' element={<NoRouteMatch/>} />
         <Route path='/' element={<Home />} />
         <Route path='/Login' element={<Login />} />
         <Route path='/Register' element={<Register />} />
-        <Route path='/Product/:id' element={<Product />} />
         <Route path='/shop' element={<Shop />} />
         <Route path='/search' element={<Search />} />
         <Route path='/unauthorized' element={<Unauthorized />} />
-        <Route path='/shop/:id' element={<ProductDetails />} />
+        <Route path='/shop/:id' element={<ProductDetails />} /> 
         <Route path='/account' element={<PrivateRoute><AccountLayout /></PrivateRoute>}>
           <Route index element={<MobileAccountHome />} />
           <Route path='profile' element={<ProfileInfo />} />
@@ -57,7 +56,8 @@ const App = () => {
         <Route path='/checkout' element={<CheckoutLayout />}>
           <Route path='cart' element={<Cart />} />
           <Route path='address' element={<PrivateRoute><CheckoutAddress /></PrivateRoute>} />
-          <Route path='payment' element={<PrivateRoute><Payment /></PrivateRoute> } />
+          <Route path='payment' element={<PrivateRoute><Payment /></PrivateRoute> } /> 
+          <Route path='orderConfirmation/:id' element={<PrivateRoute><OrderConfirmation/></PrivateRoute>} />
         </Route>
         {/* admin routes */}
         <Route path="/admin" element={<AdminRoute />}>
@@ -72,7 +72,8 @@ const App = () => {
           </Route>
         </Route>
 
-      </Routes>
+      </Routes> 
+      <Toaster position='top-right' />
     </>
 
   )

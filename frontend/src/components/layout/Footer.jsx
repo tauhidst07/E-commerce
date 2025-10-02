@@ -72,7 +72,7 @@ const Footer = () => {
                 </div>
             </div> 
             <div className='bg-black/20 h-[1px] max-w-[80rem] mx-auto my-10'></div> 
-            <p className='text-black/60 text-center'>Shop.co © 2000-2023, All Rights Reserved</p>
+            <p className='text-black/60 text-center'>Shop.co © 2025, All Rights Reserved</p>
         </div>
     )
 }
