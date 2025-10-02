@@ -1,5 +1,6 @@
 const zod= require('zod');
-const { kidSizes, adultSizes } = require('../utils/sizeConstants');
+const { kidSizes, adultSizes,pantSizes } = require('../utils/sizeConstants'); 
+const {categories,pantTypes} = require("../utils/categoryConstant");  
 const registerSchema = zod.object({
     firstname:zod.string(), 
     lastname:zod.string().optional(), 
@@ -17,15 +18,14 @@ const productSchema = zod.object({
     title:zod.string(), 
     price:zod.number(), 
     description:zod.string(),  
-    category:zod.enum([
-            "Shirt", "T-Shirt", "Jeans", "Trousers", "Shorts",
-            "Jacket", "Hoodie", "Sweater", "Kurta", "Dress",
-            "Skirt", "Saree", "Blazer", "Sportswear", "Nightwear","Chinos"
-        ]),    
+    category:zod.enum(categories),    
     stock:zod.number(),
     audience: zod.enum(["Men","Women","Boys","Girls"]),
     sizes :zod.array(zod.string())
-}).refine((data)=>{ 
+}).refine((data)=>{  
+       if((data.audience === "Men" || data.audience === "Women") && pantTypes.includes(data.category)){
+        return data.sizes.every((size)=>pantSizes.includes(size));
+       }
        if(data.audience === "Men" || data.audience === "Women") { 
         return data.sizes.every((size)=>adultSizes.includes(size));
        } 

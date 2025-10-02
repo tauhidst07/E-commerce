@@ -16,7 +16,6 @@ const razorpay = new Razorpay({
 router.post("/",userMiddleware,async (req,res)=>{ 
      const input = req.body
      const response = orderSchema.safeParse(input);  
-
     if(!response.success){  
         console.log("err: ",response.error); 
         console.log("user input",input);
@@ -55,7 +54,6 @@ router.post("/",userMiddleware,async (req,res)=>{
 
      }) ; 
      
-
      res.status(201).json({
         success:true, 
         key:process.env.RAZORPAY_ID, 
@@ -69,7 +67,6 @@ router.post("/",userMiddleware,async (req,res)=>{
 }); 
 
 router.post("/verify-payment",userMiddleware,async(req,res)=>{   
-    console.log("body: ",req.body);
       try{
         const {razorpay_order_id,razorpay_payment_id,razorpay_signature}= req.body; 
         const body = razorpay_order_id+"|"+razorpay_payment_id; 
@@ -110,7 +107,7 @@ router.get("/allOrders",userMiddleware,adminMiddleware,async (req,res)=>{
 
 router.get("/:id",userMiddleware,adminMiddleware,async (req,res)=>{
     const id = req.params.id; 
-    const order = await Order.findById(id); 
+    const order = await Order.findById(id).populate("user").populate("orderItems.product"); 
     res.status(200).json({
         order
     })
@@ -149,7 +146,9 @@ router.put("/updateStatus",userMiddleware,adminMiddleware,async(req,res)=>{
         })
     }
 
-})  
+})   
+
+
 
 // cancel order for user
 

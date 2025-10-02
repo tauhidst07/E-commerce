@@ -1,6 +1,8 @@
 
 const mongoose = require("mongoose"); 
-const { kidSizes, adultSizes } = require("../utils/sizeConstants"); 
+const { kidSizes, adultSizes,pantSizes } = require("../utils/sizeConstants");  
+const {categories} = require("../utils/categoryConstant"); 
+
 
 const addressSchema = new mongoose.Schema({ 
     fullname:String,  
@@ -33,11 +35,7 @@ const ProductSchema = new mongoose.Schema({
     images:[String], 
     category:{
         type:String, 
-         enum: [
-            "Shirt", "T-Shirt", "Jeans", "Trousers", "Shorts",
-            "Jacket", "Hoodie", "Sweater", "Kurta", "Dress",
-            "Skirt", "Saree", "Blazer", "Sportswear", "Nightwear","Chinos"
-        ]
+         enum: categories
     }, 
     audience:{
         type:String, 
@@ -45,7 +43,7 @@ const ProductSchema = new mongoose.Schema({
     },
     sizes:[{
         type:String, 
-        enum:[...kidSizes,...adultSizes]
+        enum:[...kidSizes,...adultSizes,...pantSizes]
     } 
    ], 
    stock:{

@@ -16,9 +16,10 @@ router.post("/add",userMiddleware,adminMiddleware,upload.array("images",3),async
     stock=Number(stock);
     const {...inputdata}={title,price,description,category,audience,sizes,stock};   
     const files=req.files.map((file)=>file.path);
-    console.log("input: ",inputdata); 
     const response = productSchema.safeParse(inputdata);  
-    console.log("response",response);
+    if(response.error){
+        console.log("zod error : ",response.error);
+    }
     if(!response.success){ 
         files.forEach((file)=>{
             fs.unlinkSync(file);
@@ -74,7 +75,6 @@ router.put("/:id",userMiddleware,adminMiddleware,upload.array("images",3),async(
     stock=Number(stock);
     const {...inputdata}={title,price,description,category,audience,sizes,stock};   
     const files=req.files.map((file)=>file.path);
-    console.log("input: ",inputdata); 
     const response = productSchema.safeParse(inputdata);  
     if(!response.success){ 
         files.forEach((file)=>{
@@ -100,7 +100,6 @@ router.put("/:id",userMiddleware,adminMiddleware,upload.array("images",3),async(
     }  
     const urls = [...existingImages,...results.map((res)=>res.secure_url)]; 
     const product = await Product.findByIdAndUpdate(id,{...inputdata,images:urls},{new:true});  
-    console.log("product: ",product);
     res.status(200).json({
         message:"product edited ", 
         product, 

@@ -38,7 +38,6 @@ app.use((err,req,res,next)=>{
 
 
 app.listen(PORT,()=>{
-    console.log("server started on",PORT); 
     mongoose.connect(process.env.DB_URL).then(()=>{
         console.log("db connected")
     })
