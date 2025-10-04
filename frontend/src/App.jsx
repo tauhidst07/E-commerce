@@ -15,7 +15,7 @@ import StockProducts from './pages/Admin/StockProducts'
 import EditProduct from './pages/Admin/EditProduct'
 import ProductDisplay from './components/product/ProductDisplay'
 import UserOrders from './components/pofile/Orders'
-import ProfileInfo from './components/pofile/profileInfo'
+import ProfileInfo from './components/pofile/ProfileInfo'
 import AccountLayout from './components/pofile/AccountLayout'
 import Address from './components/pofile/Address'
 import AdminOrders from "./pages/Admin/Orders"
