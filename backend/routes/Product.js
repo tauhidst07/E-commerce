@@ -95,10 +95,14 @@ router.put("/:id",userMiddleware,adminMiddleware,upload.array("images",3),async(
     }  
     const promises = files.map((file)=>imageUpload(file)); 
     const results = await Promise.all(promises);     
-     if(!Array.isArray(existingImages)){
+     if(existingImages && !Array.isArray(existingImages)){
        existingImages=[existingImages]
     }  
-    const urls = [...existingImages,...results.map((res)=>res.secure_url)]; 
+    const urls = [...results.map((res)=>res.secure_url)];  
+    if(existingImages){
+        existingImages.map((img)=>urls.push(img));
+    }
+    console.log("urls in edit file: ")
     const product = await Product.findByIdAndUpdate(id,{...inputdata,images:urls},{new:true});  
     res.status(200).json({
         message:"product edited ", 
