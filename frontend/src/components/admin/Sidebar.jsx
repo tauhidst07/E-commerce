@@ -1,12 +1,14 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import logo from "../../assets/logo.png"
 import { Link, NavLink } from 'react-router-dom'
 import { MdOutlineDashboard } from "react-icons/md";
 import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { MdFileCopy } from "react-icons/md";
+import authContext from '../../context/AuthContext';
 
 
-const Sidebar = ({showSidebar,isLargeScreen,setShowSidebar}) => {
+const Sidebar = ({showSidebar,isLargeScreen,setShowSidebar}) => { 
+  const {logout} = useContext(authContext);
   const navLinks = [
     { display: "Dashboard", path: "dashboard", icon: <MdOutlineDashboard /> },
     { display: "All Products", path: "products", icon: <MdOutlineProductionQuantityLimits /> },
@@ -33,7 +35,8 @@ const Sidebar = ({showSidebar,isLargeScreen,setShowSidebar}) => {
         {
           navLinks.map((link, i) => <NavLink key={i} to={`/admin/${link.path}`} className={({ isActive }) => `w-[150px] flex gap-x-2 items-center text-sm uppercase cursor-pointer  rounded-sm px-2 py-2 ${isActive ? "bg-black text-white" : "text-black "}`} ><span className=''>{link.icon}</span>{link.display}</NavLink>)
         }
-      </div>
+      </div> 
+      <button onClick={logout} className='bg-red-500 text-white uppercase px-4 py-2 font-semibold cursor-pointer self-center text-sm mt-6 mx-3 rounded-sm'>Logout</button>
     </div>
   )
 }

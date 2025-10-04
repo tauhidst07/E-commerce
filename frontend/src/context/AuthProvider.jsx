@@ -29,8 +29,14 @@ const AuthProvider = ({children}) => {
             const {data} = await axios.post(`${baseUrl}/auth/login`,credentials);    
             localStorage.setItem("user",JSON.stringify(data?.user));
             localStorage.setItem("token",data?.token);  
-            setToken(data?.token);
-            navigate("/"); 
+            setToken(data?.token);  
+            console.log("data: ",data);
+            if(data?.user.role =="admin"){
+              navigate("/admin")
+            } 
+            else{
+              navigate("/"); 
+            }
             toast.success("Logged in")
         } 
         catch(err){  

@@ -5,6 +5,7 @@ import profileImage from "../../assets/profilePic.png"
 import { FaAngleRight } from 'react-icons/fa6' 
 import { useMediaQuery } from 'react-responsive';
 import authContext from '../../context/AuthContext';
+import userContext from '../../context/UserContext';
 const navLinks = [
   { name: "Profile", path: "profile" },
   { name: "Address", path: "address" },
@@ -14,7 +15,8 @@ const navLinks = [
 const MobileAccountHome = () => {
     const navigate = useNavigate(); 
     const isMobile = useMediaQuery({ query: "(max-width:768px)" }); 
-    const {logout} = useContext(authContext);
+    const {logout} = useContext(authContext); 
+    const {user} = useContext(userContext);
     function handleClick(links) {
         navigate(`/account/${links}`)
     } 
@@ -25,7 +27,7 @@ const MobileAccountHome = () => {
         <div className='w-full bg-gray-100 relative pt-1'>
             <div className='mt-[150px] bg-white flex items-center flex-col py-10 pb-16'>
                 <img src={profileImage} className='w-[130px] absolute top-20' />
-                <p className='text-center text-black/80 mt-8'>atauhid07@gmail.com</p>
+                <p className='text-center text-black/80 mt-8'>{user?.email}</p>
             </div>
 
             <div className='mt-6 bg-white'>
