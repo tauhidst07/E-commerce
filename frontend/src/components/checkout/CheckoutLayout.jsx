@@ -37,7 +37,7 @@ const CheckoutLayout = () => {
          </div>
       </div> 
 
-      <div className='border-r border-red-600'>
+      <div >
         <Outlet context={{paymentMethod,setPaymentMethod,setShippingInfo,createOrder}}/>
       </div>
 
