@@ -54,12 +54,12 @@ const ProductsRow = ({product,deleteProduct,setLoading}) => {
               >
                 Edit
               </button>
-              {/* <button 
+              <button 
                 className="px-2 sm:px-3 py-1 text-xs sm:text-sm bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
                 onClick={() => { deleteProduct(product._id); setLoading(true) }}
               >
                 Delete
-              </button> */}
+              </button>
             </div>
           </div>
   )

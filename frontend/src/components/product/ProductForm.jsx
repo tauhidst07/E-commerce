@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import CLOTHS_CATEGORIES from '../../constants/categories';
 import audience from '../../constants/audience';
-import {sizes,pantTypes} from '../../constants/sizes';
+import { sizes, pantTypes } from '../../constants/sizes';
 import { LiaFileUploadSolid } from "react-icons/lia";
 import axiosInstance from '../../api/apiConnector';
 import productContext from '../../context/ProductContext';
@@ -12,22 +12,22 @@ import toast from 'react-hot-toast';
 const ProductForm = ({ mode, product }) => {
   const { register, handleSubmit, reset, formState: { errors }, watch, resetField, setValue } = useForm();
 
-  const selectedAudience = watch("audience"); 
-  const selectedCategory=watch("category");
+  const selectedAudience = watch("audience");
+  const selectedCategory = watch("category");
   const [audienceType, setAudienceType] = useState("");
   const [selectedSize, setSelectedSize] = useState([]);
   const [selectedImage, setSelectedImage] = useState([]);
   const [existingImage, setExistingimage] = useState([]);//edit mode only 
   const [previewImages, setPreviewImages] = useState([]);
-  const { loading, setLoading, fetchProductById ,fetchAllProducts} = useContext(productContext);
+  const { loading, setLoading, fetchProductById, fetchAllProducts } = useContext(productContext);
   useEffect(() => {
     if (mode === "edit" && product) {
       setValue("title", product.title);
       setValue("description", product.description);
       setValue("price", product.price);
       setValue("category", product.category);
-      setValue("audience", product.audience); 
-      setValue("stock",product.stock);
+      setValue("audience", product.audience);
+      setValue("stock", product.stock);
       setSelectedSize(product?.sizes ? product.sizes : [])
       setExistingimage(product?.images ? product.images : []);
       setPreviewImages(product?.images ? product.images : [])
@@ -41,12 +41,19 @@ const ProductForm = ({ mode, product }) => {
     else {
       setSelectedSize([...selectedSize, size]);
     }
-  }
+  } 
 
-  useEffect(() => {  
+  useEffect(()=>{
+    console.log("existing image: ",existingImage); 
+  },[existingImage]); 
 
-    if((selectedAudience === "Men" || selectedAudience == "Women") && pantTypes.includes(selectedCategory)){
-      setAudienceType("pants"); 
+  useEffect(()=>{
+    console.log("selected image: ",selectedImage); 
+  },[selectedImage]);
+
+  useEffect(() => {
+    if ((selectedAudience === "Men" || selectedAudience == "Women") && pantTypes.includes(selectedCategory)) {
+      setAudienceType("pants");
       return
     }
     if (selectedAudience === "Men" || selectedAudience == "Women") {
@@ -67,34 +74,39 @@ const ProductForm = ({ mode, product }) => {
       }
     }
 
-  }, [selectedAudience,selectedCategory]);
+  }, [selectedAudience, selectedCategory]);
 
 
-  function onFileChnage(e) {
+  function onFileChnage(e) { 
     if (existingImage.length >= 3) {
       toast.error("cant upload more than three images")
       e.target.value = ""
       return
     }
-    const newFiles = e.target.files;
+    const newFiles = e.target.files; 
+    console.log(`in file change: existing: ${existingImage} new files: ${newFiles}`);
     let updated = [...selectedImage, ...newFiles];
     if (updated.length > (3 - existingImage.length)) {
       updated = updated.slice(0, 3 - existingImage.length);
       toast.error("you cant upload more than three image");
-    }
+    } 
+    console.log("updated image",updated);
     setSelectedImage(updated);
     setPreviewImages([...existingImage, ...updated]);
     e.target.value = ""
   }
 
   function removeImage(file) {
+    console.log("existing before delete: ",existingImage); 
     if (typeof file === "string") {
-      setExistingimage((prev) => prev.filter((val) => val !== file))
+      setExistingimage((prev) => prev.filter((val) =>  val !== file))
     }
     else {
-      setSelectedImage((prev) => prev.filter((val) => val !== file))
+      setSelectedImage((prev) => prev.filter((val) =>  val !== file))
     }
-    setPreviewImages((prev) => prev.filter((val) => val !== file));
+    setPreviewImages((prev) => {
+      console.log("preview images previois: ",prev);
+      return prev.filter((val) => val !== file)});
   }
 
 
@@ -103,14 +115,20 @@ const ProductForm = ({ mode, product }) => {
     for (const key in data) {
       formData.append(key, data[key]);
     }
-    selectedSize.forEach((size) => {
-      formData.append("sizes", size);
+    sizes[audienceType].forEach((size) => { 
+      if(selectedSize.includes(size)){
+        formData.append("sizes", size);
+      }
     })
     selectedImage.forEach(file => {
       formData.append("images", file);
     });
 
-    if (mode === "add") {
+    if (mode === "add") { 
+      if(selectedImage.length==0){
+        toast.error("upload at least one image"); 
+        return;
+      }
       setLoading(true);
       axiosInstance.post("/products/add", formData).then((res) => {
         toast.success(res.data.message);
@@ -125,18 +143,22 @@ const ProductForm = ({ mode, product }) => {
           setLoading(false)
         })
     }
-    if (mode === "edit") {
+    if (mode === "edit") {  
+      console.log(`before upload in edit : existing : ${existingImage}  selected : ${selectedImage}`);
+      if(existingImage.length==0 && selectedImage.length==0){
+        toast.error("upload at least one image");
+        return;
+      }
       existingImage.forEach((image) => {
         formData.append("existingImages", image);
       })
       setLoading(true);
       axiosInstance.put(`/products/${product._id}`, formData).then((res) => {
         setSelectedImage([]);
-        setSelectedImage([]);
         setExistingimage([]);
         setPreviewImages([]);
         reset();
-        fetchProductById(product._id); 
+        fetchProductById(product._id);
         fetchAllProducts();
       })
         .catch((err) => {
@@ -177,18 +199,18 @@ const ProductForm = ({ mode, product }) => {
         <div className='space-y-2'>
           <input
             type="number"
-            placeholder='Enter price' 
-            onWheel={(e)=>e.target.blur()}
+            placeholder='Enter price'
+            onWheel={(e) => e.target.blur()}
             className='w-full px-4 py-2 border border-black/20 rounded-md focus:outline-none focus:ring-1 focus:ring-black '
             {...register("price", { required: "Price is required" })}
           />
           {errors.price && <p className='text-red-500 text-sm'>{errors.price.message}</p>}
-        </div> 
+        </div>
         <div className='space-y-2'>
           <input
             type="number"
-            placeholder='Enter stock' 
-            onWheel={(e)=>e.target.blur()}
+            placeholder='Enter stock'
+            onWheel={(e) => e.target.blur()}
             className='w-full px-4 py-2 border border-black/20 rounded-md focus:outline-none focus:ring-1 focus:ring-black'
             {...register("stock", { required: "stock is required" })}
           />
@@ -265,7 +287,13 @@ const ProductForm = ({ mode, product }) => {
                     ×
                   </div>
                   <img
-                    src={typeof file === "string" ? file : URL.createObjectURL(file)}
+                    src={
+                      typeof file === "string"
+                        ? file
+                        : file instanceof File || file instanceof Blob
+                          ? URL.createObjectURL(file)
+                          :null
+                    }
                     className='w-full h-full object-cover rounded border border-black/10'
                   />
                 </div>

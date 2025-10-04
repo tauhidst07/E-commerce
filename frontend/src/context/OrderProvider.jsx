@@ -31,7 +31,6 @@ const OrderProvider = ({ children }) => {
   } 
 
   async function fetchOrder(id){  
-    console.log("fetch order triggered")
     setLoading(true)
      try{
        const res = await axiosInstance.get(`order/${id}`); 
@@ -46,7 +45,6 @@ const OrderProvider = ({ children }) => {
 
   useEffect(() => { 
     if (allOrders.length > 0) {
-      console.log("all orders in context", allOrders)
       setRecentOrders(allOrders.slice(-5).reverse());
     }
   }, [allOrders]); 

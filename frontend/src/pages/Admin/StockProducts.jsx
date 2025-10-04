@@ -7,14 +7,18 @@ import Pagination from '../../components/common/Pagination';
 
 
 const StockProducts = () => {
-  const { products, deleteProduct, loading, setLoading } = useContext(productContext);
+  const {fetchAllProducts,products, deleteProduct, loading, setLoading } = useContext(productContext);
   const [currentPage, setCurrentPage] = useState(1);
   const totalPage = Math.ceil(products.length / 10);
   const { startIndex, endIndex } = useMemo(() => {
     const startIndex = (currentPage - 1) * 10;
     const endIndex = startIndex + 10;
     return { startIndex, endIndex };
-  }, [currentPage]);
+  }, [currentPage]); 
+
+  useEffect(()=>{
+    fetchAllProducts();
+  },[])
 
   return (
     <div className="max-w-[80rem] mx-auto p-1 sm:p-6">
