@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom';
 import Navbar from '../layout/Navbar';
 import profileImage from "../../assets/profilePic.png"
 import { FaAngleRight } from 'react-icons/fa6' 
 import { useMediaQuery } from 'react-responsive';
+import authContext from '../../context/AuthContext';
 const navLinks = [
   { name: "Profile", path: "profile" },
   { name: "Address", path: "address" },
@@ -12,7 +13,8 @@ const navLinks = [
 ];
 const MobileAccountHome = () => {
     const navigate = useNavigate(); 
-    const isMobile = useMediaQuery({ query: "(max-width:768px)" })
+    const isMobile = useMediaQuery({ query: "(max-width:768px)" }); 
+    const {logout} = useContext(authContext);
     function handleClick(links) {
         navigate(`/account/${links}`)
     } 
@@ -35,7 +37,7 @@ const MobileAccountHome = () => {
                 ))}
             </div>
 
-            <div className='mt-6 text-white font-semibold py-4 px-6 text-center bg-red-500  cursor-pointer hover:bg-red-50 transition-colors'>
+            <div onClick={logout} className='mt-6 text-white font-semibold py-4 px-6 text-center bg-red-500  cursor-pointer hover:bg-red-50 transition-colors'>
                 Logout
             </div>
         </div>
