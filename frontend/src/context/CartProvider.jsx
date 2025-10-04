@@ -8,7 +8,7 @@ const CartProvider = ({children}) => {
     const [shippingCharge,setShippingCharge]=useState(0); 
     const [discount,setDiscount]=useState(0);
     function addToCart (itemToAdd){
-        setCartItems((prev)=>{
+        setCartItems((prev)=>{ 
             if(prev.find((item)=>item._id === itemToAdd._id && item.size === itemToAdd.size)){
                const newCart = prev.map((item)=>(
                 item._id === itemToAdd._id && item.size === itemToAdd.size ? {...item,quantity:itemToAdd.quantity+item.quantity}:{...item}
@@ -47,7 +47,7 @@ const CartProvider = ({children}) => {
     }     
 
     useEffect(()=>{
-         setCartItems(JSON.parse(localStorage.getItem("cartItems")));
+         setCartItems(JSON.parse(localStorage.getItem("cartItems"))||[]);
     },[])
     useEffect(()=>{
        localStorage.setItem("cartItems",JSON.stringify(cartItems));
