@@ -8,7 +8,7 @@ const Cart = () => {
     const { cartItems } = useContext(cartContext);
     return (
         <div className='bg-white w-full '> 
-         { cartItems.length>0 ?
+         { cartItems?.length>0 ?
             <div className='max-w-[80rem] mx-auto py-4 px-4'>
                 <h1 className='text-3xl font-bold my-4 '>YOUR CART</h1>
                 <div className='flex gap-4 flex-col lg:flex-row'>
