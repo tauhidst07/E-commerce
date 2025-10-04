@@ -1,4 +1,5 @@
 import axios from "axios";
+import toast from "react-hot-toast";
 const baseUrl=import.meta.env.VITE_BASE_URL;
 
 // function to check token expiration
@@ -24,7 +25,7 @@ axiosInstance.interceptors.request.use((config)=>{
       console.log("triggered in use request")
       localStorage.removeItem("token");  
       localStorage.removeItem("user");
-      alert("session expired login again yaha pa"); 
+      toast.error("session expired login again"); 
       return Promise.reject("session expired login again..")
     } 
     config.headers.Authorization =`Bearer ${token}` 
@@ -38,7 +39,7 @@ axiosInstance.interceptors.response.use(
   (error) => { 
     console.log("401 handling: ",error);
     if (error.response?.status === 401 && error.response?.data?.message.includes("token")) { 
-      altert("session expired login again")
+      toast.error("session expired login again")
       localStorage.removeItem("token"); 
       localStorage.removeItem("user") // Clear invalid token
       window.location.href = "/login?expired=true"; 

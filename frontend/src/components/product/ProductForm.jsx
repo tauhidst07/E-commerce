@@ -72,7 +72,7 @@ const ProductForm = ({ mode, product }) => {
 
   function onFileChnage(e) {
     if (existingImage.length >= 3) {
-      alert("cant upload more than three images")
+      toast.error("cant upload more than three images")
       e.target.value = ""
       return
     }
@@ -113,7 +113,7 @@ const ProductForm = ({ mode, product }) => {
     if (mode === "add") {
       setLoading(true);
       axiosInstance.post("/products/add", formData).then((res) => {
-        alert(res.data.message);
+        toast.success(res.data.message);
         setSelectedImage([]);
         setExistingimage([]);
         setPreviewImages([]);
@@ -131,7 +131,6 @@ const ProductForm = ({ mode, product }) => {
       })
       setLoading(true);
       axiosInstance.put(`/products/${product._id}`, formData).then((res) => {
-        // alert(res.data.message); 
         setSelectedImage([]);
         setSelectedImage([]);
         setExistingimage([]);

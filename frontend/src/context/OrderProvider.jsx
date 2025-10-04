@@ -6,6 +6,7 @@ import orderContext from './OrderContext'
 import axiosInstance from '../api/apiConnector';
 import productContext from './ProductContext';  
 import axios from 'axios';
+import toast from 'react-hot-toast';
 const baseUrl=import.meta.env.VITE_BASE_URL;
 
 const OrderProvider = ({ children }) => {
@@ -24,7 +25,7 @@ const OrderProvider = ({ children }) => {
     }
     catch (err) { 
       console.log("error in fetch order: ",err);
-      alert(err.data.message);
+      toast.error(err.data.message);
     }
     setLoading(false);
   } 

@@ -5,6 +5,7 @@ import { useState } from 'react';
 import axiosInstance from '../../api/apiConnector';
 import ProductDialogAdmin from '../product/ProductDialogAdmin';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 const OrderData = ({ order }) => { 
     const navigate = useNavigate();
     const [orderStatus, setOrderStatus] = useState(order?.orderStatus);
@@ -21,11 +22,11 @@ const OrderData = ({ order }) => {
         try {
             const res = await axiosInstance.put("/order/updateStatus", { id: id, status: value });
 
-            alert("status updated");
+            toast.success("status updated");
         }
         catch (err) {
             setOrderStatus(prevStatus);
-            alert("cant update staus");
+            toast.error("cant update staus");
         }
     }
     useEffect(() => {

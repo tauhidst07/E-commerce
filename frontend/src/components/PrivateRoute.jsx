@@ -1,6 +1,7 @@
 import React from 'react'
 import { Navigate } from 'react-router-dom';
 import { checkTokenExpiry } from '../utility/checkTokenExpiray';
+import toast from 'react-hot-toast';
 
 const PrivateRoute = ({children}) => { 
 
@@ -8,7 +9,7 @@ const PrivateRoute = ({children}) => {
     if(!isValid){  
       localStorage.removeItem("token"); 
       localStorage.removeItem("user");
-      alert("login first");
+      toast.success("login first");
        return  <Navigate  to="/login" replace /> 
     } 
   return (

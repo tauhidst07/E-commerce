@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { checkTokenExpiry } from '../utility/checkTokenExpiray';
 import axiosInstance from '../api/apiConnector';
 import authContext from './AuthContext';
+import toast from 'react-hot-toast';
 const baseUrl=import.meta.env.VITE_BASE_URL; 
 const ProductProvider = ({children}) => { 
     const [products,setProducts] = useState([]);   
@@ -44,7 +45,7 @@ const ProductProvider = ({children}) => {
         try{
           const respose = await axiosInstance.delete(`/products/${id}`);  
           setProducts((prev)=>prev.filter((prod)=>prod._id!==id))
-          alert(respose.data.message);
+          toast.success(respose.data.message);
         } 
         catch(err){
             console.log("error while deleting product: ",err)
