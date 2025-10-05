@@ -6,7 +6,7 @@ import axiosInstance from '../../api/apiConnector';
 import ProductDialogAdmin from '../product/ProductDialogAdmin';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-const OrderData = ({ order }) => { 
+const OrderData = ({ order }) => {
     const navigate = useNavigate();
     const [orderStatus, setOrderStatus] = useState(order?.orderStatus);
     const [isOpen, setIsOpen] = useState(false);
@@ -35,17 +35,17 @@ const OrderData = ({ order }) => {
         }
     }, [order])
     return (
-        <div key={order._id} className='lg:grid lg:grid-cols-11 gap-4 p-4 hover:bg-black/5 transition-colors'>
+        <div key={order._id} className='lg:grid lg:grid-cols-11 gap-4 p-2 sm:p-4 hover:bg-black/5 transition-colors'>
 
             {/* only mobile and tablet */}
             <div className='lg:hidden flex justify-between '>
                 <div>
-                    <p>{order.user.firstname + " " + order.user.lastname}</p> 
+                    <p>{order.user.firstname + " " + order.user.lastname}</p>
                     <p className='text-xs text-black/80'>{order.user.email}</p>
                 </div>
                 <div className='flex flex-col  space-y-2'>
                     <p className='flex self-end font-medium'>₹{order.totalAmount}</p>
-                    <p className='flex self-end text-ms text-black/80'>{new Date(order.createdAt).toLocaleDateString("en-US", {
+                    <p className='flex self-end text-xs sm:text-sm text-black/80'>{new Date(order.createdAt).toLocaleDateString("en-US", {
                         month: "short",
                         day: "numeric",
                         year: "numeric"
@@ -63,14 +63,14 @@ const OrderData = ({ order }) => {
                             </select>
                         </div>
                         <div className=''>
-                            <button className='px-2 py-1 text-sm text-right border bg-black/5 rounded-2xl cursor-pointer' onClick={open} >view items</button>
+                            <button className='px-2 py-1 text-xs sm:text-sm text-right border bg-black/5 rounded-2xl cursor-pointer' onClick={() => navigate(`/admin/orders/${order._id}`)} >view Order</button>
                             {isOpen && <ProductDialogAdmin close={close} isOpen={isOpen} orderItems={order.orderItems} id={order._id} />}
                         </div>
 
                     </div>
                 </div>
             </div>
-      
+
             <div className='hidden lg:block col-span-3'>
                 <p>{order.user.firstname + " " + order.user.lastname}</p>
                 <p className='text-xs text-black/80'>{order.user.email}</p>
@@ -97,7 +97,7 @@ const OrderData = ({ order }) => {
                 </select>
             </div>
             <div className='hidden lg:flex col-span-2 justify-end items-center  '>
-                <button className='text-right px-2 py-1 border bg-black/5 rounded-md cursor-pointer text-sm' onClick={()=>navigate(`/admin/orders/${order._id}`)} >view order</button>
+                <button className='text-right px-2 py-1 border bg-black/5 rounded-md cursor-pointer text-sm' onClick={() => navigate(`/admin/orders/${order._id}`)} >view order</button>
             </div>
 
         </div>

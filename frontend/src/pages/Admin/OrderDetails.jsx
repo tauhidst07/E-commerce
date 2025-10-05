@@ -44,7 +44,7 @@ const OrderDetails = () => {
       <div className='bg-white rounded-md p-4 w-full my-4 flex flex-col'>
         <p className='font-semibold mt-2 mb-6'>Products</p>
         {/* table header */}
-        <div className='bg-white grid grid-cols-10 text-black/60 p-4 border-t border-b border-black/20 font-semibold'>
+        <div className=' hidden sm:grid text-sm sm:text-basebg-white  grid-cols-10 text-black/60 p-4 border-t border-b border-black/20 font-semibold'>
           <div className='col-span-4'>
             Product Name
           </div>
@@ -54,8 +54,8 @@ const OrderDetails = () => {
           <div className='col-span-2 '> Quantity </div>
           <div className='col-span-2 text-end'> Total </div>
         </div>
-        {/* table body */}
-        <div className=''>
+        {/* table body for large screen */}
+        <div className='hidden sm:block'>
           {
             order && order.orderItems.map((item) => item.product ? <div key={item._id} className='grid grid-cols-10 p-4 bg-white  border-b border-black/20 '>
               <div className='col-span-4 flex gap-x-2 items-center'>
@@ -75,9 +75,30 @@ const OrderDetails = () => {
 
           }
         </div>
+        {/* only for small screen */}
+        <div className='sm:hidden'>
+          {
+            order && order.orderItems.map((item) => item.product ? <div key={item._id} className='w-full py-2 flex justify-between  bg-white  border-b border-black/20'>
+              <div className='flex gap-x-2 max-w-[70%]'>
+                <div>
+                  <img src={item?.product.images[0]} className='w-[30px] aspect-3/4 object-contain' />
+                </div>
+                <div className='text-xs  space-y-1'>
+                  <p>{item.product.title}</p>
+                  <p>Size: {item.size}</p>
+                </div>
+              </div>
+              <div className='text-xs space-y-2'>
+                <p>Quantity: {item.quantity}</p>
+                <p>Total: {item.quantity * item.price}</p>
+              </div>
+            </div> : <div> <p>item no longer available</p></div>)
 
-        <div className='w-[300px] self-end p-4 space-y-4 text-sm my-6'>
-          <p className='w-full flex justify-between'> <span>Subtotal</span>  <span>{order?.orderItems.reduce((acc, item) => acc + item.price, 0)}</span></p>
+          }
+        </div>
+
+        <div className='w-full mx-auto sm:mx-0 sm:w-[300px] sm:self-end p-4 space-y-4 text-xs sm:text-sm my-6 '>
+          <p className='w-full flex justify-between'> <span>Subtotal</span>  <span>{order?.orderItems.reduce((acc, item) => acc + (item.price*item.quantity), 0)}</span></p>
           <p className='w-full flex justify-between'> <span>Discount</span>  <span>{order?.discount}</span></p>
           <p className='w-full flex justify-between'> <span>Shipping Charge</span> <span>{order?.shippingCharge}</span> </p>
           <p className='text-base font-semibold flex justify-between'> <span>Total</span> <span>{order?.totalAmount}</span> </p>
