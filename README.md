@@ -9,9 +9,10 @@ This is a full-stack e-commerce web application built with **React (Vite)** on t
 ### 👥 User Features
 - User registration and login using JWT
 - View products with details like price, image, and description
-- Search and filter products by name and category
+- Search and filter products by name,category and price
 - Add to cart, remove from cart, and update quantities
-- Checkout with mock payment and shipping address
+- Checkout with razorpay payemnt and shipping address
+- user account and address management
 - Order history (authenticated users only)
 
 ### 🛠️ Admin Features
